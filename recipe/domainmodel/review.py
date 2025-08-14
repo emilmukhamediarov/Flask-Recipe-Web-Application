@@ -28,6 +28,8 @@ class Review:
 
     @rating.setter
     def rating(self, value: int):
+        if value < 0 or value > 5:
+            raise ValueError("rating must be between 0 and 5 inclusive.")
         self.__rating = value
 
     @property
@@ -37,3 +39,16 @@ class Review:
     @text.setter
     def text(self, value: str):
         self.__text = value
+
+    def __repr__(self):
+        return f"Review(id={self.id}, rating={self.rating}, author={self.author}, recipe={self.recipe}, text={self.text})"
+
+    def __eq__(self, other):
+        if not isinstance(other, Review):
+            return False
+        return self.__id == other.id
+
+    def __lt__(self, other):
+        if not isinstance(other, Review):
+            return False
+        return self.__rating < other.rating
