@@ -18,3 +18,14 @@ class Nutrition:
     @data.setter
     def data(self, value):
         self.__data = value
+
+
+    def __eq__(self, other):
+        if not isinstance(other, Nutrition):
+            return False
+        return self.__data == other.data
+
+    def __lt__(self, other):
+        if not isinstance(other, Nutrition):
+            return False
+        return self.__id < other.__id
