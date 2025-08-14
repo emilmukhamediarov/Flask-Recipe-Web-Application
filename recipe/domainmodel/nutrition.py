@@ -8,6 +8,10 @@ class Nutrition:
         Nutrition.id_count += 1
 
     @property
+    def id(self):
+        return self.__id
+
+    @property
     def data(self):
         return self.__data
 
