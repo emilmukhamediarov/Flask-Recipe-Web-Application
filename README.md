@@ -1,5 +1,6 @@
 # COMPSCI 235 - Starter Repository for the CS235 Recipe Portal
 This is a starter repository for the recipes webapp project of CompSci 235 in Semester 2, 2025.
+The best team known to computer science: Emil, Arun and Rowan!
 
 ## Description
 
