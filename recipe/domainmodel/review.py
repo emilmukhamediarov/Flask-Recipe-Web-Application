@@ -41,7 +41,7 @@ class Review:
         self.__text = value
 
     def __repr__(self):
-        return f"Review(id={self.id}, rating={self.rating}, author={self.author}, recipe={self.recipe}, text={self.text})"
+        return f"Review(id={self.id}, rating={self.rating}, author={getattr(self.author, 'id') }, recipe={getattr(self.recipe, 'id')}, text={self.text})"
 
     def __eq__(self, other):
         if not isinstance(other, Review):
