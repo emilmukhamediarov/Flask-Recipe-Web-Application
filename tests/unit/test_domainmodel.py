@@ -5,6 +5,9 @@ from recipe.domainmodel.user import User
 from recipe.domainmodel.author import Author
 from recipe.domainmodel.category import Category
 from recipe.domainmodel.recipe import Recipe
+from recipe.domainmodel.nutrition import Nutrition
+from recipe.domainmodel.review import Review
+from recipe.domainmodel.favourite import Favourite
 
 # Fixtures
 @pytest.fixture
@@ -43,6 +46,35 @@ def my_recipe(my_author, my_category):
         instructions=["Boil pasta", "Cook bacon", "Mix with eggs"]
     )
 
+@pytest.fixture
+def my_nutrition():
+    return Nutrition({
+        'calories':170.9,
+        'fat_content':2.5,
+        'saturated_fat':1.3,
+        'cholestrol':8,
+        'carbohydrates':37.1,
+        'fiber_content':3.6,
+        'sugar_content':30.2,
+        'protein_content':3.2,
+        'recipe_servings':4
+    })
+
+@pytest.fixture
+def my_favourite(my_user, my_recipe):
+    return Favourite(
+        user=my_user,
+        recipe=my_recipe
+    )
+
+@pytest.fixture
+def my_review(my_user, my_recipe):
+    return Review(
+        user=my_user,
+        recipe=my_recipe,
+        rating=3,
+        text="This meal was great."
+    )
 
 # User tests
 def test_user_construction():
@@ -231,4 +263,76 @@ def test_author_set_recipe(my_author):
 def test_author_set_recipe_invalid_type(my_author):
     with pytest.raises(TypeError):
         my_author.add_recipe("not a recipe")
+
+#Nutrition Tests
+def test_nutrition_construction():
+    nutrition = Nutrition({'food_science' : 60})
+    assert nutrition.id == 1
+    assert 'food_science' in nutrition.data
+    assert nutrition.data.get('food_science') == 60
+
+def test_nutrition_equality():
+    nutrition_data = {"calories" : 1}
+    n1 = Nutrition(nutrition_data)
+    n2 = Nutrition(nutrition_data)
+    n3 = n1
+    assert n1 == n3
+    assert n1 != n2
+
+def test_nutrition_less_than():
+    nutrition_data = {"calories": 1}
+    n1 = Nutrition(nutrition_data)
+    n2 = Nutrition(nutrition_data)
+    assert n1 < n2
+
+#Favourite Tests
+def test_favourite_construction(my_user, my_recipe):
+    favourite = Favourite(my_user, my_recipe)
+    assert favourite.id == 1
+    assert favourite.user.id == my_user.id
+    assert favourite.recipe.id == my_recipe.id
+
+def test_favourite_equality(my_user, my_recipe):
+    f1 = Favourite(my_user, my_recipe)
+    f2 = Favourite(my_user, my_recipe)
+    f3 = f1
+    assert f1 == f3
+    assert f1 != f2
+
+def test_favourite_less_than(my_user, my_recipe):
+    f1 = Favourite(my_user, my_recipe)
+    f2 = Favourite(my_user, my_recipe)
+    assert f1 < f2
+
+#Review Tests
+def test_review_construction(my_author, my_recipe):
+    review = Review(my_author, my_recipe, 4, "Solid effort")
+    assert review.id == 1
+    assert review.rating == 4
+    assert review.author.id == my_author.id
+    assert review.recipe.id == my_recipe.id
+    assert review.text == "Solid effort"
+
+def test_review_equality(my_author, my_recipe):
+    r1 = Review(my_author, my_recipe, 1, "test")
+    r2 = Review(my_author, my_recipe, 1, "test")
+    r3 = r1
+    assert r1 != r2
+    assert r1 == r3
+
+def test_review_less_than(my_author, my_recipe):
+    r1 = Review(my_author, my_recipe, 1, "test")
+    r2 = Review(my_author, my_recipe, 1, "test")
+    assert r1 < r2
+
+def test_review_rating_greater_than_5(my_author, my_recipe):
+    with pytest.raises(ValueError):
+        review = Review(my_author, my_recipe, 6, "test")
+
+def test_review_rating_less_than_0(my_author, my_recipe):
+    with pytest.raises(ValueError):
+        review = Review(my_author, my_recipe, -1, "test")
+
+
+
 
