@@ -285,24 +285,24 @@ def test_nutrition_less_than():
     n2 = Nutrition(nutrition_data)
     assert n1 < n2
 
-# #Favourite Tests
-# def test_favourite_construction(my_user, my_recipe):
-#     favourite = Favourite(my_user, my_recipe)
-#     assert favourite.id == 1
-#     assert favourite.user.id == my_user.id
-#     assert favourite.recipe.id == my_recipe.id
-#
-# def test_favourite_equality(my_user, my_recipe):
-#     f1 = Favourite(my_user, my_recipe)
-#     f2 = Favourite(my_user, my_recipe)
-#     f3 = f1
-#     assert f1 == f3
-#     assert f1 != f2
-#
-# def test_favourite_less_than(my_user, my_recipe):
-#     f1 = Favourite(my_user, my_recipe)
-#     f2 = Favourite(my_user, my_recipe)
-#     assert f1 < f2
+#Favourite Tests
+def test_favourite_construction(my_user, my_recipe):
+    favourite = Favourite(my_user, my_recipe)
+    assert favourite.id == 1
+    assert favourite.user.id == my_user.id
+    assert favourite.recipe.id == my_recipe.id
+
+def test_favourite_equality(my_user, my_recipe):
+    f1 = Favourite(my_user, my_recipe)
+    f2 = Favourite(my_user, my_recipe)
+    f3 = f1
+    assert f1 == f3
+    assert f1 != f2
+
+def test_favourite_less_than(my_user, my_recipe):
+    f1 = Favourite(my_user, my_recipe)
+    f2 = Favourite(my_user, my_recipe)
+    assert f1 < f2
 
 #Review Tests
 def test_review_construction(my_author, my_recipe):
