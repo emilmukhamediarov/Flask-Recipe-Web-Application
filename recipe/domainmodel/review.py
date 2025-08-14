@@ -1,10 +1,12 @@
 class Review:
 # TODO: Complete the implementation of the Review class.
-    id_count = 0
+    id_count = 1
     def __init__(self, my_author: object, my_recipe: object, rating: int, text: str):
         self.__my_author = my_author
         self.__my_recipe = my_recipe
         self.__rating = rating
+        if self.__rating < 0 or self.__rating > 5:
+            raise ValueError("rating must be between 0 and 5 inclusive.")
         self.__text = text
         self.__id = Review.id_count
         Review.id_count += 1
@@ -51,4 +53,4 @@ class Review:
     def __lt__(self, other):
         if not isinstance(other, Review):
             return False
-        return self.__rating < other.rating
+        return self.__id < other.id

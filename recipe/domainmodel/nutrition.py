@@ -1,6 +1,6 @@
 class Nutrition:
 # TODO: Complete the implementation of the Nutrition class.
-    id_count = 0
+    id_count = 1
     def __init__(self, data: object):
 
         self.__data = data
@@ -26,7 +26,7 @@ class Nutrition:
     def __eq__(self, other):
         if not isinstance(other, Nutrition):
             return False
-        return self.__data == other.data
+        return self.__id == other.id
 
     def __lt__(self, other):
         if not isinstance(other, Nutrition):
