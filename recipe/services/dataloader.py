@@ -2,6 +2,7 @@ from recipe.adapters.datareader.csvdatareader import CSVDataReader
 from recipe.domainmodel.category import Category
 from recipe.domainmodel.recipe import Recipe
 from recipe.repository.authorrepo import AuthorRepo
+from recipe.repository.categoryrepo import CategoryRepo
 from recipe.repository.reciperepo import RecipeRepo
 from recipe.domainmodel.author import Author
 from datetime import datetime
@@ -13,6 +14,7 @@ rows = reader.read()
 
 recipe_repo = RecipeRepo()
 author_repo = AuthorRepo()
+category_repo = CategoryRepo()
 
 for row in rows:
 
@@ -30,19 +32,32 @@ for row in rows:
     recipe.images = [str(image) for image in row["Images"]]
 
     category = Category(name = row["RecipeCategory"])
+    recipe.category = category
 
-    self.category =
+    recipe.rating = None
 
-    self.rating =
-    self.nutrition =
-    self.servings =
-    self.recipe_yield =
-    self.instructions =
+    recipe.nutrition = None # to be implemented after merging branches
 
+    servings = row["RecipeServings"]
+    if servings != "NA":
+        recipe.servings = int(servings) # if "NA" then we revert to the default value -> "Not Specified"
+
+    recipe_yield = row["RecipeYield"]
+    if recipe_yield != "NA":
+        recipe.recipe_yield = recipe_yield # if "NA" then we revert to the default value -> "Not Specified"
+
+    recipe.instructions = [str(inst) for inst in row["RecipeInstructions"]]
+
+    category.add_recipe(recipe)
     author.add_recipe(recipe)
 
     author_repo.add(author)
     recipe_repo.add(recipe)
+    category_repo.add(category)
+
+print(author_repo.all())
+print(recipe_repo.all())
+print(category_repo.all())
 
 
 
