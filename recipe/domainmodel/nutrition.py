@@ -20,6 +20,9 @@ class Nutrition:
         self.__data = value
 
 
+    def __repr__(self):
+        return f"Nutrition(id={self.id}, data={self.data})"
+
     def __eq__(self, other):
         if not isinstance(other, Nutrition):
             return False
