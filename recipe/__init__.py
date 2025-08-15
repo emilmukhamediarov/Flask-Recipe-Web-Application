@@ -2,6 +2,7 @@
 from datetime import datetime
 from flask import Flask, render_template
 
+from recipe.adapters.memory_repository import MemoryRepository
 # TODO: Access to the recipe should be implemented via the repository pattern and using blueprints, so this can not
 #  stay here!
 
@@ -26,10 +27,14 @@ def create_app():
     # Create the Flask app object.
     app = Flask(__name__)
 
+    data = MemoryRepository()
+    data.populate()
+    test_recipe = data.recipe_get_all()[5]
+
     @app.route('/')
     def home():
         some_recipe = create_some_recipe()
         # Use Jinja to customize a predefined html page rendering the layout for showing a single recipe.
-        return render_template('recipeDescription.html', recipe=some_recipe)
+        return render_template('recipeDescription.html', recipe=test_recipe)
 
     return app

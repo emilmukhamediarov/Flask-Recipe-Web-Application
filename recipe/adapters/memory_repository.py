@@ -57,6 +57,7 @@ class MemoryRepository(Abstractrepository):
     def nutrition_get_all(self):
         return self.__nutrition
 
+
     def populate(self):
 
         reader = CSVDataReader()
@@ -76,6 +77,10 @@ class MemoryRepository(Abstractrepository):
 
             recipe.description = row["Description"]
             recipe.images = [str(image) for image in row["Images"]]
+
+
+            recipe.ingredients = row["RecipeIngredientParts"]
+            recipe.ingredient_quantities = row["RecipeIngredientQuantities"]
 
             category = Category(name=row["RecipeCategory"])
             recipe.category = category
