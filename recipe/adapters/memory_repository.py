@@ -1,4 +1,5 @@
 from typing import List
+import ast
 
 from recipe.domainmodel.author import Author
 from recipe.domainmodel.category import Category
@@ -76,7 +77,7 @@ class MemoryRepository(Abstractrepository):
             recipe.date = datetime.strptime(clean_date_str, "%d %b %Y")
 
             recipe.description = row["Description"]
-            recipe.images = [str(image) for image in row["Images"]]
+            recipe.images = ast.literal_eval(row["Images"])
 
 
             recipe.ingredients = row["RecipeIngredientParts"]
