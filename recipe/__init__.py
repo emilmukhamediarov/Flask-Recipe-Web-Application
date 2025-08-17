@@ -35,6 +35,7 @@ def create_app():
     def home():
         some_recipe = create_some_recipe()
         # Use Jinja to customize a predefined html page rendering the layout for showing a single recipe.
-        return render_template('recipeDescription.html', recipe=test_recipe)
+        return render_template('layout.html')
+
 
     return app
