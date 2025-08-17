@@ -8,13 +8,13 @@ from recipe.domainmodel.nutrition import Nutrition
 from recipe.domainmodel.recipe import Recipe
 from recipe.domainmodel.review import Review
 from recipe.domainmodel.user import User
-from recipe.adapters.repository import Abstractrepository
+from recipe.adapters.repository import AbstractRepository
 from recipe.adapters.datareader.csvdatareader import CSVDataReader
 from datetime import datetime
 import re
 
 
-class MemoryRepository(Abstractrepository):
+class MemoryRepository(AbstractRepository):
 
     def __init__(self):
         self.__authors = list()

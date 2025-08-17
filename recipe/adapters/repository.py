@@ -9,7 +9,7 @@ from recipe.domainmodel.recipe import Recipe
 from recipe.domainmodel.review import Review
 from recipe.domainmodel.user import User
 
-class Abstractrepository(abc.ABC):
+class AbstractRepository(abc.ABC):
 
     @abc.abstractmethod
     def author_add(self, author):
