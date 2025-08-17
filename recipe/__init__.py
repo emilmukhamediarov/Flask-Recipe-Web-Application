@@ -17,8 +17,12 @@ def create_app():
     repo.repo_instance = MemoryRepository()
     repo.repo_instance.populate()
 
+
     with app.app_context():
         from .home import home
         app.register_blueprint(home.home_bp)
+
+        from .browse import browse
+        app.register_blueprint(browse.browse_bp)
 
     return app
