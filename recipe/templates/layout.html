@@ -2,15 +2,21 @@
 <html lang="en">
 <head>
     <!-- Define Page Head -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
     <title>The One Piece is Reeeeaaaaaalllllllll</title>
 </head>
 <body>
-    <nav>
-{#        <!-- Include Navigation Bar -->#}
-    </nav>
+    <!-- Include Navigation Bar -->
+    <header class="topbar">
+        {% include 'header.html' %}
+    </header>
+
     <main>
         <!-- Include Content -->
-        {% include "home.html" %}
+        {% block content %} {% endblock %}
     </main>
 </body>
 
