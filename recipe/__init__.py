@@ -29,13 +29,9 @@ def create_app():
 
     data = MemoryRepository()
     data.populate()
-    test_recipe = data.recipe_get_all()[5]
 
-    @app.route('/')
-    def home():
-        some_recipe = create_some_recipe()
-        # Use Jinja to customize a predefined html page rendering the layout for showing a single recipe.
-        return render_template('layout.html')
-
+    with app.app_context():
+        from .home import home
+        app.register_blueprint(home.home_bp)
 
     return app
