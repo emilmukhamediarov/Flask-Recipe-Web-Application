@@ -140,9 +140,17 @@ class Recipe:
     def ingredient_quantities(self) -> list[str]:
         return self.__ingredient_quantities
 
+    @ingredient_quantities.setter
+    def ingredient_quantities(self, value: list[str]):
+        self.__ingredient_quantities = value
+
     @property
     def ingredients(self) -> list[str]:
         return self.__ingredients
+
+    @ingredients.setter
+    def ingredients(self, value: list[str]):
+        self.__ingredients = value
 
     @property
     def rating(self) -> float | None:
