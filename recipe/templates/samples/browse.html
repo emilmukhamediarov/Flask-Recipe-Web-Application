@@ -1,4 +1,4 @@
-{% extends 'layout.html' %} {% block content %}
+{% extends "layout.html" %}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -70,6 +70,60 @@
     </div>
   </form>
 
+
+
+
+{% block title %}Browse Recipes{% endblock %}
+
+{% block content %}
+  <h2>Browse Recipes</h2>
+
+  <div class="recipes_list">
+    {% if recipes %}
+      {% for r in recipes %}
+        <article class="recipe-item">
+{#          <h3>#}
+{#            <a href="{{ url_for('recipes.show_recipe', recipe_id=r.id) }}">{{ r.name }}</a>#}
+{#          </h3>#}
+
+          <p>
+            <!-- author name (safe if author is None) -->
+            Author: <b>{{ r.author.name if r.author else 'Unknown' }}</b>
+          </p>
+
+          <p>
+            <!-- show first image if available -->
+            {% if r.images and r.images|length > 0 %}
+              <img src="{{ r.images[0] }}" alt="Photo for {{ r.name }}" width="200">
+            {% else %}
+              <small>No image</small>
+            {% endif %}
+          </p>
+
+          <p>
+            <!-- access nested object safely (nutrition may be None) -->
+            Calories: <b>{{ r.nutrition.calories if (r.nutrition and r.nutrition.calories is not none) else 'N/A' }}</b>
+            • Protein: <b>{{ r.nutrition.protein if (r.nutrition and r.nutrition.protein is not none) else 'N/A' }}</b>
+          </p>
+
+          <p>
+            <!-- description summary -->
+            {{ r.description[:150] }}{% if r.description|length > 150 %}...{% endif %}
+          </p>
+
+          <p>
+            <!-- other useful bits -->
+            Prep: {{ r.preparation_time }} min • Cook: {{ r.cook_time }} min • Rating: {{ r.rating or '—' }}
+          </p>
+        </article>
+        <hr>
+      {% endfor %}
+    {% else %}
+      <p>No recipes found.</p>
+    {% endif %}
+  </div>
+
+
   <!-- recipe grid -->
   <div class="recipes-grid" id="results">
     <article class="recipe-card">
@@ -77,6 +131,8 @@
       <h3><a href="recipe_detail.html">Mandarin syrup cake</a></h3>
       <p class="meta">By: Nadia — 2025?</p>
     </article>
+
+
 
     <article class="recipe-card">
       <img src="{{ random_recipe.images[0] }}" alt="Error employee at unknown company has forgot to copy paste the URL">
@@ -125,6 +181,4 @@
 </body>
 </html>
 
-
 {% endblock %}
-

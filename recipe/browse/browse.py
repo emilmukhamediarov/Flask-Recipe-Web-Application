@@ -13,4 +13,4 @@ def browse():
     number_of_recipes = len(recipes)
     random_0 = recipes[0]
     random_recipe = random.choice(recipes)
-    return render_template('samples/browse.html', recipe=random_0, number_of_recipes=number_of_recipes, random_recipe=random_recipe)
+    return render_template('samples/browse.html', recipes=recipes, recipe=random_0, number_of_recipes=number_of_recipes, random_recipe=random_recipe)
