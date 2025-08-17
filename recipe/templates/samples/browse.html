@@ -35,7 +35,10 @@
 <div class="homerpager" >
     <h1>Browse Recipes</h1>
 </div>
-
+<div class="panel">
+    <h3><a href="/">Browse Recipes</a></h3>
+      <p>We have a whopping <b>{{ number_of_recipes }}</b> recipes ready to explore!</p>
+  </div>
     <main>
         <section class="browse container">
 
@@ -70,13 +73,13 @@
   <!-- recipe grid -->
   <div class="recipes-grid" id="results">
     <article class="recipe-card">
-      <img src="https://nadialim.com/wp-content/uploads/2020/08/mandarin-syrup-cake.jpg" alt="Error image missing">
+      <img src="{{ recipe.images[0] }}" alt="Error image missing">
       <h3><a href="recipe_detail.html">Mandarin syrup cake</a></h3>
       <p class="meta">By: Nadia — 2025?</p>
     </article>
 
     <article class="recipe-card">
-      <img src="https://api.photon.aremedia.net.au/wp-content/uploads/sites/4/2021/08/13/5437/HL1162D28A-1.jpg?resize=1140%2C912" alt="Error employee at unknown company has forgot to copy paste the URL">
+      <img src="{{ random_recipe.images[0] }}" alt="Error employee at unknown company has forgot to copy paste the URL">
       <h3>Something delicious</h3>
       <p class="meta">By: Great chef yet to be discovered — 2025?</p>
     </article>
