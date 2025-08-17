@@ -34,4 +34,7 @@ def create_app():
         from .home import home
         app.register_blueprint(home.home_bp)
 
+        from .browse import browse
+        app.register_blueprint(browse.browse_bp)
+
     return app
