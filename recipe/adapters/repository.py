@@ -9,6 +9,8 @@ from recipe.domainmodel.recipe import Recipe
 from recipe.domainmodel.review import Review
 from recipe.domainmodel.user import User
 
+repo_instance = None
+
 class AbstractRepository(abc.ABC):
 
     @abc.abstractmethod
