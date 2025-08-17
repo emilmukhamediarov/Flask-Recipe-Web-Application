@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <link rel="stylesheet" href="../static/css/main.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<!--     <link rel="shortcut icon" type="image/x-icon" href="C:\Users\rohan\Pictures\F89_cnoXMAANLII.ico">-->
+  <link rel="icon" href="./F89_cnoXMAANLII.png" type="image/x-icon">
+  <title>My Recipes Website</title>
+
+
+</head>
+<body>
+{#home page part#}
+  <!-- Top navigation/header -->
+<header class="topbar">
+  <nav class="container">
+    <div class="logo"><a href="./index.html">My Recipes</a></div>
+
+    <!-- nav links -->
+    <ul class="nav-links">
+      <li><a href="./index.html">Home</a> <i class="fa-solid fa-house"></i></li>
+      <li><a href="browse.html">Browse Recipes</a> <i class="fa-solid fa-kitchen-set"></i></li>
+      <li><a href="./login.html">Login</a> <i class="fa-solid fa-user"></i></li>
+      <li><a href="./register.html">Register</a> <i class="fa-solid fa-ghost"></i></li>
+    </ul>
+
+    <!-- action button on the right -->
+    <div class="nav-actions">
+      <a class="button" href="#">Search</a>
+    </div>
+  </nav>
+</header>
+
+<!-- full-width hero -->
+<section class="hero-full">
+  <div class="hero-full-bg" style="background-image:url('https://nadialim.com/wp-content/uploads/2020/08/mandarin-syrup-cake.jpg')"></div>
+  <div class="hero-full-content container">
+    <h1>Welcome to My Recipe Website</h1>
+    <p>Discover, and enjoy delicious mandarin recipes from around the world.</p>
+  </div>
+</section>
+
+
+  <!-- bottom panels:-->
+<section class="bottom-panels">
+  <div class="panel">
+    <h3><a href="browse.html">Browse Recipes</a></h3>
+    <p>Explore our collection of recipes, filtered by category, ingredients, or cooking time.</p>
+  </div>
+
+  <div class="panel">
+    <h3>Create an Account</h3>
+    <p>Sign up to save favorites, make collections, and share your recipes. Link coming soon </p>
+  </div>
+
+  <div class="panel">
+    <h3>Rate & Review</h3>
+    <p>Share ratings and reviews to help other users choose great recipes. Link coming soon</p>
+  </div>
+
+
+
+</section>
+
+
+</body>
+</html>
+
+
+
+{#-----browse html code-----#}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../static/css/main.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <title>Browse Recipes</title>
+</head>
+<body style="background-color: rgba(242,242,242,0.49)">
+    <!-- Your content goes here -->
+
+    <!-- Top navigation/header -->
+<header class="topbar">
+  <nav class="container">
+    <div class="logo"><a href="index.html">My Recipes</a></div>
+
+    <!-- nav links -->
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a> <i class="fa-solid fa-house"></i></li>
+      <li><a href="./browse.html">Browse Recipes</a> <i class="fa-solid fa-kitchen-set"></i></li>
+      <li><a href="./login.html">Login</a> <i class="fa-solid fa-user"></i></li>
+      <li><a href="./register.html">Register</a> <i class="fa-solid fa-ghost"></i></li>
+    </ul>
+
+    <!-- action button on the right -->
+    <div class="nav-actions">
+      <a class="button" href="#">Search</a>
+    </div>
+  </nav>
+</header>
+
+<div class="homerpager" >
+    <h1>Browse Recipes</h1>
+</div>
+
+    <main>
+        <section class="browse container">
+
+  <form class="browse-controls" id="browseForm" role="search" aria-label="Filter recipes">
+    <div class="control-row">
+      <label for="sort">Sort by:</label>
+      <select id="sort" name="sort">
+        <option value="name">Name</option>
+        <option value="newest">Newest</option>
+        <option value="rating">Top rated</option>
+      </select>
+    </div>
+
+    <div class="control-row two-cols">
+      <div>
+        <label for="category">Filter by Category:</label>
+        <select id="category" name="category">
+          <option value="">All Categories</option>
+          <option value="dessert">Dessert</option>
+          <option value="dinner">Dinner</option>
+          <option value="breakfast">Breakfast</option>
+        </select>
+      </div>
+
+      <div>
+        <label for="keyword">Filter by Keyword:</label>
+        <input id="keyword" name="keyword" type="search" placeholder="e.g. mandarin, chicken">
+      </div>
+    </div>
+  </form>
+
+  <!-- recipe grid -->
+  <div class="recipes-grid" id="results">
+    <article class="recipe-card">
+      <img src="https://nadialim.com/wp-content/uploads/2020/08/mandarin-syrup-cake.jpg" alt="Error image missing">
+      <h3><a href="recipe_detail.html">Mandarin syrup cake</a></h3>
+      <p class="meta">By: Nadia — 2025?</p>
+    </article>
+
+    <article class="recipe-card">
+      <img src="https://api.photon.aremedia.net.au/wp-content/uploads/sites/4/2021/08/13/5437/HL1162D28A-1.jpg?resize=1140%2C912" alt="Error employee at unknown company has forgot to copy paste the URL">
+      <h3>Something delicious</h3>
+      <p class="meta">By: Great chef yet to be discovered — 2025?</p>
+    </article>
+
+    <article class="recipe-card">
+      <img src="https://api.photon.aremedia.net.au/wp-content/uploads/sites/4/2014/11/28/WomansDayBR111954/mandarin-and-almond-cake.jpg?w=1365" alt="Error image missing">
+      <h3>Mandarin and Almond cake</h3>
+      <p class="meta">By: Women's Weekly Food — 2021</p>
+    </article>
+
+    <article class="recipe-card">
+      <img src="https://api.photon.aremedia.net.au/wp-content/uploads/sites/4/2023/06/08/32482/hero-mandarin-bundt-scaled.jpg?w=1228" alt="Error image missing">
+      <h3>Citrus and ginger bundt cake</h3>
+      <p class="meta">By: Women's Weekly Food — 2021</p>
+    </article>
+  </div>
+</section>
+
+    </main>
+
+
+    <p style="text-align: center; font-family: Candara; font-weight: bold; font-style: italic">More recipes coming soon to a website near you</p>
+
+    <!-- bottom panels:-->
+<section class="bottom-panels">
+  <div class="panel">
+    <h3><a href="recipe_detail.html">Mandarin syrup cake</a></h3>
+    <p>Mandarin syrup cake</p>
+  </div>
+
+  <div class="panel">
+    <h3>Create an Account</h3>
+    <p>Sign up to save favorites, make collections, and share your recipes.</p>
+  </div>
+
+  <div class="panel">
+    <h3>Rate & Review</h3>
+    <p>Share ratings and reviews to help other users choose great recipes.</p>
+  </div>
+</section>
+
+</body>
+</html>
+
+
+{#recipe detail part#}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../static/css/main.css"/>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <title>Recipe</title>
+</head>
+<body>
+    <!-- Your content goes here -->
+
+    <header class="topbar">
+  <nav class="container">
+    <div class="logo"><a href="index.html">My Recipes</a></div>
+
+    <!-- nav links -->
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a> <i class="fa-solid fa-house"></i></li>
+      <li><a href="browse.html">Browse Recipes</a> <i class="fa-solid fa-kitchen-set"></i></li>
+      <li><a href="./login.html">Login</a> <i class="fa-solid fa-user"></i></li>
+      <li><a href="./register.html">Register</a> <i class="fa-solid fa-ghost"></i></li>
+    </ul>
+
+    <!-- action button on the right -->
+    <div class="nav-actions">
+      <a class="button" href="#">Search</a>
+    </div>
+  </nav>
+</header>
+
+    <!-- Recipe Page -->
+<main class="container recipe-page" style="padding:24px 20px 60px;">
+  <article class="recipe-panel">
+
+    <!-- Big image panel -->
+    <div class="recipe-hero">
+      <img src="https://nadialim.com/wp-content/uploads/2020/08/mandarin-syrup-cake.jpg"
+           alt="Recipe main image">
+    </div>
+
+    <!-- title, author, rating -->
+    <header class="recipe-header">
+      <h1>Mandarin Syrup Cake</h1>
+      <p class="byline">By: <strong>Nadia </strong> • <span class="muted">Date: 2024-08-12</span></p>
+      <p class="rating">Rating: <strong style="color:#f59e0b">5.0/5</strong></p>
+    </header>
+
+    <!-- meta grid (category, prep time, cook time, servings, calories) -->
+    <section class="meta-grid" aria-label="Recipe information">
+      <div class="meta-card">
+        <div class="meta-title">Category</div>
+        <div class="meta-value">Dessert</div>
+      </div>
+      <div class="meta-card">
+        <div class="meta-title">Preparation Time</div>
+        <div class="meta-value">10 minutes</div>
+      </div>
+      <div class="meta-card">
+        <div class="meta-title">Cook Time</div>
+        <div class="meta-value">1 hour</div>
+      </div>
+      <div class="meta-card">
+        <div class="meta-title">Servings</div>
+        <div class="meta-value">10</div>
+      </div>
+      <div class="meta-card">
+        <div class="meta-title">Calories</div>
+        <div class="meta-value">234 kcal</div>
+      </div>
+    </section>
+
+    <!-- main content columns: description + instructions (left), sidebar ingredients (right) -->
+    <div class="recipe-body" style="margin-top:18px; display:grid; grid-template-columns: 1fr 320px; gap:20px;">
+      <div class="main-col">
+
+        <section class="panel-section">
+          <h3>Description</h3>
+          <p>This is an incredibly clever syrup cake — it’s gluten free, dairy free and has no added fat (no oil or butter), yet is as moist and delicious as cakes get.</p>
+        </section>
+
+        <section class="panel-section">
+          <h3>Keywords</h3>
+          <div class="keywords">
+            <span class="kw">Dessert</span>
+            <span class="kw">Fruit</span>
+            <span class="kw">Cake</span>
+            <span class="kw">Low Protein</span>
+            <span class="kw">Dairy Free</span>
+            <span class="kw">Gluten Free</span>
+
+          </div>
+        </section>
+
+        <section class="panel-section">
+          <h3>Instructions</h3>
+          <ol class="instructions-list">
+            <li>Place whole mandarins in a large saucepan and cover with plenty of cold water. Cover with a lid and boil gently for about 1 hour (this softens the fruit and also gets rid of some of the bitter taste from the skins). Drain and allow mandarins to cool slightly.</li>
+            <li>Preheat oven to 180°C/355 Fahrenheit. Grease and line a 21cm round springform cake tin with baking paper.</li>
+            <li>Remove the stem of the mandarins, then cut in half and remove any pips. Place fruit (skin, pith, flesh and all) in a food processor or blender and blitz until smooth. Add all other cake ingredients and blitz until well combined.</li>
+            <li>Pour into prepared cake tin and bake for 1 hour or until a skewer inserted in the middle of the cake comes out clean. Cover cake with tinfoil halfway through cooking time to avoid the top browning too much.</li>
+            <li>Remove cake from oven and leave in the tin while you make the syrup.</li>
+            <li>Mix sugar, mandarin and lime juice together and pour over cake while warm. Allow cake to cool slightly before removing from tin.</li>
+          </ol>
+        </section>
+
+      </div>
+
+      <!-- sidebar: ingredients + actions -->
+      <aside class="sidebar-col">
+        <div class="panel-box">
+          <button class="button secondary" style="display:block;width:100%;margin-bottom:12px">Login to add to favorites</button>
+          <h4 style="margin:0 0 10px">Ingredients</h4>
+          <ul class="ingredients">
+            <p style="color:gray; opacity: 0.9;">Cake</p>
+            <li>330–370 g mandarins <span class="muted">3–6 whole</span></li>
+            <li>200 g ground almonds</li>
+            <li>1 cup sugar</li>
+            <li>5 eggs</li>
+            <li>1 teaspoon vanilla extract or essence</li>
+            <li>1 teaspoon baking powder</li>
+            <p style="color:gray; opacity: 0.9;">Syrup</p>
+            <li>¼ cup sugar</li>
+            <li>1 mandarin juice</li>
+            <li>1 lime juice</li>
+          </ul>
+        </div>
+      </aside>
+    </div>
+
+  </article>
+</main>
+
+</body>
+</html>
+
+
