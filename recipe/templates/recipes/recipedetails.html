@@ -5,34 +5,34 @@
 
     <!-- Big image panel -->
     <div class="recipe-hero">
-      <img src="https://nadialim.com/wp-content/uploads/2020/08/mandarin-syrup-cake.jpg"
-           alt="Recipe main image">
+      <img src="{{ recipe.images[0]}}"
+           alt="{{ recipe.name}}">
     </div>
 
     <!-- title, author, rating -->
     <header class="recipe-header">
-      <h1>Mandarin Syrup Cake</h1>
-      <p class="byline">By: <strong>Nadia </strong> • <span class="muted">Date: 2024-08-12</span></p>
-      <p class="rating">Rating: <strong style="color:#f59e0b">5.0/5</strong></p>
+      <h1>{{ recipe.name }}</h1>
+      <p class="byline">By: <strong>{{ recipe.author.name }} </strong> • <span class="muted">Date: {{ recipe.date }}</span></p>
+      <p class="rating">Rating: <strong style="color:#f59e0b">{{ recipe.rating }}</strong></p>
     </header>
 
     <!-- meta grid (category, prep time, cook time, servings, calories) -->
     <section class="meta-grid" aria-label="Recipe information">
       <div class="meta-card">
         <div class="meta-title">Category</div>
-        <div class="meta-value">Dessert</div>
+        <div class="meta-value">{{ recipe.category.name }}</div>
       </div>
       <div class="meta-card">
         <div class="meta-title">Preparation Time</div>
-        <div class="meta-value">10 minutes</div>
+        <div class="meta-value">{{ recipe.preparation_time}}</div>
       </div>
       <div class="meta-card">
         <div class="meta-title">Cook Time</div>
-        <div class="meta-value">1 hour</div>
+        <div class="meta-value">{{ recipe.cook_time}}</div>
       </div>
       <div class="meta-card">
         <div class="meta-title">Servings</div>
-        <div class="meta-value">10</div>
+        <div class="meta-value">recipe.servings</div>
       </div>
       <div class="meta-card">
         <div class="meta-title">Calories</div>
@@ -46,7 +46,7 @@
 
         <section class="panel-section">
           <h3>Description</h3>
-          <p>This is an incredibly clever syrup cake — it’s gluten free, dairy free and has no added fat (no oil or butter), yet is as moist and delicious as cakes get.</p>
+          <p>{{ recipe.description }}</p>
         </section>
 
         <section class="panel-section">

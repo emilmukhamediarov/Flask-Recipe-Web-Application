@@ -1,14 +1,13 @@
 from flask import Blueprint, render_template
+import recipe.adapters.repository as repo
 
 recipedetails_bp = Blueprint('recipedetails_bp', __name__)
 
 @recipedetails_bp.route('/recipe', methods=['GET'])
-def get_recipe_details():
-    return render_template('recipes/recipedetail.html')
 
-def home():
+def get_recipe_details():
+    get_recipe = repo.repo_instance.recipe_get_all()[0]
     return render_template(
-        'home/home.html',
-        selected_articles=utilities.get_selected_articles(),
-        tag_urls=utilities.get_tags_and_urls()
+        'recipes/recipedetails.html',
+        recipe = get_recipe
     )
