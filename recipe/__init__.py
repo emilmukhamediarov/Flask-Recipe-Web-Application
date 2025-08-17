@@ -34,4 +34,7 @@ def create_app():
         from .home import home
         app.register_blueprint(home.home_bp)
 
+        from .recipedetails import recipedetails
+        app.register_blueprint(recipedetails.recipedetails_bp)
+
     return app
