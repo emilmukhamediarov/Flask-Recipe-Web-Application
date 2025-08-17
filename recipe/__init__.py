@@ -2,6 +2,7 @@
 from datetime import datetime
 from flask import Flask, render_template
 
+import recipe.adapters.repository as repo
 from recipe.adapters.memory_repository import MemoryRepository
 # TODO: Access to the recipe should be implemented via the repository pattern and using blueprints, so this can not
 #  stay here!
@@ -27,8 +28,11 @@ def create_app():
     # Create the Flask app object.
     app = Flask(__name__)
 
-    data = MemoryRepository()
-    data.populate()
+    repo.repo_instance = MemoryRepository()
+    repo.repo_instance = populate()
+
+    # data = MemoryRepository()
+    # data.populate()
 
     with app.app_context():
         from .home import home
