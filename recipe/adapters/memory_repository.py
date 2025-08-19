@@ -66,7 +66,41 @@ class MemoryRepository(AbstractRepository):
 
         for row in rows:
 
-            author = Author(author_id=int(row["AuthorId"]), name=row["AuthorName"])
+            #reading and storing data from each column from the csv file
+            recipeid = int(row["RecipeId"])
+            recipename = row["Name"]
+            authorid = int(row["AuthorId"])
+            authorname = row["AuthorName"]
+            recipecooktime = int(row["CookTime"])
+            recipepreptime = int(row["PrepTime"])
+            recipetotaltime = int(row["TotalTime"])
+            recipedate = datetime.strptime(re.sub(r'(\d+)(st|nd|rd|th)', r'\1', row["DatePublished"]), "%d %b %Y")
+            recipedescription = row["Description"]
+            recipeimages = ast.literal_eval(row["Images"])
+            categoryname = row["RecipeCategory"]
+            ingredientquantities = ast.literal_eval(row["RecipeIngredientQuantities"])
+            ingredientparts = ast.literal_eval(row["RecipeIngredientParts"])
+            calories = ast.literal_eval(row["Calories"])
+
+            fatcontent = ast.literal_eval(row["FatContent"])
+            saturatedfatcontent = ast.literal_eval(row["SaturatedFatContent"])
+            cholesterolcontent = ast.literal_eval(row["CholesterolContent"])
+            sodiumcontent = ast.literal_eval(row["SodiumContent"])
+            carbohydratecontent = ast.literal_eval(row["CarbohydrateContent"])
+            fibercontent = ast.literal_eval(row["FiberContent"])
+            sugarcontent = ast.literal_eval(row["SugarContent"])
+            proteincontent = ast.literal_eval(row["ProteinContent"])
+
+            recipeservings = ast.literal_eval(row["RecipeServings"])
+            recipeyield = ast.literal_eval(row["RecipeYield"])
+
+            recipeinstructions = ast.literal_eval(row["RecipeInstructions"])
+
+            author = Author(author_id = authorid, name = authorname)
+            category = Category(name = categoryname)
+
+            
+
 
             recipe = Recipe(recipe_id=int(row["RecipeId"]), name=row["Name"], author=author)
             recipe.cook_time = int(row["CookTime"])
@@ -83,7 +117,6 @@ class MemoryRepository(AbstractRepository):
             recipe.ingredients = row["RecipeIngredientParts"]
             recipe.ingredient_quantities = row["RecipeIngredientQuantities"]
 
-            category = Category(name=row["RecipeCategory"])
             recipe.category = category
 
             recipe.rating = None
