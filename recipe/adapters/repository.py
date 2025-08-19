@@ -43,6 +43,10 @@ class AbstractRepository(abc.ABC):
         """Returns a list of Recipes"""
         raise NotImplementedError
 
+    def recipe_dict_add(self, recipe):
+        """Adds a Recipe to the dictionary"""
+        raise NotImplementedError
+
     @abc.abstractmethod
     def nutrition_add(self, recipe):
         """Adds a Nutrition to the repository"""

@@ -1,13 +1,11 @@
 from typing import List
 import ast
+from bisect import insort_left
 
 from recipe.domainmodel.author import Author
 from recipe.domainmodel.category import Category
-from recipe.domainmodel.favourite import Favourite
 from recipe.domainmodel.nutrition import Nutrition
 from recipe.domainmodel.recipe import Recipe
-from recipe.domainmodel.review import Review
-from recipe.domainmodel.user import User
 from recipe.adapters.repository import AbstractRepository
 from recipe.adapters.datareader.csvdatareader import CSVDataReader
 from datetime import datetime
@@ -21,12 +19,13 @@ class MemoryRepository(AbstractRepository):
         self.__categories = list()
         self.__nutrition = list()
         self.__recipes = list()
+        self.__recipes_dict = dict()
 
     def author_add(self, author):
         if not isinstance(author, Author):
             raise ValueError("Author must be provided as an instance of Author.")
         if author not in self.__authors:
-            self.__authors.append(author)
+            insort_left(self.__authors, author)
 
     def author_get_all(self) -> List[Author]:
         return self.__authors
@@ -35,7 +34,7 @@ class MemoryRepository(AbstractRepository):
         if not isinstance(category, Category):
             raise ValueError("Category must be provided as an instance of Category.")
         if category not in self.__categories:
-            self.__categories.append(category)
+            insort_left(self.__categories, category)
 
     def category_get_all(self):
         return self.__categories
@@ -49,11 +48,16 @@ class MemoryRepository(AbstractRepository):
     def recipe_get_all(self):
         return self.__recipes
 
+    def recipe_dict_add(self, recipe):
+        if not isinstance(recipe, Recipe):
+            raise ValueError("Recipe must be provided as an instance of Recipe.")
+        self.__recipes_dict[recipe.id] = recipe
+
     def nutrition_add(self, nutrition):
         if not isinstance(nutrition, Nutrition):
             raise ValueError("Nutrition must be provided as an instance of Nutrition.")
         if nutrition not in self.__nutrition:
-            self.__nutrition.append(nutrition)
+            insort_left(self.__nutrition, nutrition)
 
     def nutrition_get_all(self):
         return self.__nutrition
@@ -66,78 +70,81 @@ class MemoryRepository(AbstractRepository):
 
         for row in rows:
 
-            #reading and storing data from each column from the csv file
-            recipeid = int(row["RecipeId"])
-            recipename = row["Name"]
-            authorid = int(row["AuthorId"])
-            authorname = row["AuthorName"]
-            recipecooktime = int(row["CookTime"])
-            recipepreptime = int(row["PrepTime"])
-            recipetotaltime = int(row["TotalTime"])
-            recipedate = datetime.strptime(re.sub(r'(\d+)(st|nd|rd|th)', r'\1', row["DatePublished"]), "%d %b %Y")
-            recipedescription = row["Description"]
-            recipeimages = ast.literal_eval(row["Images"])
-            categoryname = row["RecipeCategory"]
-            ingredientquantities = ast.literal_eval(row["RecipeIngredientQuantities"])
-            ingredientparts = ast.literal_eval(row["RecipeIngredientParts"])
-            calories = ast.literal_eval(row["Calories"])
+            #reading and storing data of each column from the csv file
+            recipe_id = int(row["RecipeId"])
+            recipe_name = row["Name"]
+            author_id = int(row["AuthorId"])
+            author_name = row["AuthorName"]
+            recipe_cook_time = int(row["CookTime"])
+            recipe_prep_time = int(row["PrepTime"])
+            recipe_total_time = int(row["TotalTime"])
+            recipe_date = datetime.strptime(re.sub(r'(\d+)(st|nd|rd|th)', r'\1', row["DatePublished"]), "%d %b %Y")
+            recipe_description = row["Description"]
+            recipe_images = ast.literal_eval(row["Images"])
+            category_name = row["RecipeCategory"]
+            ingredient_quantities = ast.literal_eval(row["RecipeIngredientQuantities"])
+            ingredient_parts = ast.literal_eval(row["RecipeIngredientParts"])
 
-            fatcontent = ast.literal_eval(row["FatContent"])
-            saturatedfatcontent = ast.literal_eval(row["SaturatedFatContent"])
-            cholesterolcontent = ast.literal_eval(row["CholesterolContent"])
-            sodiumcontent = ast.literal_eval(row["SodiumContent"])
-            carbohydratecontent = ast.literal_eval(row["CarbohydrateContent"])
-            fibercontent = ast.literal_eval(row["FiberContent"])
-            sugarcontent = ast.literal_eval(row["SugarContent"])
-            proteincontent = ast.literal_eval(row["ProteinContent"])
+            calories = float(row["Calories"])
+            fat_content = float(row["FatContent"])
+            saturated_fat_content = float(row["SaturatedFatContent"])
+            cholesterol_content = float(row["CholesterolContent"])
+            sodium_content = float(row["SodiumContent"])
+            carbohydrate_content = float(row["CarbohydrateContent"])
+            fiber_content = float(row["FiberContent"])
+            sugar_content = float(row["SugarContent"])
+            protein_content = float(row["ProteinContent"])
 
-            recipeservings = ast.literal_eval(row["RecipeServings"])
-            recipeyield = ast.literal_eval(row["RecipeYield"])
+            recipe_servings = row["RecipeServings"]
+            recipe_yield = row["RecipeYield"]
 
-            recipeinstructions = ast.literal_eval(row["RecipeInstructions"])
+            recipe_instructions = ast.literal_eval(row["RecipeInstructions"])
 
-            author = Author(author_id = authorid, name = authorname)
-            category = Category(name = categoryname)
+            author = Author(author_id = author_id, name = author_name)
+            category = Category(name = category_name)
 
-            
+            nutrition_data = {}
+            nutrition = Nutrition(nutrition_data)
+            nutrition.data["Calories"] = calories
+            nutrition.data["Fat"] = fat_content
+            nutrition.data["Saturated Fat"] =  saturated_fat_content
+            nutrition.data["Cholesterol"] = cholesterol_content
+            nutrition.data["Sodium"] = sodium_content
+            nutrition.data["Carbohydrates"] = carbohydrate_content
+            nutrition.data["Fiber"] = fiber_content
+            nutrition.data["Sugar"] = sugar_content
+            nutrition.data["Protein"] = protein_content
 
+            recipe = Recipe(recipe_id = recipe_id, name = recipe_name, author = author)
 
-            recipe = Recipe(recipe_id=int(row["RecipeId"]), name=row["Name"], author=author)
-            recipe.cook_time = int(row["CookTime"])
-            recipe.preparation_time = int(row["PrepTime"])
-
-            date_str = row["DatePublished"]
-            clean_date_str = re.sub(r'(\d+)(st|nd|rd|th)', r'\1', date_str)
-            recipe.date = datetime.strptime(clean_date_str, "%d %b %Y")
-
-            recipe.description = row["Description"]
-            recipe.images = ast.literal_eval(row["Images"])
-
-
-            recipe.ingredients = row["RecipeIngredientParts"]
-            recipe.ingredient_quantities = row["RecipeIngredientQuantities"]
-
+            recipe.nutrition = nutrition
             recipe.category = category
 
-            recipe.rating = None
+            recipe.cook_time = recipe_cook_time
+            recipe.preparation_time = recipe_prep_time
+            recipe.total_time = recipe_total_time
+            recipe.date = recipe_date
+            recipe.description = recipe_description
+            recipe.images = recipe_images
+            recipe.ingredients = ingredient_parts
+            recipe.ingredient_quantities = ingredient_quantities
 
-            recipe.nutrition = None  # to be implemented after merging branches
+            if recipe_servings != "NA":
+                recipe.servings = int(recipe_servings)  # if "NA" then we revert to the default value -> "Not Specified"
 
-            servings = row["RecipeServings"]
-            if servings != "NA":
-                recipe.servings = int(servings)  # if "NA" then we revert to the default value -> "Not Specified"
-
-            recipe_yield = row["RecipeYield"]
             if recipe_yield != "NA":
                 recipe.recipe_yield = recipe_yield  # if "NA" then we revert to the default value -> "Not Specified"
 
-            recipe.instructions = [str(inst) for inst in row["RecipeInstructions"]]
+            recipe.instructions = recipe_instructions
+
+            recipe.rating = None
+
 
             category.add_recipe(recipe)
             author.add_recipe(recipe)
 
             self.author_add(author)
             self.recipe_add(recipe)
+            self.recipe_dict_add(recipe)
             self.category_add(category)
-
 
