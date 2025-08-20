@@ -1,4 +1,4 @@
-{% extends 'layout.html' %} {% block content %}
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -9,122 +9,56 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <title>Browse Recipes</title>
 </head>
-<body style="background-color: rgba(242,242,242,0.49)">
-    <!-- Your content goes here -->
-
-    <!-- Top navigation/header -->
-<header class="topbar">
-  <nav class="container">
-    <div class="logo"><a href="index.html">My Recipes</a></div>
-
-    <!-- nav links -->
-    <ul class="nav-links">
-      <li><a href="index.html">Home</a> <i class="fa-solid fa-house"></i></li>
-      <li><a href="./browse.html">Browse Recipes</a> <i class="fa-solid fa-kitchen-set"></i></li>
-      <li><a href="./login.html">Login</a> <i class="fa-solid fa-user"></i></li>
-      <li><a href="./register.html">Register</a> <i class="fa-solid fa-ghost"></i></li>
-    </ul>
-
-    <!-- action button on the right -->
-    <div class="nav-actions">
-      <a class="button" href="#">Search</a>
-    </div>
-  </nav>
-</header>
-
-<div class="homerpager" >
+<body>
+  <main class="container">
     <h1>Browse Recipes</h1>
-</div>
-<div class="panel">
-    <h3><a href="/">Browse Recipes</a></h3>
-      <p>We have a whopping <b>{{ number_of_recipes }}</b> recipes ready to explore!</p>
-  </div>
-    <main>
-        <section class="browse container">
 
-  <form class="browse-controls" id="browseForm" role="search" aria-label="Filter recipes">
-    <div class="control-row">
-      <label for="sort">Sort by:</label>
-      <select id="sort" name="sort">
-        <option value="name">Name</option>
-        <option value="newest">Newest</option>
-        <option value="rating">Top rated</option>
-      </select>
+    <div class="recipes-grid" id="results">
+      {% for recipe in recipes %}
+      <article class="recipe-card">
+        <a class="card-link" href="{{ url_for('recipe', recipe_id=recipe.id) }}">
+          <div class="media">
+            <img src="{{ recipe.images[0] }}" alt="{{ recipe.name }}">
+          </div>
+
+          <div class="card-body">
+            <h3 class="card-title">{{ recipe.name }}</h3>
+            <p class="meta">By: {{ recipe.author.name }}</p>
+          </div>
+        </a>
+      </article>
+      {% endfor %}
     </div>
 
-    <div class="control-row two-cols">
-      <div>
-        <label for="category">Filter by Category:</label>
-        <select id="category" name="category">
-          <option value="">All Categories</option>
-          <option value="dessert">Dessert</option>
-          <option value="dinner">Dinner</option>
-          <option value="breakfast">Breakfast</option>
-        </select>
-      </div>
+    <!-- pagination -->
+    <nav class="pagination" aria-label="Recipes pages">
+      {% if page > 1 %}
+        <a class="page prev" href="{{ url_for('browse_bp.browse', page=page-1) }}">‹ Prev</a>
+      {% endif %}
 
-      <div>
-        <label for="keyword">Filter by Keyword:</label>
-        <input id="keyword" name="keyword" type="search" placeholder="e.g. mandarin, chicken">
-      </div>
-    </div>
-  </form>
+      {% if show_first %}
+        <a class="page" href="{{ url_for('browse_bp.browse', page=1) }}">1</a>
+        {% if page_numbers[0] > 2 %}<span class="ellipsis">…</span>{% endif %}
+      {% endif %}
 
-  <!-- recipe grid -->
-  <div class="recipes-grid" id="results">
-    <article class="recipe-card">
-      <img src="{{ recipe.images[0] }}" alt="Error image missing">
-      <h3><a href="recipe_detail.html">Mandarin syrup cake</a></h3>
-      <p class="meta">By: Nadia — 2025?</p>
-    </article>
+      {% for p in page_numbers %}
+        {% if p == page %}
+          <span class="page current">{{ p }}</span>
+        {% else %}
+          <a class="page" href="{{ url_for('browse_bp.browse', page=p) }}">{{ p }}</a>
+        {% endif %}
+      {% endfor %}
 
-    <article class="recipe-card">
-      <img src="{{ random_recipe.images[0] }}" alt="Error employee at unknown company has forgot to copy paste the URL">
-      <h3>Something delicious</h3>
-      <p class="meta">By: Great chef yet to be discovered — 2025?</p>
-    </article>
+      {% if show_last %}
+        {% if page_numbers[-1] < total_pages - 1 %}<span class="ellipsis">…</span>{% endif %}
+        <a class="page" href="{{ url_for('browse_bp.browse', page=total_pages) }}">{{ total_pages }}</a>
+      {% endif %}
 
-    <article class="recipe-card">
-      <img src="https://api.photon.aremedia.net.au/wp-content/uploads/sites/4/2014/11/28/WomansDayBR111954/mandarin-and-almond-cake.jpg?w=1365" alt="Error image missing">
-      <h3>Mandarin and Almond cake</h3>
-      <p class="meta">By: Women's Weekly Food — 2021</p>
-    </article>
+      {% if page < total_pages %}
+        <a class="page next" href="{{ url_for('browse_bp.browse', page=page+1) }}">Next ›</a>
+      {% endif %}
+    </nav>
 
-    <article class="recipe-card">
-      <img src="https://api.photon.aremedia.net.au/wp-content/uploads/sites/4/2023/06/08/32482/hero-mandarin-bundt-scaled.jpg?w=1228" alt="Error image missing">
-      <h3>Citrus and ginger bundt cake</h3>
-      <p class="meta">By: Women's Weekly Food — 2021</p>
-    </article>
-  </div>
-</section>
-
-    </main>
-
-
-    <p style="text-align: center; font-family: Candara; font-weight: bold; font-style: italic">More recipes coming soon to a website near you</p>
-
-    <!-- bottom panels:-->
-<section class="bottom-panels">
-  <div class="panel">
-    <h3><a href="recipe_detail.html">Mandarin syrup cake</a></h3>
-    <p>Mandarin syrup cake</p>
-  </div>
-
-  <div class="panel">
-    <h3>Create an Account</h3>
-    <p>Sign up to save favorites, make collections, and share your recipes.</p>
-  </div>
-
-  <div class="panel">
-    <h3>Rate & Review</h3>
-    <p>Share ratings and reviews to help other users choose great recipes.</p>
-  </div>
-</section>
-
-
+  </main>
 </body>
 </html>
-
-
-{% endblock %}
-
