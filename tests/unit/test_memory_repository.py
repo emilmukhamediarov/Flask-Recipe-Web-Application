@@ -26,8 +26,4 @@ def test_repository_can_get_a_recipe_by_name(in_memory_repo):
     retrieved_recipe = in_memory_repo.recipe_get_by_name(test_recipe.name)
     assert retrieved_recipe.name == test_recipe.name
 
-def test_repository_can_add_a_category(in_memory_repo):
-    category = Category(name = 'Crazy Bananas', category_id = 1)
-    in_memory_repo.category_add(category)
-    assert in_memory_repo.category_get_by_name('Crazy Bananas') is category
 

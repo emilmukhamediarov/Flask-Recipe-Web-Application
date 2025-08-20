@@ -36,7 +36,6 @@ class Category:
         return self.__recipes
 
     def add_recipe(self, recipe: Recipe) -> None:
-        from recipe.domainmodel.recipe import Recipe
         if isinstance(recipe, Recipe):
             self.__recipes.append(recipe)
         else:
