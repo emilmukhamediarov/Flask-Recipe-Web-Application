@@ -22,9 +22,14 @@ def create_app():
         from .home import home
         app.register_blueprint(home.home_bp)
 
+
+        from .recipedetails import recipedetails
+        app.register_blueprint(recipedetails.recipedetails_bp)
+
         from .browse import browse
         app.register_blueprint(browse.browse_bp)
 
+# might break remove if does
     @app.route('/recipe_detail')
     def recipe_detail():  # put application's code here
         return render_template('samples/recipe_detail.html')
@@ -34,5 +39,5 @@ def create_app():
         # recipe = next(recipe for recipe in list_of_recipes if recipe.id == recipe.id)
         recipe_obj = next((r for r in list_of_recipes if r.id == recipe_id))
         return render_template('samples/recipe_detail.html', recipe=recipe_obj)
-
+# conflict?
     return app
