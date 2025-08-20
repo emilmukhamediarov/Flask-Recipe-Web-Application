@@ -1,19 +1,24 @@
-{% extends 'layout.html' %}{% block content %}
+{% extends 'layout.html' %}
 
-<div class="container recipe-page" style="padding:24px 20px 60px;">
+{% block content %}
+<div class="container recipe-page">
   <article class="recipe-panel">
 
-    <!-- Big image panel -->
+    <!-- Smaller centered image -->
     <div class="recipe-hero">
-      <img src="{{ recipe.images[0]}}"
-           alt="{{ recipe.name}}">
+      <img src="{{ recipe.images[0] }}" alt="{{ recipe.name }}">
     </div>
 
     <!-- title, author, rating -->
     <header class="recipe-header">
       <h1>{{ recipe.name }}</h1>
-      <p class="byline">By: <strong>{{ recipe.author.name }} </strong> • <span class="muted">Date: {{ recipe.date }}</span></p>
-      <p class="rating">Rating: <strong style="color:#f59e0b">{{ recipe.rating }}</strong></p>
+      <p class="byline">
+        By: <strong>{{ recipe.author.name }}</strong> •
+        <span class="muted">Date: {{ recipe.date.date() }}</span>
+      </p>
+      <p class="rating">
+        Rating: <strong>{{ recipe.rating }}</strong>
+      </p>
     </header>
 
     <!-- meta grid (category, prep time, cook time, servings, calories) -->
@@ -24,75 +29,52 @@
       </div>
       <div class="meta-card">
         <div class="meta-title">Preparation Time</div>
-        <div class="meta-value">{{ recipe.preparation_time}}</div>
+        <div class="meta-value">{{ recipe.preparation_time }} min</div>
       </div>
       <div class="meta-card">
         <div class="meta-title">Cook Time</div>
-        <div class="meta-value">{{ recipe.cook_time}}</div>
+        <div class="meta-value">{{ recipe.cook_time }} min</div>
       </div>
       <div class="meta-card">
         <div class="meta-title">Servings</div>
-        <div class="meta-value">recipe.servings</div>
+        <div class="meta-value">{{ recipe.servings }}</div>
       </div>
       <div class="meta-card">
         <div class="meta-title">Calories</div>
-        <div class="meta-value">234 kcal</div>
+        <div class="meta-value">{{ recipe.nutrition.data["Calories"] }} kcal</div>
       </div>
     </section>
 
-    <!-- main content columns: description + instructions (left), sidebar ingredients (right) -->
-    <div class="recipe-body" style="margin-top:18px; display:grid; grid-template-columns: 1fr 320px; gap:20px;">
+    <!-- main content columns -->
+    <div class="recipe-body">
+      <!-- left column -->
       <div class="main-col">
-
         <section class="panel-section">
           <h3>Description</h3>
           <p>{{ recipe.description }}</p>
         </section>
 
         <section class="panel-section">
-          <h3>Keywords</h3>
-          <div class="keywords">
-            <span class="kw">Dessert</span>
-            <span class="kw">Fruit</span>
-            <span class="kw">Cake</span>
-            <span class="kw">Low Protein</span>
-            <span class="kw">Dairy Free</span>
-            <span class="kw">Gluten Free</span>
-
-          </div>
-        </section>
-
-        <section class="panel-section">
           <h3>Instructions</h3>
           <ol class="instructions-list">
-            <li>Place whole mandarins in a large saucepan and cover with plenty of cold water. Cover with a lid and boil gently for about 1 hour (this softens the fruit and also gets rid of some of the bitter taste from the skins). Drain and allow mandarins to cool slightly.</li>
-            <li>Preheat oven to 180°C/355 Fahrenheit. Grease and line a 21cm round springform cake tin with baking paper.</li>
-            <li>Remove the stem of the mandarins, then cut in half and remove any pips. Place fruit (skin, pith, flesh and all) in a food processor or blender and blitz until smooth. Add all other cake ingredients and blitz until well combined.</li>
-            <li>Pour into prepared cake tin and bake for 1 hour or until a skewer inserted in the middle of the cake comes out clean. Cover cake with tinfoil halfway through cooking time to avoid the top browning too much.</li>
-            <li>Remove cake from oven and leave in the tin while you make the syrup.</li>
-            <li>Mix sugar, mandarin and lime juice together and pour over cake while warm. Allow cake to cool slightly before removing from tin.</li>
+            {% for step in recipe.instructions %}
+              <li>{{ step }}</li>
+            {% endfor %}
           </ol>
         </section>
-
       </div>
 
-      <!-- sidebar: ingredients + actions -->
+      <!-- right sidebar -->
       <aside class="sidebar-col">
         <div class="panel-box">
-          <button class="button secondary" style="display:block;width:100%;margin-bottom:12px">Login to add to favorites</button>
-          <h4 style="margin:0 0 10px">Ingredients</h4>
+          <button class="button secondary" style="width:100%; margin-bottom:12px;">
+            Login to add to favorites
+          </button>
+          <h4>Ingredients</h4>
           <ul class="ingredients">
-            <p style="color:gray; opacity: 0.9;">Cake</p>
-            <li>330–370 g mandarins <span class="muted">3–6 whole</span></li>
-            <li>200 g ground almonds</li>
-            <li>1 cup sugar</li>
-            <li>5 eggs</li>
-            <li>1 teaspoon vanilla extract or essence</li>
-            <li>1 teaspoon baking powder</li>
-            <p style="color:gray; opacity: 0.9;">Syrup</p>
-            <li>¼ cup sugar</li>
-            <li>1 mandarin juice</li>
-            <li>1 lime juice</li>
+            {% for i in range(recipe.ingredients|length) %}
+              <li>{{ recipe.ingredient_quantities[i] }} {{ recipe.ingredients[i] }}</li>
+            {% endfor %}
           </ul>
         </div>
       </aside>
