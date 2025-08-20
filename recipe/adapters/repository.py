@@ -48,6 +48,11 @@ class AbstractRepository(abc.ABC):
         raise NotImplementedError
 
     @abc.abstractmethod
+    def recipe_get_by_id(self, recipe_id):
+        """Returns a Recipe by its id"""
+        raise NotImplementedError
+
+    @abc.abstractmethod
     def nutrition_add(self, recipe):
         """Adds a Nutrition to the repository"""
         raise NotImplementedError

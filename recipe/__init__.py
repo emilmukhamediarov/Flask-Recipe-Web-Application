@@ -24,7 +24,7 @@ def create_app():
 
 
         from .recipedetails import recipedetails
-        app.register_blueprint(recipedetails.recipedetails_bp)
+        app.register_blueprint(recipedetails.recipe_details_bp)
 
         from .browse import browse
         app.register_blueprint(browse.browse_bp)

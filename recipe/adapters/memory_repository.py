@@ -53,6 +53,11 @@ class MemoryRepository(AbstractRepository):
             raise ValueError("Recipe must be provided as an instance of Recipe.")
         self.__recipes_dict[recipe.id] = recipe
 
+    def recipe_get_by_id(self, recipe_id):
+        if not recipe_id in self.__recipes_dict:
+            raise ValueError("Recipe with id {} not found".format(recipe_id))
+        return self.__recipes_dict[recipe_id]
+
     def nutrition_add(self, nutrition):
         if not isinstance(nutrition, Nutrition):
             raise ValueError("Nutrition must be provided as an instance of Nutrition.")
