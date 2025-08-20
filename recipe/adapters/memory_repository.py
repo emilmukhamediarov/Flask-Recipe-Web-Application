@@ -7,7 +7,6 @@ from recipe.domainmodel.category import Category
 from recipe.domainmodel.nutrition import Nutrition
 from recipe.domainmodel.recipe import Recipe
 from recipe.adapters.repository import AbstractRepository
-from recipe.adapters.datareader.csv_data_reader import CSVDataReader
 from datetime import datetime
 import re
 
@@ -21,11 +20,14 @@ class MemoryRepository(AbstractRepository):
         self.__recipes = list()
         self.__recipes_dict = dict()
 
-    def author_add(self, author):
-        if not isinstance(author, Author):
+    def author_add(self, new_author):
+        if not isinstance(new_author, Author):
             raise ValueError("Author must be provided as an instance of Author.")
-        if author not in self.__authors:
-            insort_left(self.__authors, author)
+        if new_author not in self.__authors:
+            insort_left(self.__authors, new_author)
+
+    def author_get_by_name(self, author_name):
+        return next((author for author in self.__authors if author.name == author_name), None)
 
     def author_get_all(self) -> List[Author]:
         return self.__authors
@@ -34,7 +36,10 @@ class MemoryRepository(AbstractRepository):
         if not isinstance(category, Category):
             raise ValueError("Category must be provided as an instance of Category.")
         if category not in self.__categories:
-            insort_left(self.__categories, category)
+            self.__categories.append(category)
+
+    def category_get_by_name(self, category_name):
+        return next((category for category in self.__categories if category.name == category_name), None)
 
     def category_get_all(self):
         return self.__categories
@@ -43,7 +48,10 @@ class MemoryRepository(AbstractRepository):
         if not isinstance(recipe, Recipe):
             raise ValueError("Recipe must be provided as an instance of Recipe.")
         if recipe not in self.__recipes:
-            self.__recipes.append(recipe)
+            insort_left(self.__recipes, recipe)
+
+    def recipe_get_by_name(self, recipe_name):
+        return next((recipe for recipe in self.__recipes if recipe.name == recipe_name), None)
 
     def recipe_get_all(self):
         return self.__recipes
@@ -58,6 +66,7 @@ class MemoryRepository(AbstractRepository):
             raise ValueError("Recipe with id {} not found".format(recipe_id))
         return self.__recipes_dict[recipe_id]
 
+    """
     def nutrition_add(self, nutrition):
         if not isinstance(nutrition, Nutrition):
             raise ValueError("Nutrition must be provided as an instance of Nutrition.")
@@ -66,6 +75,7 @@ class MemoryRepository(AbstractRepository):
 
     def nutrition_get_all(self):
         return self.__nutrition
+    """
 
 
     def populate(self, data):
