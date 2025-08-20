@@ -7,7 +7,7 @@ from recipe.domainmodel.category import Category
 from recipe.domainmodel.nutrition import Nutrition
 from recipe.domainmodel.recipe import Recipe
 from recipe.adapters.repository import AbstractRepository
-from recipe.adapters.datareader.csvdatareader import CSVDataReader
+from recipe.adapters.datareader.csv_data_reader import CSVDataReader
 from datetime import datetime
 import re
 

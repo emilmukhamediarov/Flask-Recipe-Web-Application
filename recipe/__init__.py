@@ -4,7 +4,7 @@ from flask import Flask, render_template
 
 import recipe.adapters.repository as repo
 from recipe.adapters.memory_repository import MemoryRepository
-from recipe.adapters.datareader.csvdatareader import CSVDataReader
+from recipe.adapters.datareader.csv_data_reader import CSVDataReader
 
 from recipe.domainmodel.recipe import Recipe
 from recipe.domainmodel.author import Author
