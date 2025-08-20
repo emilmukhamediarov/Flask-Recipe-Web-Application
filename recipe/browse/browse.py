@@ -22,16 +22,17 @@ def browse():
     list_of_recipes = repo.repo_instance.recipe_get_all()
     total = len(list_of_recipes)
     total_pages = ceil(total / PER_PAGE) if total else 1
+    # can also just do static total_pages = 205
 
-    # guard: if page out of range, redirect to page 1 (or abort(404))
-    if page < 1 or page > total_pages:
-        return redirect(url_for('browse', page=1))
+    # guard dont need: if page out of range, redirect to page 1 (or abort(404))
+    # if page < 1 or page > total_pages:
+    #     return redirect(url_for('browse', page=1))
 
     start = (page - 1) * PER_PAGE
     end = start + PER_PAGE
     page_recipes = list_of_recipes[start:end]
 
-    # Build a compact list of page numbers to display (window around current page)
+
     window_start = max(1, page - 2)
     window_end = min(total_pages, page + 2)
     page_numbers = list(range(window_start, window_end + 1))
