@@ -68,12 +68,9 @@ class MemoryRepository(AbstractRepository):
         return self.__nutrition
 
 
-    def populate(self):
+    def populate(self, data):
 
-        reader = CSVDataReader()
-        rows = reader.read()
-
-        for row in rows:
+        for row in data:
 
             #reading and storing data of each column from the csv file
             recipe_id = int(row["RecipeId"])
