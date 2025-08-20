@@ -19,6 +19,11 @@ class AbstractRepository(abc.ABC):
         raise NotImplementedError
 
     @abc.abstractmethod
+    def author_get_by_name(self, author_name) -> Author:
+        """Returns an Author by their name"""
+        raise NotImplementedError
+
+    @abc.abstractmethod
     def author_get_all(self) -> List[Author]:
         """Returns a list of Authors"""
         raise NotImplementedError
@@ -26,6 +31,10 @@ class AbstractRepository(abc.ABC):
     @abc.abstractmethod
     def category_add(self, category):
         """Adds a Category to the repository"""
+        raise NotImplementedError
+    @abc.abstractmethod
+    def category_get_by_name(self, category_name) -> Category:
+        """Returns a Category by its name"""
         raise NotImplementedError
 
     @abc.abstractmethod
@@ -39,16 +48,30 @@ class AbstractRepository(abc.ABC):
         raise NotImplementedError
 
     @abc.abstractmethod
+    def recipe_get_by_name(self, recipe_name) -> Recipe:
+        """Returns a Recipe by its name"""
+        raise NotImplementedError
+
+    @abc.abstractmethod
     def recipe_get_all(self):
         """Returns a list of Recipes"""
         raise NotImplementedError
 
+    def recipe_dict_add(self, recipe):
+        """Adds a Recipe to the dictionary"""
+        raise NotImplementedError
+
+    @abc.abstractmethod
+    def recipe_get_by_id(self, recipe_id):
+        """Returns a Recipe by its id"""
+        raise NotImplementedError
+
+    """
     @abc.abstractmethod
     def nutrition_add(self, recipe):
-        """Adds a Nutrition to the repository"""
         raise NotImplementedError
 
     @abc.abstractmethod
     def nutrition_get_all(self):
-        """Returns a list of Nutritions"""
         raise NotImplementedError
+    """

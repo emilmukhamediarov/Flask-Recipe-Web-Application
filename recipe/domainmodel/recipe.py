@@ -14,6 +14,7 @@ class Recipe:
     def __init__(self, recipe_id: int, name: str, author: "Author",
                  cook_time: int = 0,
                  preparation_time: int = 0,
+                 total_time: int = 0,
                  created_date: datetime = None,
                  description: str = "",
                  images: list[str] = None,
@@ -38,6 +39,7 @@ class Recipe:
         self.__author = author
         self.__cook_time = cook_time
         self.__preparation_time = preparation_time
+        self.__total_time = total_time
         self.__date = created_date if created_date else datetime.now()
         self.__description = description
         self.__images = images if images else []
@@ -99,6 +101,16 @@ class Recipe:
         if value < 0:
             raise ValueError("Preparation time cannot be negative.")
         self.__preparation_time = value
+
+    @property
+    def total_time(self) -> int:
+        return self.__total_time
+
+    @total_time.setter
+    def total_time(self, value: int):
+        if value < 0:
+            raise ValueError("Total time cannot be negative.")
+        self.__total_time = value
 
     @property
     def date(self) -> datetime:

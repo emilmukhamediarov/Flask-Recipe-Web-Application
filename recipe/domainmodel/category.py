@@ -1,6 +1,7 @@
 from recipe.domainmodel.recipe import Recipe
 
 class Category:
+
     def __init__(self, name: str, recipes: list[Recipe] = None, category_id: int = None):
         self.__id = category_id
         self.__name = name
@@ -35,7 +36,6 @@ class Category:
         return self.__recipes
 
     def add_recipe(self, recipe: Recipe) -> None:
-        from recipe.domainmodel.recipe import Recipe
         if isinstance(recipe, Recipe):
             self.__recipes.append(recipe)
         else:

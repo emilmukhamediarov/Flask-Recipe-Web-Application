@@ -1,0 +1,85 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+<div class="container recipe-page">
+  <article class="recipe-panel">
+
+    <!-- Smaller centered image -->
+    <div class="recipe-hero">
+      <img src="{{ recipe.images[0] }}" alt="{{ recipe.name }}">
+    </div>
+
+    <!-- title, author, rating -->
+    <header class="recipe-header">
+      <h1>{{ recipe.name }}</h1>
+      <p class="byline">
+        By: <strong>{{ recipe.author.name }}</strong> •
+        <span class="muted">Date: {{ recipe.date.date() }}</span>
+      </p>
+      <p class="rating">
+        Rating: <strong>{{ recipe.rating }}</strong>
+      </p>
+    </header>
+
+    <!-- meta grid (category, prep time, cook time, servings, calories) -->
+    <section class="meta-grid" aria-label="Recipe information">
+      <div class="meta-card">
+        <div class="meta-title">Category</div>
+        <div class="meta-value">{{ recipe.category.name }}</div>
+      </div>
+      <div class="meta-card">
+        <div class="meta-title">Preparation Time</div>
+        <div class="meta-value">{{ recipe.preparation_time }} min</div>
+      </div>
+      <div class="meta-card">
+        <div class="meta-title">Cook Time</div>
+        <div class="meta-value">{{ recipe.cook_time }} min</div>
+      </div>
+      <div class="meta-card">
+        <div class="meta-title">Servings</div>
+        <div class="meta-value">{{ recipe.servings }}</div>
+      </div>
+      <div class="meta-card">
+        <div class="meta-title">Calories</div>
+        <div class="meta-value">{{ recipe.nutrition.data["Calories"] }} kcal</div>
+      </div>
+    </section>
+
+    <!-- main content columns -->
+    <div class="recipe-body">
+      <!-- left column -->
+      <div class="main-col">
+        <section class="panel-section">
+          <h3>Description</h3>
+          <p>{{ recipe.description }}</p>
+        </section>
+
+        <section class="panel-section">
+          <h3>Instructions</h3>
+          <ol class="instructions-list">
+            {% for step in recipe.instructions %}
+              <li>{{ step }}</li>
+            {% endfor %}
+          </ol>
+        </section>
+      </div>
+
+      <!-- right sidebar -->
+      <aside class="sidebar-col">
+        <div class="panel-box">
+          <button class="button secondary" style="width:100%; margin-bottom:12px;">
+            Login to add to favorites
+          </button>
+          <h4>Ingredients</h4>
+          <ul class="ingredients">
+            {% for i in range(recipe.ingredients|length) %}
+              <li>{{ recipe.ingredient_quantities[i] }} {{ recipe.ingredients[i] }}</li>
+            {% endfor %}
+          </ul>
+        </div>
+      </aside>
+    </div>
+
+  </article>
+</div>
+{% endblock %}
