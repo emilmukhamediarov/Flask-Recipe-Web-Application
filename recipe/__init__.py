@@ -16,7 +16,7 @@ def create_app():
 
     repo.repo_instance = MemoryRepository()
     repo.repo_instance.populate()
-
+    list_of_recipes = repo.repo_instance.recipe_get_all()
 
     with app.app_context():
         from .home import home
@@ -24,5 +24,15 @@ def create_app():
 
         from .browse import browse
         app.register_blueprint(browse.browse_bp)
+
+    @app.route('/recipe_detail')
+    def recipe_detail():  # put application's code here
+        return render_template('samples/recipe_detail.html')
+
+    @app.route('/recipe/<int:recipe_id>')
+    def recipe(recipe_id):  # put application's code here
+        # recipe = next(recipe for recipe in list_of_recipes if recipe.id == recipe.id)
+        recipe_obj = next((r for r in list_of_recipes if r.id == recipe_id))
+        return render_template('samples/recipe_detail.html', recipe=recipe_obj)
 
     return app
