@@ -32,14 +32,16 @@ def browse():
 
     selected_category = request.args.get('category')
 
-    categories = {}
-    for r in list_of_recipes:
-        name = r.category
-        categories.setdefault(name.name)
-        if r not in name.recipes:
-            name.add_recipe(r)
+    # categories = {}
+    # for r in list_of_recipes:
+    #     name = r.category
+    #     categories.setdefault(name.name)
+    #     if r not in name.recipes:
+    #         name.add_recipe(r)
 
-    sorted_items = sorted(categories.items())
+    categories = repo.repo_instance.category_get_all()
+
+    sorted_items = sorted([c.name for c in categories])
     num_categories = len(categories)
 
 

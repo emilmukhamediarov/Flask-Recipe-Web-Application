@@ -37,6 +37,7 @@ class MemoryRepository(AbstractRepository):
         if not isinstance(category, Category):
             raise ValueError("Category must be provided as an instance of Category.")
         if category not in self.__categories:
+            print("New Category: " + category.name)
             self.__categories.append(category)
 
     def category_get_by_name(self, category_name):
