@@ -177,7 +177,7 @@ class MemoryRepository(AbstractRepository):
                 category.add_recipe(recipe)
 
             # do i need this below?
-            category.add_recipe(recipe)
+            # category.add_recipe(recipe)
             author.add_recipe(recipe)
 
             self.author_add(author)

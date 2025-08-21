@@ -10,7 +10,7 @@
         <select name="category">
             {% for c in categories %}
                 <option value="{{ c.name }}"
-                {% if c == selected_category %}selected{% endif %}>{{ c }}</option>
+                {% if c == selected_category %}selected{% endif %}>{{ c.name }}</option>
                 {% endfor %}
         </select>
     </label>
@@ -19,8 +19,8 @@
     <a href="{{ url_for( 'browse_bp.browse') }}">RESET</a>
 </form>
 <ul>
-  {% for name in categories %}
-    <li><a href="{{ url_for('browse_bp.browse', category=name) }}">{{ name }}</a></li>
+  {% for cat in categories %}
+    <li><a href="{{ url_for('browse_bp.browse', category=cat) }}">{{ cat.name }}</a></li>
   {% endfor %}
 </ul>
 
