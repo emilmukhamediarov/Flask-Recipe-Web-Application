@@ -77,6 +77,11 @@ class AbstractRepository(abc.ABC):
         """Returns a random Recipe"""
         raise NotImplementedError
 
+    @abc.abstractmethod
+    def recipe_get_latest(self, num: int):
+        """Returns the latest Recipe"""
+        raise NotImplementedError
+
     """
     @abc.abstractmethod
     def nutrition_add(self, recipe):

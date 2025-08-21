@@ -12,3 +12,6 @@ def get_random_recipe():
 
 def get_number_of_recipes():
     return repo.repo_instance.recipe_get_quantity()
+
+def get_latest_recipes(num : int):
+    return repo.repo_instance.recipe_get_latest(num)

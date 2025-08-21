@@ -1,6 +1,5 @@
 {% extends 'layout.html' %} {% block content %}
 
-<main class="container">
     <h1>Browse Recipes</h1>
 
     <div class="recipes-grid" id="results">
@@ -48,6 +47,4 @@
         <a class="page next" href="{{ url_for('browse_bp.browse', page=page+1) }}">Next ›</a>
       {% endif %}
     </nav>
-
-</main>
 {% endblock %}

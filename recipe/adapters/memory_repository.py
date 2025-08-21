@@ -73,6 +73,9 @@ class MemoryRepository(AbstractRepository):
     def recipe_get_random(self):
         return random.choice(self.__recipes)
 
+    def recipe_get_latest(self, num: int):
+        return self.__recipes[-num:]
+
     """
     def nutrition_add(self, nutrition):
         if not isinstance(nutrition, Nutrition):
