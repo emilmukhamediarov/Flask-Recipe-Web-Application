@@ -57,6 +57,11 @@ class AbstractRepository(abc.ABC):
         """Returns a list of Recipes"""
         raise NotImplementedError
 
+    @abc.abstractmethod
+    def recipes_get_all_by_category(self, category_name) -> List[Recipe]:
+        """Returns a list of Recipes by category"""
+        raise NotImplementedError
+
     def recipe_dict_add(self, recipe):
         """Adds a Recipe to the dictionary"""
         raise NotImplementedError

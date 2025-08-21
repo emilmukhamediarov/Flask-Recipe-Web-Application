@@ -4,6 +4,8 @@ from flask import Blueprint, render_template, request, abort, url_for, redirect
 import recipe.adapters.repository as repo
 
 from recipe.adapters.repository import AbstractRepository
+from recipe.domainmodel.category import Category
+
 # .recipe_get_all()
 browse_bp = Blueprint('browse_bp', __name__)
 
@@ -22,7 +24,21 @@ def browse():
     list_of_recipes = repo.repo_instance.recipe_get_all()
     total = len(list_of_recipes)
     total_pages = ceil(total / PER_PAGE) if total else 1
-    # can also just do static total_pages = 205
+
+
+    selected_category = request.args.get('category')
+
+    categories = {}
+    for r in list_of_recipes:
+        name = r.category
+        categories.setdefault(name.name)
+        if r not in name.recipes:
+            name.add_recipe(r)
+
+    sorted_items = sorted(categories.items())
+    num_categories = len(categories)
+
+
 
     # guard dont need: if page out of range, redirect to page 1 (or abort(404))
     # if page < 1 or page > total_pages:
@@ -48,4 +64,9 @@ def browse():
         page_numbers=page_numbers,
         show_first=show_first,
         show_last=show_last,
+        categories=sorted_items,
+        selected_category=selected_category,
+
+        num_categories=num_categories,
+
     )

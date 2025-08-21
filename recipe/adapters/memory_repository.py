@@ -56,6 +56,9 @@ class MemoryRepository(AbstractRepository):
     def recipe_get_all(self):
         return self.__recipes
 
+    def recipes_get_all_by_category(self, category_name):
+        return [recipe for recipe in self.__recipes if recipe.category_name == category_name]
+
     def recipe_dict_add(self, recipe):
         if not isinstance(recipe, Recipe):
             raise ValueError("Recipe must be provided as an instance of Recipe.")
