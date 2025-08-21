@@ -111,10 +111,9 @@ a {
 }
 
 .recipe-hero img {
-  max-width: 600px;
-  width: 100%;
-  height: auto;
-  border-radius: 16px;
+  height: 250px;
+  width: auto;
+  border-radius: 10px;
   box-shadow: 0 4px 12px rgba(0,0,0,0.08);
 }
 
@@ -396,4 +395,26 @@ a {
     left: 50%;
     transform: translate(-50%, -50%);
     color: white;
+}
+
+/* Breadcrumbs */
+.breadcrumbs {
+    padding: 0 8px;
+}
+.breadcrumbs a {
+    color: #3a7f7f;
+}
+
+.breadcrumbs a:hover {
+    color: #2e5c5c;
+    text-decoration: underline;
+}
+
+.breadcrumbs span {
+    color: rgba(200, 200, 200, 0.9);
+}
+
+.breadcrumbs .last {
+    color: darkslategray;
+    font-weight: bold;
 }
