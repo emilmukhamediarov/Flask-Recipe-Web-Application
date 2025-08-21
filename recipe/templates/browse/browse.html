@@ -18,6 +18,11 @@
     <button type="submit">Filter</button>
     <a href="{{ url_for( 'browse_bp.browse') }}">RESET</a>
 </form>
+<ul>
+  {% for name in categories %}
+    <li><a href="{{ url_for('browse_bp.browse', category=name) }}">{{ name }}</a></li>
+  {% endfor %}
+</ul>
 
 
 <main class="container">
