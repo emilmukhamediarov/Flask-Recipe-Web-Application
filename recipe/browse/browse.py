@@ -27,7 +27,8 @@ def browse():
 
     selected_category = request.args.get('category')
     all_categories = repo.repo_instance.category_get_all()
-    print(all_categories[0].name)
+    sorted_categories = sorted(all_categories, key=lambda category: category.name)
+    print(len(all_categories[0].recipes))
     print(len(all_categories))
     print(all_categories)
 
@@ -68,7 +69,7 @@ def browse():
         page_numbers=page_numbers,
         show_first=show_first,
         show_last=show_last,
-        categories=all_categories,
+        categories=sorted_categories,
         selected_category=selected_category,
 
         num_categories=num_categories,
