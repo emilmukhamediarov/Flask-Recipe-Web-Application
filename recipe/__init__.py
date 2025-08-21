@@ -32,5 +32,4 @@ def create_app():
         from .browse import browse
         app.register_blueprint(browse.browse_bp)
 
-
     return app

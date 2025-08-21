@@ -41,7 +41,7 @@ def browse():
     show_last = total_pages not in page_numbers
 
     return render_template(
-        'samples/browse.html',
+        '/browse/browse.html',
         recipes=page_recipes,
         page=page,
         total_pages=total_pages,
