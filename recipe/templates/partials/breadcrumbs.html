@@ -1,0 +1,10 @@
+<nav class="breadcrumbs">
+    {% for label, link in breadcrumbs %}
+        {% if not loop.last %}
+            <a href="{{link}}">{{label}}</a>
+            <span>/</span>
+    {% else %}
+        <span class="last">{{label}}</span>
+        {% endif %}
+    {% endfor %}
+</nav>

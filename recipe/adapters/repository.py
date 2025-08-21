@@ -57,6 +57,12 @@ class AbstractRepository(abc.ABC):
         """Returns a list of Recipes"""
         raise NotImplementedError
 
+    @abc.abstractmethod
+    def recipes_get_all_by_category(self, category_name) -> List[Recipe]:
+        """Returns a list of Recipes by category"""
+        raise NotImplementedError
+
+    @abc.abstractmethod
     def recipe_dict_add(self, recipe):
         """Adds a Recipe to the dictionary"""
         raise NotImplementedError
@@ -64,6 +70,21 @@ class AbstractRepository(abc.ABC):
     @abc.abstractmethod
     def recipe_get_by_id(self, recipe_id):
         """Returns a Recipe by its id"""
+        raise NotImplementedError
+
+    @abc.abstractmethod
+    def recipe_get_quantity(self):
+        """Returns the quantity the recipes"""
+        raise NotImplementedError
+
+    @abc.abstractmethod
+    def recipe_get_random(self):
+        """Returns a random Recipe"""
+        raise NotImplementedError
+
+    @abc.abstractmethod
+    def recipe_get_latest(self, num: int):
+        """Returns the latest Recipe"""
         raise NotImplementedError
 
     """
