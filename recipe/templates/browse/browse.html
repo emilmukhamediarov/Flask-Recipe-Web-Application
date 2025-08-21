@@ -1,5 +1,8 @@
 {% extends 'layout.html' %} {% block content %}
 
+<main class="container">
+    <h1>Browse Recipes</h1>
+
     <div class="recipes-grid" id="results">
       {% for recipe in recipes %}
       <article class="recipe-card">
@@ -46,4 +49,5 @@
       {% endif %}
     </nav>
 
+</main>
 {% endblock %}
