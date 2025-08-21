@@ -17,38 +17,37 @@ def browse():
         ("Home", url_for("home_bp.home")),
         ("Browse", url_for("browse_bp.browse"))
     ]
-    # recipes = repo.repo_instance.recipe_get_all()
-    # number_of_recipes = len(recipes)
-    # random_0 = recipes[0]
-    # random_recipe = random.choice(recipes)
-    # return render_template('samples/browse.html', recipes=recipes, recipe=random_0, number_of_recipes=number_of_recipes, random_recipe=random_recipe)
 
-    # page number from query string, default 1
     page = request.args.get('page', 1, type=int)
     list_of_recipes = repo.repo_instance.recipe_get_all()
     total = len(list_of_recipes)
     total_pages = ceil(total / PER_PAGE) if total else 1
 
 
+
     selected_category = request.args.get('category')
+    all_categories = repo.repo_instance.category_get_all()
+    print(all_categories[0].name)
+    print(len(all_categories))
+    print(all_categories)
 
-    # categories = {}
-    # for r in list_of_recipes:
-    #     name = r.category
-    #     categories.setdefault(name.name)
-    #     if r not in name.recipes:
-    #         name.add_recipe(r)
+    categories = {}
+    for r in list_of_recipes:
+        name = r.category.name if hasattr(r.category, 'name') else str(r.category)
+        if not name:
+            continue
+        if name not in categories:
+            categories[name] = Category(name)
+        if r not in categories[name].recipes:
+            categories[name].add_recipe(r)
+    # for i in range(len(list_of_recipes)):
+    #     recipe = list_of_recipes[i]
+    #     categories[recipe.category] = i
 
-    categories = repo.repo_instance.category_get_all()
-
-    sorted_items = sorted([c.name for c in categories])
+    sorted_items = sorted(categories.items())
     num_categories = len(categories)
 
 
-
-    # guard dont need: if page out of range, redirect to page 1 (or abort(404))
-    # if page < 1 or page > total_pages:
-    #     return redirect(url_for('browse', page=1))
 
     start = (page - 1) * PER_PAGE
     end = start + PER_PAGE
@@ -69,7 +68,7 @@ def browse():
         page_numbers=page_numbers,
         show_first=show_first,
         show_last=show_last,
-        categories=sorted_items,
+        categories=all_categories,
         selected_category=selected_category,
 
         num_categories=num_categories,

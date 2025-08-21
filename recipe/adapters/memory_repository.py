@@ -36,8 +36,10 @@ class MemoryRepository(AbstractRepository):
     def category_add(self, category):
         if not isinstance(category, Category):
             raise ValueError("Category must be provided as an instance of Category.")
-        if category not in self.__categories:
-            print("New Category: " + category.name)
+        # if category not in self.__categories:
+        #     self.__categories.append(category)
+        # omg equality check
+        if self.category_get_by_name(category.name) is None:
             self.__categories.append(category)
 
     def category_get_by_name(self, category_name):
@@ -128,6 +130,12 @@ class MemoryRepository(AbstractRepository):
 
             author = Author(author_id = author_id, name = author_name)
             category = Category(name = category_name)
+            existing = self.category_get_by_name(category_name)
+            if existing is None:
+                category = Category(name=category_name)
+                self.category_add(category)
+            else:
+                category = existing
 
             nutrition_data = {}
             nutrition = Nutrition(nutrition_data)
@@ -165,7 +173,10 @@ class MemoryRepository(AbstractRepository):
 
             recipe.rating = None
 
+            if recipe not in category.recipes:
+                category.add_recipe(recipe)
 
+            # do i need this below?
             category.add_recipe(recipe)
             author.add_recipe(recipe)
 
