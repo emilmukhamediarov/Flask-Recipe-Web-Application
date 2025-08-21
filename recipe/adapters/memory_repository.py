@@ -1,3 +1,4 @@
+import random
 from typing import List
 import ast
 from bisect import insort_left
@@ -68,6 +69,15 @@ class MemoryRepository(AbstractRepository):
         if not recipe_id in self.__recipes_dict:
             raise ValueError("Recipe with id {} not found".format(recipe_id))
         return self.__recipes_dict[recipe_id]
+
+    def recipe_get_quantity(self):
+        return len(self.__recipes)
+
+    def recipe_get_random(self):
+        return random.choice(self.__recipes)
+
+    def recipe_get_latest(self, num: int):
+        return self.__recipes[-num:]
 
     """
     def nutrition_add(self, nutrition):

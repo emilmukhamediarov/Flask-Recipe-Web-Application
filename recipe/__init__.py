@@ -25,11 +25,13 @@ def create_app():
         from .home import home
         app.register_blueprint(home.home_bp)
 
-
         from .recipedetails import recipedetails
         app.register_blueprint(recipedetails.recipe_details_bp)
 
         from .browse import browse
         app.register_blueprint(browse.browse_bp)
+
+        from .utilities import utilities
+        app.register_blueprint(utilities.utilities_bp)
 
     return app

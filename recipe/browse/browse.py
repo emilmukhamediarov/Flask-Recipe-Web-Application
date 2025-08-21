@@ -13,6 +13,10 @@ PER_PAGE = 12
 
 @browse_bp.route('/browse', methods=['GET'])
 def browse():
+    breadcrumbs = [
+        ("Home", url_for("home_bp.home")),
+        ("Browse", url_for("browse_bp.browse"))
+    ]
     # recipes = repo.repo_instance.recipe_get_all()
     # number_of_recipes = len(recipes)
     # random_0 = recipes[0]
@@ -48,7 +52,6 @@ def browse():
     end = start + PER_PAGE
     page_recipes = list_of_recipes[start:end]
 
-
     window_start = max(1, page - 2)
     window_end = min(total_pages, page + 2)
     page_numbers = list(range(window_start, window_end + 1))
@@ -69,4 +72,5 @@ def browse():
 
         num_categories=num_categories,
 
+        breadcrumbs=breadcrumbs
     )
