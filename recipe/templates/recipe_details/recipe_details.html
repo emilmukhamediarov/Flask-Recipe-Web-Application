@@ -76,6 +76,12 @@
               <li>{{ recipe.ingredient_quantities[i] }} {{ recipe.ingredients[i] }}</li>
             {% endfor %}
           </ul>
+          <h4>Nutritional Values</h4>
+          <ul class="ingredients">
+            {% for key, value in recipe.nutrition.data.items() %}
+              <li>{{ key }} : {{ value }}</li>
+            {% endfor %}
+          </ul>
         </div>
       </aside>
     </div>
