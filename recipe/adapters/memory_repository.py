@@ -1,3 +1,4 @@
+import random
 from typing import List
 import ast
 from bisect import insort_left
@@ -35,7 +36,10 @@ class MemoryRepository(AbstractRepository):
     def category_add(self, category):
         if not isinstance(category, Category):
             raise ValueError("Category must be provided as an instance of Category.")
-        if category not in self.__categories:
+        # if category not in self.__categories:
+        #     self.__categories.append(category)
+        # omg equality check
+        if self.category_get_by_name(category.name) is None:
             self.__categories.append(category)
 
     def category_get_by_name(self, category_name):
@@ -56,6 +60,9 @@ class MemoryRepository(AbstractRepository):
     def recipe_get_all(self):
         return self.__recipes
 
+    def recipes_get_all_by_category(self, category_name):
+        return [recipe for recipe in self.__recipes if recipe.category.name == category_name]
+
     def recipe_dict_add(self, recipe):
         if not isinstance(recipe, Recipe):
             raise ValueError("Recipe must be provided as an instance of Recipe.")
@@ -65,6 +72,15 @@ class MemoryRepository(AbstractRepository):
         if not recipe_id in self.__recipes_dict:
             raise ValueError("Recipe with id {} not found".format(recipe_id))
         return self.__recipes_dict[recipe_id]
+
+    def recipe_get_quantity(self):
+        return len(self.__recipes)
+
+    def recipe_get_random(self):
+        return random.choice(self.__recipes)
+
+    def recipe_get_latest(self, num: int):
+        return self.__recipes[-num:]
 
     """
     def nutrition_add(self, nutrition):
@@ -114,6 +130,12 @@ class MemoryRepository(AbstractRepository):
 
             author = Author(author_id = author_id, name = author_name)
             category = Category(name = category_name)
+            existing = self.category_get_by_name(category_name)
+            if existing is None:
+                category = Category(name=category_name)
+                self.category_add(category)
+            else:
+                category = existing
 
             nutrition_data = {}
             nutrition = Nutrition(nutrition_data)
@@ -151,8 +173,11 @@ class MemoryRepository(AbstractRepository):
 
             recipe.rating = None
 
+            if recipe not in category.recipes:
+                category.add_recipe(recipe)
 
-            category.add_recipe(recipe)
+            # do i need this below?
+            # category.add_recipe(recipe)
             author.add_recipe(recipe)
 
             self.author_add(author)
