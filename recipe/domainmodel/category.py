@@ -2,8 +2,7 @@ from recipe.domainmodel.recipe import Recipe
 
 class Category:
 
-    def __init__(self, name: str, recipes: list[Recipe] = None, category_id: int = None):
-        self.__id = category_id
+    def __init__(self, name: str, recipes: list[Recipe] = None):
         self.__name = name
         self.__recipes = recipes if recipes is not None else []
 
@@ -13,19 +12,15 @@ class Category:
     def __eq__(self, other) -> bool:
         if not isinstance(other, Category):
             return False
-        return self.id == other.id
+        return self.__name == other.name
 
     def __lt__(self, other) -> bool:
         if not isinstance(other, Category):
             raise TypeError("Comparison must be between Category instances")
-        return self.id < other.id
+        return self.__name < other.name
 
     def __hash__(self) -> int:
-        return hash(self.id)
-
-    @property
-    def id(self) -> int:
-        return self.__id
+        return hash(self.__name)
 
     @property
     def name(self) -> str:

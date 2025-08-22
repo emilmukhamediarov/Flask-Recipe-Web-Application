@@ -28,9 +28,9 @@ def browse():
     selected_category = request.args.get('category')
     all_categories = repo.repo_instance.category_get_all()
     sorted_categories = sorted(all_categories, key=lambda category: category.name)
-    print(len(all_categories[0].recipes))
-    print(len(all_categories))
-    print(all_categories)
+    # print(len(all_categories[0].recipes))
+    # print(len(all_categories))
+    # print(all_categories)
 
     categories = {}
     for r in list_of_recipes:
