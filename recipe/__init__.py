@@ -1,10 +1,11 @@
 """Initialize Flask app."""
 from datetime import datetime
+from pathlib import Path
+
 from flask import Flask, render_template
 
 import recipe.adapters.repository as repo
-from recipe.adapters.memory_repository import MemoryRepository
-from recipe.adapters.datareader.csv_data_reader import CSVDataReader
+from recipe.adapters.memory_repository import MemoryRepository, populate
 
 from recipe.domainmodel.recipe import Recipe
 from recipe.domainmodel.author import Author
@@ -15,10 +16,10 @@ def create_app():
     # Create the Flask app object.
     app = Flask(__name__)
 
-    reader = CSVDataReader()
-    data = reader.read()
+    data_path = Path('recipe') / 'adapters' / 'data'
+
     repo.repo_instance = MemoryRepository()
-    repo.repo_instance.populate(data)
+    populate(data_path, repo.repo_instance)
 
 
     with app.app_context():

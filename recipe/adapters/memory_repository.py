@@ -3,6 +3,7 @@ from typing import List
 import ast
 from bisect import insort_left
 
+from recipe.adapters.datareader.csv_data_reader import CSVDataReader
 from recipe.domainmodel.author import Author
 from recipe.domainmodel.category import Category
 from recipe.domainmodel.nutrition import Nutrition
@@ -94,96 +95,98 @@ class MemoryRepository(AbstractRepository):
     """
 
 
-    def populate(self, data):
+def populate(data_path, repo):
+    reader = CSVDataReader(data_path)
+    data = reader.read()
 
-        for row in data:
+    for row in data:
 
-            #reading and storing data of each column from the csv file
-            recipe_id = int(row["RecipeId"])
-            recipe_name = row["Name"]
-            author_id = int(row["AuthorId"])
-            author_name = row["AuthorName"]
-            recipe_cook_time = int(row["CookTime"])
-            recipe_prep_time = int(row["PrepTime"])
-            recipe_total_time = int(row["TotalTime"])
-            recipe_date = datetime.strptime(re.sub(r'(\d+)(st|nd|rd|th)', r'\1', row["DatePublished"]), "%d %b %Y")
-            recipe_description = row["Description"]
-            recipe_images = ast.literal_eval(row["Images"])
-            category_name = row["RecipeCategory"]
-            ingredient_quantities = ast.literal_eval(row["RecipeIngredientQuantities"])
-            ingredient_parts = ast.literal_eval(row["RecipeIngredientParts"])
+        #reading and storing data of each column from the csv file
+        recipe_id = int(row["RecipeId"])
+        recipe_name = row["Name"]
+        author_id = int(row["AuthorId"])
+        author_name = row["AuthorName"]
+        recipe_cook_time = int(row["CookTime"])
+        recipe_prep_time = int(row["PrepTime"])
+        recipe_total_time = int(row["TotalTime"])
+        recipe_date = datetime.strptime(re.sub(r'(\d+)(st|nd|rd|th)', r'\1', row["DatePublished"]), "%d %b %Y")
+        recipe_description = row["Description"]
+        recipe_images = ast.literal_eval(row["Images"])
+        category_name = row["RecipeCategory"]
+        ingredient_quantities = ast.literal_eval(row["RecipeIngredientQuantities"])
+        ingredient_parts = ast.literal_eval(row["RecipeIngredientParts"])
 
-            calories = float(row["Calories"])
-            fat_content = float(row["FatContent"])
-            saturated_fat_content = float(row["SaturatedFatContent"])
-            cholesterol_content = float(row["CholesterolContent"])
-            sodium_content = float(row["SodiumContent"])
-            carbohydrate_content = float(row["CarbohydrateContent"])
-            fiber_content = float(row["FiberContent"])
-            sugar_content = float(row["SugarContent"])
-            protein_content = float(row["ProteinContent"])
+        calories = float(row["Calories"])
+        fat_content = float(row["FatContent"])
+        saturated_fat_content = float(row["SaturatedFatContent"])
+        cholesterol_content = float(row["CholesterolContent"])
+        sodium_content = float(row["SodiumContent"])
+        carbohydrate_content = float(row["CarbohydrateContent"])
+        fiber_content = float(row["FiberContent"])
+        sugar_content = float(row["SugarContent"])
+        protein_content = float(row["ProteinContent"])
 
-            recipe_servings = row["RecipeServings"]
-            recipe_yield = row["RecipeYield"]
+        recipe_servings = row["RecipeServings"]
+        recipe_yield = row["RecipeYield"]
 
-            recipe_instructions = ast.literal_eval(row["RecipeInstructions"])
+        recipe_instructions = ast.literal_eval(row["RecipeInstructions"])
 
-            author = Author(author_id = author_id, name = author_name)
-            category = Category(name = category_name)
-            existing = self.category_get_by_name(category_name)
-            if existing is None:
-                category = Category(name=category_name)
-                self.category_add(category)
-            else:
-                category = existing
+        author = Author(author_id = author_id, name = author_name)
+        category = Category(name = category_name)
+        existing = repo.category_get_by_name(category_name)
+        if existing is None:
+            category = Category(name=category_name)
+            repo.category_add(category)
+        else:
+            category = existing
 
-            nutrition_data = {}
-            nutrition = Nutrition(nutrition_data)
-            nutrition.data["Calories"] = calories
-            nutrition.data["Fat"] = fat_content
-            nutrition.data["Saturated Fat"] =  saturated_fat_content
-            nutrition.data["Cholesterol"] = cholesterol_content
-            nutrition.data["Sodium"] = sodium_content
-            nutrition.data["Carbohydrates"] = carbohydrate_content
-            nutrition.data["Fiber"] = fiber_content
-            nutrition.data["Sugar"] = sugar_content
-            nutrition.data["Protein"] = protein_content
+        nutrition_data = {}
+        nutrition = Nutrition(nutrition_data)
+        nutrition.data["Calories"] = calories
+        nutrition.data["Fat"] = fat_content
+        nutrition.data["Saturated Fat"] =  saturated_fat_content
+        nutrition.data["Cholesterol"] = cholesterol_content
+        nutrition.data["Sodium"] = sodium_content
+        nutrition.data["Carbohydrates"] = carbohydrate_content
+        nutrition.data["Fiber"] = fiber_content
+        nutrition.data["Sugar"] = sugar_content
+        nutrition.data["Protein"] = protein_content
 
-            recipe = Recipe(recipe_id = recipe_id, name = recipe_name, author = author)
+        recipe = Recipe(recipe_id = recipe_id, name = recipe_name, author = author)
 
-            recipe.nutrition = nutrition
-            recipe.category = category
+        recipe.nutrition = nutrition
+        recipe.category = category
 
-            recipe.cook_time = recipe_cook_time
-            recipe.preparation_time = recipe_prep_time
-            recipe.total_time = recipe_total_time
-            recipe.date = recipe_date
-            recipe.description = recipe_description
-            recipe.images = recipe_images
-            recipe.ingredients = ingredient_parts
-            recipe.ingredient_quantities = ingredient_quantities
+        recipe.cook_time = recipe_cook_time
+        recipe.preparation_time = recipe_prep_time
+        recipe.total_time = recipe_total_time
+        recipe.date = recipe_date
+        recipe.description = recipe_description
+        recipe.images = recipe_images
+        recipe.ingredients = ingredient_parts
+        recipe.ingredient_quantities = ingredient_quantities
 
-            if recipe_servings != "NA":
-                recipe.servings = int(recipe_servings)  # if "NA" then we revert to the default value -> "Not Specified"
+        if recipe_servings != "NA":
+            recipe.servings = int(recipe_servings)  # if "NA" then we revert to the default value -> "Not Specified"
 
-            if recipe_yield != "NA":
-                recipe.recipe_yield = recipe_yield  # if "NA" then we revert to the default value -> "Not Specified"
+        if recipe_yield != "NA":
+            recipe.recipe_yield = recipe_yield  # if "NA" then we revert to the default value -> "Not Specified"
 
-            recipe.instructions = recipe_instructions
+        recipe.instructions = recipe_instructions
 
-            recipe.rating = None
+        recipe.rating = None
 
-            if recipe not in category.recipes:
-                category.add_recipe(recipe)
+        if recipe not in category.recipes:
+            category.add_recipe(recipe)
 
-            # do i need this below?
-            # category.add_recipe(recipe)
-            author.add_recipe(recipe)
+        # do i need this below?
+        # category.add_recipe(recipe)
+        author.add_recipe(recipe)
 
-            self.author_add(author)
-            self.recipe_add(recipe)
-            self.recipe_dict_add(recipe)
-            self.category_add(category)
+        repo.author_add(author)
+        repo.recipe_add(recipe)
+        repo.recipe_dict_add(recipe)
+        repo.category_add(category)
 
 
 
