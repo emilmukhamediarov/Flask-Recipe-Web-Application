@@ -1,8 +1,3 @@
-from typing import TYPE_CHECKING, List
-
-if TYPE_CHECKING:
-    from recipe.domainmodel.recipe import Recipe
-
 import recipe.adapters.repository as repo
 
 NUMBER_OF_FEATURE_RECIPES = 4
