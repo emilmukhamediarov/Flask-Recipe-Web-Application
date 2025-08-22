@@ -14,7 +14,7 @@ repo_instance = None
 class AbstractRepository(abc.ABC):
 
     @abc.abstractmethod
-    def author_add(self, author):
+    def author_add(self, author) -> None:
         """Adds an Author to the repository"""
         raise NotImplementedError
 
@@ -29,21 +29,32 @@ class AbstractRepository(abc.ABC):
         raise NotImplementedError
 
     @abc.abstractmethod
-    def category_add(self, category):
+    def category_add(self, category) -> None:
         """Adds a Category to the repository"""
         raise NotImplementedError
+
     @abc.abstractmethod
     def category_get_by_name(self, category_name) -> Category:
         """Returns a Category by its name"""
         raise NotImplementedError
 
     @abc.abstractmethod
-    def category_get_all(self):
+    def category_add_by_name(self, category_name) -> Category:
+        """Creates a new Category with the given name and returns the new object"""
+        raise NotImplementedError
+
+    @abc.abstractmethod
+    def category_get_all(self) -> List[Category]:
         """Returns a list of Categories"""
         raise NotImplementedError
 
     @abc.abstractmethod
-    def recipe_add(self, recipe):
+    def category_get_all_names(self) -> List[str]:
+        """Returns a list of Category Names"""
+        raise NotImplementedError
+
+    @abc.abstractmethod
+    def recipe_add(self, recipe) -> None:
         """Adds a Recipe to the repository"""
         raise NotImplementedError
 
@@ -53,7 +64,7 @@ class AbstractRepository(abc.ABC):
         raise NotImplementedError
 
     @abc.abstractmethod
-    def recipe_get_all(self):
+    def recipe_get_all(self) -> List[Recipe]:
         """Returns a list of Recipes"""
         raise NotImplementedError
 
@@ -63,36 +74,21 @@ class AbstractRepository(abc.ABC):
         raise NotImplementedError
 
     @abc.abstractmethod
-    def recipe_dict_add(self, recipe):
-        """Adds a Recipe to the dictionary"""
-        raise NotImplementedError
-
-    @abc.abstractmethod
-    def recipe_get_by_id(self, recipe_id):
+    def recipe_get_by_id(self, recipe_id) -> Recipe:
         """Returns a Recipe by its id"""
         raise NotImplementedError
 
     @abc.abstractmethod
-    def recipe_get_quantity(self):
+    def recipe_get_quantity(self) -> int:
         """Returns the quantity the recipes"""
         raise NotImplementedError
 
     @abc.abstractmethod
-    def recipe_get_random(self):
+    def recipe_get_random(self) -> Recipe:
         """Returns a random Recipe"""
         raise NotImplementedError
 
     @abc.abstractmethod
-    def recipe_get_latest(self, num: int):
+    def recipe_get_latest(self, num: int) -> List[Recipe]:
         """Returns the latest Recipe"""
         raise NotImplementedError
-
-    """
-    @abc.abstractmethod
-    def nutrition_add(self, recipe):
-        raise NotImplementedError
-
-    @abc.abstractmethod
-    def nutrition_get_all(self):
-        raise NotImplementedError
-    """
