@@ -10,7 +10,7 @@ def get_recipe_details(recipe_id):
     breadcrumbs = [
         ("Home", url_for("home_bp.home")),
         ("Browse", url_for("browse_bp.browse")),
-        (get_recipe.category.name, url_for("browse_bp.browse")),
+        (get_recipe.category.name, url_for("browse_bp.browse", category=get_recipe.category.name)),
         (get_recipe.name, url_for("recipe_details_bp.get_recipe_details", recipe_id=get_recipe.id)),
 
     ]

@@ -176,10 +176,14 @@ def populate(data_path, repo):
 
         repo.recipe_add(recipe)
 
-        # repo.author_add(author)
-        # repo.recipe_add(recipe)
-        # repo.recipe_dict_add(recipe)
-        # repo.category_add(category)
+    #Enforce minimum 1 recipe to simplify other functions
+    if repo.recipe_get_quantity() < 1:
+        repo.recipe_add(Recipe(
+            0,
+            "NO RECIPES FOUND",
+            Author(0, ""),
+            Category("")
+        ))
 
 
 
