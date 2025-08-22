@@ -61,7 +61,7 @@ class MemoryRepository(AbstractRepository):
         return self.__recipes
 
     def recipes_get_all_by_category(self, category_name):
-        return [recipe for recipe in self.__recipes if recipe.category_name == category_name]
+        return [recipe for recipe in self.__recipes if recipe.category.name == category_name]
 
     def recipe_dict_add(self, recipe):
         if not isinstance(recipe, Recipe):
