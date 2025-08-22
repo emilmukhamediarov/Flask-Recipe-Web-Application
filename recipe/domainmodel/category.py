@@ -7,7 +7,7 @@ class Category:
         self.__recipes = recipes if recipes is not None else []
 
     def __repr__(self) -> str:
-        return f"<Category {self.id}: {self.name}>"
+        return f"<Category: {self.name}>"
 
     def __eq__(self, other) -> bool:
         if not isinstance(other, Category):

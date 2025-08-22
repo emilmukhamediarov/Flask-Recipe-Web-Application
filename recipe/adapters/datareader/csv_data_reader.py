@@ -10,12 +10,12 @@ from recipe.domainmodel.favourite import Favourite
 from recipe.domainmodel.review import Review
 
 class CSVDataReader:
-    def __init__(self):
+    def __init__(self, data_path):
         base_dir = Path(__file__).parent.parent.parent
-        self._data_path = (base_dir / 'adapters' / 'data' / 'recipes.csv').resolve()
+        self._data_path = str(data_path / 'recipes.csv')
 
     def read(self):
-        if not self._data_path.exists():
+        if not self._data_path:
             raise FileNotFoundError(f'{self._data_path} does not exist')
 
         with open(self._data_path, mode='r', encoding='utf-8') as csv_file:
