@@ -12,7 +12,7 @@ def get_recipes():
     return repo.repo_instance.recipe_get_all()
 
 def get_categories():
-    return sorted(repo.repo_instance.category_get_all())
+    return sorted(repo.repo_instance.category_get_all_names())
 
 def get_pagination(recipes : List["Recipe"], page : int):
     number_of_recipes = len(recipes)
