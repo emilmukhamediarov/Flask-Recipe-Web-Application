@@ -422,3 +422,31 @@ a {
     color: darkslategray;
     font-weight: bold;
 }
+
+/* Filters Toggle */
+#toggle {
+    display: none;
+}
+
+label[for="toggle"] {
+    display: inline-block;
+    background: #6ab547;
+    color: white;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+label[for="toggle"]:hover {
+    background: #4e8c33;
+}
+
+#filters {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.6s ease;
+}
+#toggle:checked ~ #filters {
+    max-height: fit-content;
+}
