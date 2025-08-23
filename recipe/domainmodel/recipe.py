@@ -78,6 +78,10 @@ class Recipe:
     def author(self) -> "Author":
         return self.__author
 
+    @author.setter
+    def author(self, author: "Author") -> None:
+        self.__author = author
+
     @property
     def cook_time(self) -> int:
         return self.__cook_time

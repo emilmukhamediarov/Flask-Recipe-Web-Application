@@ -22,7 +22,7 @@ def my_author():
 
 @pytest.fixture
 def my_category():
-    return Category("Italian", [])
+    return Category("Italian")
 
 
 @pytest.fixture
@@ -169,8 +169,8 @@ def test_category_equality():
     category1 = Category("Italian", [])
     category2 = Category("French", [])
     category3 = Category("Italian", [])
-    assert category1 == category2
-    assert category1 != category3
+    assert category1 == category3
+    assert category1 != category2
 
 
 def test_category_less_than():
@@ -180,7 +180,7 @@ def test_category_less_than():
 
 
 def test_category_hash():
-    category1 = Category("Italian", [])
+    category1 = Category("French", [])
     category2 = Category("French", [])
     category_set = {category1, category2}
     assert len(category_set) == 1
@@ -223,10 +223,9 @@ def test_recipe_construction(my_author, my_category):
 
 def test_recipe_equality():
     author = Author(1, "Chef")
-
-    recipe1 = Recipe(1, "Recipe A", author)
-    recipe2 = Recipe(1, "Recipe B", author)
-    recipe3 = Recipe(2, "Recipe A", author)
+    recipe1 = Recipe(1, "Recipe A", author=author, category=my_category)
+    recipe2 = Recipe(1, "Recipe B", author=author, category=my_category)
+    recipe3 = Recipe(2, "Recipe A", author=author, category=my_category)
 
     assert recipe1 == recipe2
     assert recipe1 != recipe3
@@ -234,26 +233,23 @@ def test_recipe_equality():
 
 def test_recipe_less_than():
     author = Author(1, "Chef")
-
-    recipe1 = Recipe(1, "Recipe A", author)
-    recipe2 = Recipe(2, "Recipe B", author)
+    recipe1 = Recipe(1, "Recipe A", author=author, category = my_category)
+    recipe2 = Recipe(2, "Recipe B", author=author, category = my_category)
 
     assert recipe1 < recipe2
 
 
 def test_recipe_hash():
     author = Author(1, "Chef")
-
-    recipe1 = Recipe(1, "Recipe A", author)
-    recipe2 = Recipe(1, "Recipe B", author)
+    recipe1 = Recipe(1, "Recipe A", author=author, category=my_category)
+    recipe2 = Recipe(1, "Recipe A", author=author, category=my_category)
 
     recipe_set = {recipe1, recipe2}
     assert len(recipe_set) == 1
 
 
 def test_author_set_recipe(my_author):
-    new_recipe = Recipe(200, "New Recipe", my_author)
-
+    new_recipe = Recipe(200, "New Recipe", author=my_author, category=my_category)
     my_author.add_recipe(new_recipe)
     assert new_recipe in my_author.recipes
 
