@@ -21,7 +21,6 @@ def create_app():
     repo.repo_instance = MemoryRepository()
     populate(data_path, repo.repo_instance)
 
-
     with app.app_context():
         from .home import home
         app.register_blueprint(home.home_bp)

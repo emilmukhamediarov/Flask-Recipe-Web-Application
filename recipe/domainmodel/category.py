@@ -1,8 +1,11 @@
-from recipe.domainmodel.recipe import Recipe
+from typing import TYPE_CHECKING, List
+
+if TYPE_CHECKING:
+    from recipe.domainmodel.recipe import Recipe
 
 class Category:
 
-    def __init__(self, name: str, recipes: list[Recipe] = None):
+    def __init__(self, name: str, recipes: List["Recipe"] = None):
         self.__name = name
         self.__recipes = recipes if recipes is not None else []
 
@@ -27,11 +30,13 @@ class Category:
         return self.__name
 
     @property
-    def recipes(self) -> list[Recipe]:
+    def recipes(self) -> List["Recipe"]:
         return self.__recipes
 
-    def add_recipe(self, recipe: Recipe) -> None:
-        if isinstance(recipe, Recipe):
-            self.__recipes.append(recipe)
-        else:
+    def add_recipe(self, recipe: "Recipe") -> None:
+        from recipe.domainmodel.recipe import Recipe
+        if not isinstance(recipe, Recipe):
             raise TypeError("Expected a Recipe instance")
+        if recipe not in self.__recipes:
+            self.__recipes.append(recipe)
+
