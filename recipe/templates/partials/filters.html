@@ -1,11 +1,11 @@
 <input type="checkbox" id="toggle">
 <label for="toggle">Show Filters</label>
 
-<div id="filters">
+<div id="filters" >
     <form method="get" action="">
             <!-- Sort Dropdown -->
             <label for="sort">Sort By:</label>
-            <select name="sort" id="sort">
+            <select name="sort" id="sort" onchange="this.form.submit()">
                 {% if not selected_sort %}
                     <option value="" selected>Sort By...</option>
                 {% else %}
@@ -20,7 +20,7 @@
 
             <!-- Category Dropdown -->
             <label for="category">Category:</label>
-            <select name="category" id="category" {% if selected_author %}disabled{% endif %}>
+            <select name="category" id="category" onchange="this.form.submit()" {% if selected_author %}disabled{% endif %}>
                 {% if not selected_category %}
                     <option value="" selected>Select Category...</option>
                 {% else %}
@@ -35,7 +35,7 @@
 
             <!-- Author Dropdown -->
             <label for="author">Author:</label>
-            <select name="author" id="author" {% if selected_category %}disabled{% endif %}>
+            <select name="author" id="author" onchange="this.form.submit()" {% if selected_category %}disabled{% endif %}>
                 {% if not selected_author %}
                     <option value="" selected>Select Author...</option>
                 {% else %}
