@@ -1,34 +1,9 @@
 {% extends 'layout.html' %}
 
 {% block content %}
-    <form method="get" action="">
-        <label>
-            <select name="category" required>
-                {% if not selected_category %}
-                    <option value="" selected disabled>Select Category...</option>
-                {% endif %}
-                {% if selected_category %}
-                    <option value="{{ selected_category }}" selected>{{ selected_category }}</option>
-                {% endif %}
-                {% for category in categories %}
-                    {% if category != selected_category %}
-                        <option value="{{ category }}">{{ category }}</option>
-                    {% endif %}
-                {% endfor %}
-            </select>
-        </label>
-        <button type="submit">Go</button>
-    </form>
 
-    <h1>
-        {% if selected_category %}
-            Showing items for {{ selected_category }}
-        {% else %}
-            Browse Recipes
-        {% endif %}
-    </h1>
+    {% include 'partials/filters.html' %}
 
-    <h1>Browse Recipes</h1>
     <div class="recipes-grid" id="results">
       {% for recipe in recipes %}
       <article class="recipe-card">
@@ -49,11 +24,11 @@
     <!-- pagination -->
     <nav class="pagination" aria-label="Recipes pages">
       {% if page > 1 %}
-        <a class="page prev" href="{{ url_for('browse_bp.browse', page=page-1) }}">‹ Prev</a>
+        <a class="page prev" href="{{ url_for('browse_bp.browse', page=page-1, sort=selected_sort, category=selected_category, author=selected_author) }}">‹ Prev</a>
       {% endif %}
 
       {% if show_first %}
-        <a class="page" href="{{ url_for('browse_bp.browse', page=1, category=selected_category) }}">1</a>
+        <a class="page" href="{{ url_for('browse_bp.browse', page=1, sort=selected_sort, category=selected_category, author=selected_author) }}">1</a>
         {% if page_numbers[0] > 2 %}<span class="ellipsis">…</span>{% endif %}
       {% endif %}
 
@@ -61,17 +36,17 @@
         {% if p == page %}
           <span class="page current">{{ p }}</span>
         {% else %}
-          <a class="page" href="{{ url_for('browse_bp.browse', page=p, category=selected_category) }}">{{ p }}</a>
+          <a class="page" href="{{ url_for('browse_bp.browse', page=p, sort=selected_sort, category=selected_category, author=selected_author) }}">{{ p }}</a>
         {% endif %}
       {% endfor %}
 
       {% if show_last %}
         {% if page_numbers[-1] < total_pages - 1 %}<span class="ellipsis">…</span>{% endif %}
-        <a class="page" href="{{ url_for('browse_bp.browse', page=total_pages, category=selected_category) }}">{{ total_pages }}</a>
+        <a class="page" href="{{ url_for('browse_bp.browse', page=total_pages, sort=selected_sort, category=selected_category) }}">{{ total_pages }}</a>
       {% endif %}
 
       {% if page < total_pages %}
-        <a class="page next" href="{{ url_for('browse_bp.browse', page=page+1) }}">Next ›</a>
+        <a class="page next" href="{{ url_for('browse_bp.browse', page=page+1, sort=selected_sort, category=selected_category, author=selected_author) }}">Next ›</a>
       {% endif %}
     </nav>
 {% endblock %}
