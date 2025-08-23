@@ -37,7 +37,7 @@ class MemoryRepository(AbstractRepository):
         return next((author for author in self.__authors if author.name == author_name), None)
 
     def author_get_by_id(self, author_id) -> Author:
-        return next((author for author in self.__authors if author_id == author_id), None)
+        return next((author for author in self.__authors if author.id == author_id), None)
 
     def author_get_all(self) -> List[Author]:
         return self.__authors
@@ -82,7 +82,7 @@ class MemoryRepository(AbstractRepository):
         return next((recipe for recipe in self.__recipes if recipe.name == recipe_name), None)
 
     def recipes_get_all_by_category(self, category_name) -> List[Recipe]:
-        return [recipe for recipe in self.__recipes if recipe.category_name == category_name]
+        return [recipe for recipe in self.__recipes if recipe.category.name == category_name]
 
     def recipe_get_by_id(self, recipe_id) -> Recipe:
         return next((recipe for recipe in self.__recipes if recipe.id == recipe_id), None)
