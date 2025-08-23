@@ -53,7 +53,8 @@ a {
 }
 
 .nav-links a:hover {
-  color: #6ab547; /* lime accent */
+  color: #6ab547;
+    transform: scale(1.03);
 }
 
 .nav-actions .button {
@@ -88,6 +89,7 @@ a {
 
 .button:hover {
   background: #e6c60f;
+    transform: scale(1.03);
 }
 
 /* ========== Recipe Page Layout ========== */
@@ -440,6 +442,7 @@ label[for="toggle"] {
 
 label[for="toggle"]:hover {
     background: #4e8c33;
+    transform: scale(1.03);
 }
 
 #filters {
@@ -504,4 +507,21 @@ label[for="toggle"]:hover {
 #slide3:checked ~ .image-dots label[for="slide3"],
 #slide4:checked ~ .image-dots label[for="slide4"] {
   background-color: #6ab547;
+}
+
+.back-button {
+  background: #f7d716;
+  color: #333;
+  padding: 10px 20px;
+  border-radius: 30px;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  display: inline-block;
+  text-align: center;
+}
+
+.back-button:hover {
+  background: #4e8c33;
+  transform: scale(1.03);
 }
