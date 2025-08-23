@@ -505,18 +505,3 @@ label[for="toggle"]:hover {
 #slide4:checked ~ .image-dots label[for="slide4"] {
   background-color: #6ab547;
 }
-.back-button {
-  display: inline-block;
-  margin: 10px 0 20px 0;  /* space above & below */
-  background: #6ab547;
-  color: white;
-  padding: 6px 14px;
-  border-radius: 16px;
-  font-weight: 600;
-  text-decoration: none;
-  font-size: 14px;
-}
-
-.back-button:hover {
-  background: #4e8c33;
-}
