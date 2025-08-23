@@ -37,7 +37,7 @@ class MemoryRepository(AbstractRepository):
         return next((author for author in self.__authors if author.name == author_name), None)
 
     def author_get_by_id(self, author_id) -> Author:
-        return next((author for author in self.__authors if author_id == author_id), None)
+        return next((author for author in self.__authors if author.id == author_id), None)
 
     def author_get_all(self) -> List[Author]:
         return self.__authors

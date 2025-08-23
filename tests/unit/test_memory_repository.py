@@ -10,10 +10,27 @@ def test_repository_can_add_an_author(in_memory_repo):
     in_memory_repo.author_add(author)
     assert in_memory_repo.author_get_by_name('John') is author
 
+def test_repository_can_add_an_author_by_id_and_name(in_memory_repo):
+    in_memory_repo.author_add_by_id_and_name(9999, 'Scientist')
+    assert in_memory_repo.author_get_by_name('Scientist').name == 'Scientist'
+
 def test_repository_can_get_an_author_by_name(in_memory_repo):
     author = Author (1, 'John')
     in_memory_repo.author_add(author)
     assert in_memory_repo.author_get_by_name("John") is author
+
+def test_repository_can_get_an_author_by_id(in_memory_repo):
+    author = Author (9999, 'John')
+    in_memory_repo.author_add(author)
+    assert in_memory_repo.author_get_by_id(9999) is author
+
+def test_repository_can_get_a_list_of_author_names(in_memory_repo):
+    author_names = in_memory_repo.author_get_all_names()
+    assert len(author_names) > 1 and type(author_names) is list and type(author_names[0]) is str
+
+def test_repository_can_get_a_list_of_authors(in_memory_repo):
+    authors = in_memory_repo.author_get_all()
+    assert len(authors) > 1 and type(authors) is list and type(authors[0]) is Author
 
 def test_repository_can_add_a_recipe(in_memory_repo):
     author = Author (1, 'John')
