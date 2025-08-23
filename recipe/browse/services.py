@@ -14,6 +14,9 @@ def get_recipes():
 def get_categories():
     return sorted(repo.repo_instance.category_get_all_names())
 
+def get_authors():
+    return sorted(repo.repo_instance.author_get_all_names())
+
 def get_pagination(recipes : List["Recipe"], page : int):
     number_of_recipes = len(recipes)
     total_pages = ceil(number_of_recipes / PER_PAGE)

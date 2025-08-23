@@ -42,6 +42,9 @@ class MemoryRepository(AbstractRepository):
     def author_get_all(self) -> List[Author]:
         return self.__authors
 
+    def author_get_all_names(self) -> List[Author]:
+        return sorted(author.name for author in self.__authors)
+
     def category_add(self, category) -> None:
         if not isinstance(category, Category):
             raise ValueError("Category must be provided as an instance of Category.")

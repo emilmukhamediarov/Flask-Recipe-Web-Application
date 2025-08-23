@@ -18,14 +18,27 @@ def browse():
     # URl Parameters
     page = request.args.get('page', 1, type=int)
     selected_category = request.args.get('category')
+    selected_author = request.args.get('author')
+
+    if selected_category and selected_author:
+        print("Only one filter allowed to be applied at a time")
+        selected_author = None
 
     recipes = services.get_recipes()
     if selected_category:
         recipes = [recipe for recipe in recipes if recipe.category.name == selected_category]
         breadcrumbs.append((selected_category, url_for("browse_bp.browse", category=selected_category)))
+    if selected_author:
+        recipes = [recipe for recipe in recipes if recipe.author.name == selected_author]
+        breadcrumbs.append((selected_author, url_for("browse_bp.browse", author=selected_author)))
+
+    recipes.sort()
 
     # Category Filters
     categories = services.get_categories()
+
+    # Author Filters
+    authors = services.get_authors()
 
     # Pagination
     page_recipes, total_pages, page_numbers, show_first, show_last = services.get_pagination(recipes, page)
@@ -34,7 +47,9 @@ def browse():
         '/browse/browse.html',
         page=page,
         selected_category=selected_category,
+        selected_author=selected_author,
         categories=categories,
+        authors=authors,
 
         recipes=page_recipes,
         total_pages=total_pages,
