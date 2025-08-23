@@ -13,7 +13,7 @@
     <header class="recipe-header">
       <h1>{{ recipe.name }}</h1>
       <p class="byline">
-        By: <strong>{{ recipe.author.name }}</strong> •
+          By: <a href={{ url_for('browse_bp.browse', author=recipe.author.name) }}><strong>{{ recipe.author.name }}</strong></a> •
         <span class="muted">Date: {{ recipe.date.date() }}</span>
       </p>
       <p class="rating">
@@ -67,14 +67,18 @@
       <!-- right sidebar -->
       <aside class="sidebar-col">
         <div class="panel-box">
-          <button class="button secondary" style="width:100%; margin-bottom:12px;">
-            Login to add to favorites
-          </button>
           <h4>Ingredients</h4>
           <ul class="ingredients">
             {% for i in range(recipe.ingredients|length) %}
               <li>{{ recipe.ingredient_quantities[i] }} {{ recipe.ingredients[i] }}</li>
             {% endfor %}
+          </ul>
+            <br>
+          <h4>Nutrition</h4>
+          <ul class="nutrients">
+              {% for data in recipe.nutrition.data %}
+                <li>{{ data }} : {{ recipe.nutrition.data[data] }}</li>
+              {% endfor %}
           </ul>
         </div>
       </aside>

@@ -104,6 +104,10 @@ a {
   overflow: hidden;
 }
 
+.byline a:hover {
+    text-decoration: underline;
+}
+
 /* Hero Image */
 .recipe-hero {
   text-align: center;
