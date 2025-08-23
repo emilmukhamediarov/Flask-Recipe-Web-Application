@@ -8,6 +8,7 @@ browse_bp = Blueprint('browse_bp', __name__)
 
 PER_PAGE = 12
 
+
 @browse_bp.route('/browse', methods=['GET'])
 def browse():
     breadcrumbs = [

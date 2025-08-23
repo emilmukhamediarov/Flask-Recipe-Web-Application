@@ -22,10 +22,16 @@
     </div>
 
     <!-- pagination -->
-    <nav class="pagination" aria-label="Recipes pages">
-      {% if page > 1 %}
-        <a class="page prev" href="{{ url_for('browse_bp.browse', page=page-1) }}">‹ Prev</a>
-      {% endif %}
+ <nav class="pagination" aria-label="Recipes pages">
+  {% if page > 1 %}
+    <a class="page prev"
+       href="{% if is_category_page %}
+                {{ url_for('browse_bp.category_view', category_name=selected_category, page=page-1) }}
+              {% else %}
+                {{ url_for('browse_bp.browse', page=page-1, category=selected_category) }}
+              {% endif %}">‹ Prev</a>
+  {% endif %}
+
 
       {% if show_first %}
         <a class="page" href="{{ url_for('browse_bp.browse', page=1, category=selected_category) }}">1</a>
@@ -44,9 +50,4 @@
         {% if page_numbers[-1] < total_pages - 1 %}<span class="ellipsis">…</span>{% endif %}
         <a class="page" href="{{ url_for('browse_bp.browse', page=total_pages, category=selected_category) }}">{{ total_pages }}</a>
       {% endif %}
-
-      {% if page < total_pages %}
-        <a class="page next" href="{{ url_for('browse_bp.browse', page=page+1) }}">Next ›</a>
-      {% endif %}
-    </nav>
 {% endblock %}
