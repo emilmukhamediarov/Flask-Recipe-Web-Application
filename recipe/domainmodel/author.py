@@ -1,7 +1,10 @@
-from recipe.domainmodel.recipe import Recipe
+from typing import List, TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from recipe.domainmodel.recipe import Recipe
 
 class Author:
-    def __init__(self, author_id: int, name: str, recipes: list["Recipe"] = None):
+    def __init__(self, author_id: int, name: str, recipes: List["Recipe"] = None):
         self.__id = author_id
         self.__name = name
         self.__recipes = recipes if recipes is not None else []
@@ -31,7 +34,7 @@ class Author:
         return self.__name
 
     @property
-    def recipes(self) -> list["Recipe"]:
+    def recipes(self) -> List["Recipe"]:
         return self.__recipes
 
     def add_recipe(self, recipe: "Recipe") -> None:

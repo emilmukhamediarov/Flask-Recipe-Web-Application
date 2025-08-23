@@ -1,24 +1,19 @@
 from __future__ import annotations
-from typing import TYPE_CHECKING
-
-if TYPE_CHECKING:
-    from recipe.domainmodel.author import Author
-    from recipe.domainmodel.category import Category
-
 from datetime import datetime
 
+from recipe.domainmodel.author import Author
+from recipe.domainmodel.category import Category
 from recipe.domainmodel.nutrition import Nutrition
 from recipe.domainmodel.review import Review
 
 class Recipe:
-    def __init__(self, recipe_id: int, name: str, author: "Author",
+    def __init__(self, recipe_id: int, name: str, author: Author, category: Category,
                  cook_time: int = 0,
                  preparation_time: int = 0,
                  total_time: int = 0,
                  created_date: datetime = None,
                  description: str = "",
                  images: list[str] = None,
-                 category: "Category" = None,
                  ingredient_quantities: list[str] = None,
                  ingredients: list[str] = None,
                  rating: float | None = None,
@@ -37,13 +32,14 @@ class Recipe:
         self.__id = recipe_id
         self.__name = name
         self.__author = author
+        self.__category = category
+
         self.__cook_time = cook_time
         self.__preparation_time = preparation_time
         self.__total_time = total_time
         self.__date = created_date if created_date else datetime.now()
         self.__description = description
         self.__images = images if images else []
-        self.__category = category
         self.__ingredient_quantities = ingredient_quantities if ingredient_quantities else []
         self.__ingredients = ingredients if ingredients else []
         self.__rating = rating
