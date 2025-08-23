@@ -450,3 +450,73 @@ label[for="toggle"]:hover {
 #toggle:checked ~ #filters {
     max-height: fit-content;
 }
+
+.image-slider {
+  position: relative;
+  text-align: center;
+}
+
+.image-slider input[type="radio"] {
+  display: none;
+}
+
+.image-slider .slide {
+  display: none;
+  height: 250px;
+  width: auto;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  margin: 0 auto;
+}
+
+#slide0:checked ~ img:nth-of-type(1),
+#slide1:checked ~ img:nth-of-type(2),
+#slide2:checked ~ img:nth-of-type(3),
+#slide3:checked ~ img:nth-of-type(4),
+#slide4:checked ~ img:nth-of-type(5) {
+  display: block;
+}
+
+.image-dots {
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+  gap: 8px;
+}
+
+.image-dots .dot {
+  height: 12px;
+  width: 12px;
+  background-color: #d6ef9f;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: transform 0.2s, background-color 0.2s;
+}
+
+.image-dots .dot:hover {
+  transform: scale(1.2);
+  background-color: #6ab547;
+}
+
+#slide0:checked ~ .image-dots label[for="slide0"],
+#slide1:checked ~ .image-dots label[for="slide1"],
+#slide2:checked ~ .image-dots label[for="slide2"],
+#slide3:checked ~ .image-dots label[for="slide3"],
+#slide4:checked ~ .image-dots label[for="slide4"] {
+  background-color: #6ab547;
+}
+.back-button {
+  display: inline-block;
+  margin: 10px 0 20px 0;  /* space above & below */
+  background: #6ab547;
+  color: white;
+  padding: 6px 14px;
+  border-radius: 16px;
+  font-weight: 600;
+  text-decoration: none;
+  font-size: 14px;
+}
+
+.back-button:hover {
+  background: #4e8c33;
+}

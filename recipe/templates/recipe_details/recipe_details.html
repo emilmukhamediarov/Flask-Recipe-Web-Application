@@ -4,10 +4,24 @@
 <div class="recipe-page">
   <article class="recipe-panel">
 
-    <!-- Smaller centered image -->
     <div class="recipe-hero">
-      <img src="{{ recipe.images[0] }}" alt="{{ recipe.name }}">
-    </div>
+
+  <div class="image-slider">
+    {% for img in recipe.images %}
+      <input type="radio" name="slider" id="slide{{ loop.index0 }}" {% if loop.index0 == 0 %}checked{% endif %}>
+      <img src="{{ img }}" class="slide" alt="{{ recipe.name }}">
+    {% endfor %}
+
+    {% if recipe.images|length > 1 %}
+      <div class="image-dots">
+        {% for img in recipe.images %}
+          <label for="slide{{ loop.index0 }}" class="dot"></label>
+        {% endfor %}
+      </div>
+    {% endif %}
+  </div>
+
+</div>
 
     <!-- title, author, rating -->
     <header class="recipe-header">
@@ -81,13 +95,6 @@
             {% for key, value in recipe.nutrition.data.items() %}
               <li>{{ key }} : {{ value }}</li>
             {% endfor %}
-          </ul>
-            <br>
-          <h4>Nutrition</h4>
-          <ul class="nutrients">
-              {% for data in recipe.nutrition.data %}
-                <li>{{ data }} : {{ recipe.nutrition.data[data] }}</li>
-              {% endfor %}
           </ul>
         </div>
       </aside>
