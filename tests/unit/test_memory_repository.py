@@ -17,7 +17,8 @@ def test_repository_can_get_an_author_by_name(in_memory_repo):
 
 def test_repository_can_add_a_recipe(in_memory_repo):
     author = Author (1, 'John')
-    recipe = Recipe(1, 'Cake', author)
+    category = Category( 'Milk')
+    recipe = Recipe(1, 'Cake', author, category=category)
     in_memory_repo.recipe_add(recipe)
     assert in_memory_repo.recipe_get_all()[0] is recipe
 

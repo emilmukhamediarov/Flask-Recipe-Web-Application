@@ -22,7 +22,7 @@ def my_author():
 
 @pytest.fixture
 def my_category():
-    return Category("Italian", [], 1)
+    return Category("Italian", [])
 
 
 @pytest.fixture
@@ -155,35 +155,33 @@ def test_author_add_duplicate_recipe(my_author, my_recipe):
 
 # Category tests
 def test_category_construction():
-    category = Category("Desserts", [], 1)
-    assert category.id == 1
+    category = Category("Desserts", [])
     assert category.name == "Desserts"
     assert category.recipes == []
 
 
 def test_category_construction_without_id():
     category = Category("Main Course")
-    assert category.id is None
     assert category.name == "Main Course"
 
 
 def test_category_equality():
-    category1 = Category("Italian", [], 1)
-    category2 = Category("French", [], 1)
-    category3 = Category("Italian", [], 2)
+    category1 = Category("Italian", [])
+    category2 = Category("French", [])
+    category3 = Category("Italian", [])
     assert category1 == category2
     assert category1 != category3
 
 
 def test_category_less_than():
-    category1 = Category("A", [], 1)
-    category2 = Category("B", [], 2)
+    category1 = Category("A", [])
+    category2 = Category("B", [])
     assert category1 < category2
 
 
 def test_category_hash():
-    category1 = Category("Italian", [], 1)
-    category2 = Category("French", [], 1)
+    category1 = Category("Italian", [])
+    category2 = Category("French", [])
     category_set = {category1, category2}
     assert len(category_set) == 1
 
