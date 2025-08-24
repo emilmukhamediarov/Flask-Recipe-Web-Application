@@ -19,9 +19,8 @@ def test_services_can_get_latest_recipes(in_memory_repo):
 
 # --- Browse Services ---
 def test_services_can_get_recipes(in_memory_repo):
-    repo.repo_instance = in_memory_repo
     repo_list = in_memory_repo.recipe_get_all()
-    service_list = browse_services.get_recipes()
+    service_list = browse_services.get_recipes(in_memory_repo)
 
     assert isinstance(service_list, list)
     assert len(service_list) == len(repo_list)
@@ -29,9 +28,8 @@ def test_services_can_get_recipes(in_memory_repo):
 
 
 def test_services_can_get_categories(in_memory_repo):
-    repo.repo_instance = in_memory_repo
     repo_list = in_memory_repo.category_get_all_names()
-    service_list = browse_services.get_categories()
+    service_list = browse_services.get_categories(in_memory_repo)
     expected = sorted(repo_list)
 
     assert isinstance(service_list, list)
@@ -39,9 +37,8 @@ def test_services_can_get_categories(in_memory_repo):
     assert service_list == sorted(service_list)
 
 def test_services_can_get_authors(in_memory_repo):
-    repo.repo_instance = in_memory_repo
     repo_list = in_memory_repo.author_get_all_names()
-    service_list = browse_services.get_authors()
+    service_list = browse_services.get_authors(in_memory_repo)
     expected = sorted(repo_list)
 
     assert isinstance(service_list, list)
