@@ -2,6 +2,7 @@ from math import ceil
 import pytest
 import recipe.home.services as home_services
 import recipe.browse.services as browse_services
+import recipe.recipedetails.services as recipe_details_services
 import recipe.adapters.repository as repo
 from recipe.domainmodel.category import Category
 
@@ -65,7 +66,7 @@ def test_services_can_get_pagination(in_memory_repo):
 def test_services_can_get_recipe(in_memory_repo):
     repo_list = in_memory_repo.recipe_get_all()
     first = repo_list[0]
-    returned = in_memory_repo.recipe_get_by_id(first.id)
+    returned = recipe_details_services.get_recipe(first.id, in_memory_repo)
     assert len(repo_list) > 0
     assert returned is not None
     assert returned.id == first.id
