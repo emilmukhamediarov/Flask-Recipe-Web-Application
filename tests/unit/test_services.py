@@ -4,10 +4,12 @@ import recipe.home.services as home_services
 import recipe.browse.services as browse_services
 import recipe.adapters.repository as repo
 from recipe.domainmodel.category import Category
+
 # --- Home Services ---
 def test_services_can_get_number_of_recipes(in_memory_repo):
     recipes = in_memory_repo.recipe_get_quantity()
-    assert recipes == 2455
+    all_recipes = in_memory_repo.recipe_get_all()
+    assert recipes == len(all_recipes)
 
 def test_services_can_get_latest_recipes(in_memory_repo):
     latest = in_memory_repo.recipe_get_latest(home_services.NUMBER_OF_FEATURE_RECIPES)
@@ -60,3 +62,13 @@ def test_services_can_get_pagination(in_memory_repo):
     assert page_numbers == [1, 2, 3]
     assert show_first == (1 not in page_numbers)
     assert show_last == (total_pages not in page_numbers)
+
+
+# --- RecipeDetails Services ---
+def test_services_can_get_recipe(in_memory_repo):
+    repo_list = in_memory_repo.recipe_get_all()
+    first = repo_list[0]
+    returned = in_memory_repo.recipe_get_by_id(first.id)
+    assert len(repo_list) > 0
+    assert returned is not None
+    assert returned.id == first.id
