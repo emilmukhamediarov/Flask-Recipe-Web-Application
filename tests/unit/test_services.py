@@ -16,8 +16,6 @@ def test_services_can_get_latest_recipes(in_memory_repo):
     latest = home_services.get_latest_recipes(in_memory_repo)
     assert len(latest) == home_services.NUMBER_OF_FEATURE_RECIPES
 
-
-
 # --- Browse Services ---
 def test_services_can_get_recipes(in_memory_repo):
     repo_list = in_memory_repo.recipe_get_all()
@@ -26,7 +24,6 @@ def test_services_can_get_recipes(in_memory_repo):
     assert isinstance(service_list, list)
     assert len(service_list) == len(repo_list)
     assert [r.id for r in service_list] == [r.id for r in repo_list]
-
 
 def test_services_can_get_categories(in_memory_repo):
     repo_list = in_memory_repo.category_get_all_names()
