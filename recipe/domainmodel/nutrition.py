@@ -2,7 +2,6 @@ class Nutrition:
 # TODO: Complete the implementation of the Nutrition class.
     id_count = 1
     def __init__(self, data: object):
-
         self.__data = data
         self.__id = Nutrition.id_count
         Nutrition.id_count += 1

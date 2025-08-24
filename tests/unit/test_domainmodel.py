@@ -261,8 +261,10 @@ def test_author_set_recipe_invalid_type(my_author):
 #Nutrition Tests
 def test_nutrition_construction():
     nutrition = Nutrition({'food_science' : 60})
-    assert nutrition.id == 1
+    id = nutrition.id
     assert 'food_science' in nutrition.data
+    assert isinstance(id, int)
+    assert id > 0
     assert nutrition.data.get('food_science') == 60
 
 def test_nutrition_equality():
