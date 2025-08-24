@@ -11,14 +11,14 @@
     <div class="recipe-hero">
 
   <div class="image-slider">
-    {% for img in recipe.images %}
+    {% for img in recipe.images[0:5] %}
       <input type="radio" name="slider" id="slide{{ loop.index0 }}" {% if loop.index0 == 0 %}checked{% endif %}>
       <img src="{{ img }}" class="slide" alt="{{ recipe.name }}">
     {% endfor %}
 
-    {% if recipe.images|length > 1 %}
+    {% if recipe.images[0:5]|length > 1 %}
       <div class="image-dots">
-        {% for img in recipe.images %}
+        {% for img in recipe.images[0:5] %}
           <label for="slide{{ loop.index0 }}" class="dot"></label>
         {% endfor %}
       </div>
