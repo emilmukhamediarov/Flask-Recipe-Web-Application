@@ -7,7 +7,7 @@ from recipe.domainmodel.category import Category
 
 # --- Home Services ---
 def test_services_can_get_number_of_recipes(in_memory_repo):
-    recipes = in_memory_repo.recipe_get_quantity()
+    recipes = home_services.get_number_of_recipes(in_memory_repo)
     all_recipes = in_memory_repo.recipe_get_all()
     assert recipes == len(all_recipes)
 

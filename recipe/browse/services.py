@@ -1,5 +1,8 @@
 from math import ceil
 from typing import TYPE_CHECKING, List
+from recipe.adapters.repository import AbstractRepository
+from recipe.adapters.memory_repository import MemoryRepository
+
 
 if TYPE_CHECKING:
     from recipe.domainmodel.recipe import Recipe
@@ -8,14 +11,14 @@ import recipe.adapters.repository as repo
 
 PER_PAGE = 12
 
-def get_recipes():
-    return repo.repo_instance.recipe_get_all()
+def get_recipes(repository:AbstractRepository):
+    return repository.recipe_get_all()
 
-def get_categories():
-    return sorted(repo.repo_instance.category_get_all_names())
+def get_categories(repository:AbstractRepository):
+    return sorted(repository.category_get_all_names())
 
-def get_authors():
-    return sorted(repo.repo_instance.author_get_all_names())
+def get_authors(repository:AbstractRepository):
+    return sorted(repository.author_get_all_names())
 
 def get_pagination(recipes : List["Recipe"], page : int):
     number_of_recipes = len(recipes)

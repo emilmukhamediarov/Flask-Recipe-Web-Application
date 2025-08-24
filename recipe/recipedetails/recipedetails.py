@@ -7,7 +7,7 @@ recipe_details_bp = Blueprint('recipe_details_bp', __name__)
 @recipe_details_bp.route('/recipe/<int:recipe_id>', methods=['GET'])
 def get_recipe_details(recipe_id):
 
-    get_recipe = services.get_recipe(recipe_id)
+    get_recipe = services.get_recipe(recipe_id, repo.repo_instance)
     breadcrumbs = [
         ("Home", url_for("home_bp.home")),
         ("Browse", url_for("browse_bp.browse")),
