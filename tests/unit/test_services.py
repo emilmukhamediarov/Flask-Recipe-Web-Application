@@ -13,7 +13,7 @@ def test_services_can_get_number_of_recipes(in_memory_repo):
     assert recipes == len(all_recipes)
 
 def test_services_can_get_latest_recipes(in_memory_repo):
-    latest = in_memory_repo.recipe_get_latest(home_services.NUMBER_OF_FEATURE_RECIPES)
+    latest = home_services.get_latest_recipes(in_memory_repo)
     assert len(latest) == home_services.NUMBER_OF_FEATURE_RECIPES
 
 
