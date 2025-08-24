@@ -1,4 +1,4 @@
-<input type="checkbox" id="toggle">
+<input type="checkbox" id="toggle" {%  if selected_sort or selected_category or selected_author %}checked{% endif %}>
 <label for="toggle">Show Filters</label>
 
 <div id="filters" >
@@ -7,7 +7,7 @@
             <label for="sort">Sort By:</label>
             <select name="sort" id="sort" onchange="this.form.submit()">
                 {% if not selected_sort %}
-                    <option value="" selected>Sort By...</option>
+                    <option value="" selected></option>
                 {% else %}
                     <option value="{{ selected_sort }}" selected>{{ selected_sort }}</option>
                 {% endif %}
@@ -19,10 +19,10 @@
             </select>
 
             <!-- Category Dropdown -->
-            <label for="category">Category:</label>
-            <select name="category" id="category" onchange="this.form.submit()" {% if selected_author %}disabled{% endif %}>
+            <label for="category" {% if selected_author %}class="disabled"{% endif %}>Category:</label>
+            <select name="category" id="category" {% if selected_author %}disabled{% endif %} onchange="this.form.submit()">
                 {% if not selected_category %}
-                    <option value="" selected>Select Category...</option>
+                    <option value="" selected></option>
                 {% else %}
                     <option value="{{ selected_category }}" selected>{{ selected_category }}</option>
                 {% endif %}
@@ -34,10 +34,10 @@
             </select>
 
             <!-- Author Dropdown -->
-            <label for="author">Author:</label>
-            <select name="author" id="author" onchange="this.form.submit()" {% if selected_category %}disabled{% endif %}>
+            <label for="author" {% if selected_category %}class="disabled"{% endif %}>Author:</label>
+            <select name="author" id="author" {% if selected_category %}disabled{% endif %} onchange="this.form.submit()">
                 {% if not selected_author %}
-                    <option value="" selected>Select Author...</option>
+                    <option value="" selected></option>
                 {% else %}
                     <option value="{{ selected_author }}" selected>{{ selected_author }}</option>
                 {% endif %}
@@ -47,8 +47,6 @@
                     {% endif %}
                 {% endfor %}
             </select>
-
-            <button type="submit">Go</button>
             <a href="{{ url_for('browse_bp.browse') }}" class="reset-button">Reset</a>
         </form>
 </div>

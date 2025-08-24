@@ -458,7 +458,6 @@ label[for="toggle"]:hover {
     max-height: fit-content;
 }
 
-
 .image-slider {
   position: relative;
   text-align: center;
@@ -518,6 +517,7 @@ label[for="toggle"]:hover {
   background: #f7d716;
   color: #333;
   padding: 10px 20px;
+  margin-bottom: 10px;
   border-radius: 30px;
   border: none;
   cursor: pointer;
@@ -545,6 +545,9 @@ label[for="toggle"]:hover {
   margin-right: 6px;
 }
 
+#filters label.disabled {
+  color: #CCC
+}
 
 #filters select {
   padding: 8px 10px;
@@ -553,24 +556,8 @@ label[for="toggle"]:hover {
   background: #fff;
   box-shadow: 0 3px 8px rgba(0,0,0,0.03);
   min-width: 180px;
-  font-weight: 600;
+  font-weight: 500;
   color: #333;
-}
-
-
-#filters button[type="submit"],
-#filters .go-button {
-  background: #6ab547;
-  color: #fff;
-  border: none;
-  padding: 9px 14px;
-  border-radius: 10px;
-  font-weight: 700;
-}
-
-#filters button[type="submit"]:hover,
-#filters .go-button:hover {
-  background: #57a63a;
 }
 
 #filters .reset-button {
