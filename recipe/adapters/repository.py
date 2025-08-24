@@ -29,6 +29,11 @@ class AbstractRepository(abc.ABC):
         raise NotImplementedError
 
     @abc.abstractmethod
+    def author_get_all_names(self) -> List[Author]:
+        """Returns a list of Author names"""
+        raise NotImplementedError
+
+    @abc.abstractmethod
     def category_add(self, category) -> None:
         """Adds a Category to the repository"""
         raise NotImplementedError

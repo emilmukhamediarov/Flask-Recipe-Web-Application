@@ -1,6 +1,7 @@
 import random
 from math import ceil
 from flask import Blueprint, render_template, request, url_for
+import recipe.adapters.repository as repo
 
 from recipe.browse import services
 
@@ -26,7 +27,7 @@ def browse():
         print("Only one filter allowed to be applied at a time")
         selected_author = None
 
-    recipes = services.get_recipes()
+    recipes = services.get_recipes(repo.repo_instance)
     if selected_category:
         recipes = [recipe for recipe in recipes if recipe.category.name == selected_category]
         breadcrumbs.append((selected_category, url_for("browse_bp.browse", category=selected_category)))
@@ -46,10 +47,10 @@ def browse():
         recipes.sort()
 
     # Category Filters
-    categories = services.get_categories()
+    categories = services.get_categories(repo.repo_instance)
 
     # Author Filters
-    authors = services.get_authors()
+    authors = services.get_authors(repo.repo_instance)
 
     # Pagination
     page_recipes, total_pages, page_numbers, show_first, show_last = services.get_pagination(recipes, page)
