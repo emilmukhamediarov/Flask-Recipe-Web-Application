@@ -1,10 +1,10 @@
-# COMPSCI 235 - Starter Repository for the CS235 Recipe Portal
-This is a starter repository for the recipes webapp project of CompSci 235 in Semester 2, 2025.
-The best team known to computer science: Emil, Arun and Rowan!
+# COMPSCI 235 - Repository for the CS235 Recipe Portal Assignment 1 Submission
+This is the repository for the recipes webapp project of CompSci 235 in Semester 2, 2025.
+Made by the best team known to computer science: Emil, Arun and Rowan!
 
 ## Description
 
-This repository contains a partial implementation of the domain model. It contains unit tests which can be run through pytest. It also contains a simple Flask application that renders content of a Recipe object instance from our domain model on a blank HTML page. You'll be expanding the domain model implementation, and you have the freedom to add, modify or remove test cases as needed.
+This repository contains the completed code for the implementation of Assignment 1. The domain model has been expanded to include all necessary tasks, and a Flask app is co figured to display the pages of our recipe website, with HTML rendered with Jinja. Tests have been written for both unit testing and integration testing.
 
 ## Installation
 
