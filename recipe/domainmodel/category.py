@@ -5,7 +5,7 @@ if TYPE_CHECKING:
 
 class Category:
 
-    def __init__(self, name: str, recipes: List["Recipe"] = None):
+    def __init__(self, name: str, recipes: List["Recipe"] = None, id = None):
         self.__name = name
         self.__recipes = recipes if recipes is not None else []
 
