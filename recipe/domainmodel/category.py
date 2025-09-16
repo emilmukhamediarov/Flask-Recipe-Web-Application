@@ -4,9 +4,11 @@ if TYPE_CHECKING:
     from recipe.domainmodel.recipe import Recipe
 
 class Category:
-
-    def __init__(self, name: str, recipes: List["Recipe"] = None, id = None):
+    id_count = 1
+    def __init__(self, name: str, recipes: List["Recipe"] = None):
         self.__name = name
+        self.__id = Category.id_count
+        Category.id_count += 1
         self.__recipes = recipes if recipes is not None else []
 
     def __repr__(self) -> str:

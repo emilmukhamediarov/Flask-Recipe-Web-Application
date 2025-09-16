@@ -14,7 +14,10 @@
 
           <div class="card-body">
             <h3 class="card-title">{{ recipe.name }}</h3>
-            <p class="meta">By: {{ recipe.author.name }}</p>
+            <p class="meta">By: {{ recipe.author.name }}
+            <br>
+                {% if recipe.nutrition.score | length < 6 %}Health Score: {% endif %}{{ recipe.nutrition.score }}
+            </p>
           </div>
         </a>
       </article>
