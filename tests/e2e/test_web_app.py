@@ -42,7 +42,7 @@ def test_adding_duplicate_favourites(client, auth):
     res_2 = client.post('/user/favourites', data = {'recipe_id' : '7989'})
     assert res_2.status_code == 400
 
-def test_wrong_login_details(client, auth):
+def test_wrong_login_details(client):
     wrong_auth_response = client.post('/auth/login', data = {'user_name': 'Not a user', 'password': 'Not a password'})
     assert wrong_auth_response.status_code == 401
 
