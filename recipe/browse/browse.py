@@ -22,19 +22,25 @@ def browse():
     selected_category = request.args.get('category')
     selected_author = request.args.get('author')
     selected_sort = request.args.get('sort')
-    selected_search = request.args.get('search')
+    search_term = request.args.get('search')
 
-    if selected_search:
-        all_recipes = services.get_recipes(repo.repo_instance)
-        print(all_recipes)
-        # recipe_get_by_name()
-        match = next((r for r in all_recipes if selected_search.lower() in r.name.lower()), None)
-        if match:
-            return redirect(url_for('recipe_details_bp.get_recipe_details', recipe_id=match.id))
+    # if selected_search:
+    #     all_recipes = services.get_recipes(repo.repo_instance)
+    #     print(all_recipes)
+    #     # recipe_get_by_name()
+    #     search = selected_search.lower()
+    #     total = []
+    #     for recipe in all_recipes:
+    #         if search in recipe.name.lower():
+    #             total.append(recipe)
+    #     match = next((r for r in all_recipes if selected_search.lower() in r.name.lower()), None)
+    #     if match:
+    #         return redirect(url_for('browse_bp.browse', recipe_id=match.name))
 
-    if selected_category and selected_author:
-        print("Only one filter allowed to be applied at a time")
-        selected_author = None
+    # remove below
+    # if selected_category and selected_author:
+    #     print("Only one filter allowed to be applied at a time")
+    #     selected_author = None
 
     recipes = services.get_recipes(repo.repo_instance)
     if selected_category:
@@ -43,6 +49,8 @@ def browse():
     if selected_author:
         recipes = [recipe for recipe in recipes if recipe.author.name == selected_author]
         breadcrumbs.append((selected_author, url_for("browse_bp.browse", author=selected_author)))
+    if search_term:
+        recipes = [recipe for recipe in recipes if search_term.lower() in recipe.name.lower()]
 
     sorts = ["A-z", "Author", "Category"]
 
@@ -70,6 +78,7 @@ def browse():
         selected_category=selected_category,
         selected_author=selected_author,
         selected_sort=selected_sort,
+        search_term=search_term,
 
         categories=categories,
         authors=authors,

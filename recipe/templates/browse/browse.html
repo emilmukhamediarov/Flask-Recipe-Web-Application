@@ -4,22 +4,9 @@
 
     {% include 'partials/filters.html' %}
 
-    <!-- SEARCH -->
-<label for="search">Search:</label>
-<input
-  type="search"
-  id="search"
-  name="search"
-  placeholder="Search recipe name..."
-  value="{{ selected_search|default('') }}"
-  onkeypress="if(event.key === 'Enter'){ this.form.submit(); }"
-/>
-<form method="get" action="{{ url_for('browse_bp.browse') }}">
-    <input type="text" name="search" placeholder="Search recipes...">
-    <button type="submit">Search</button>
-</form>
-
+    {% if recipes | length > 0 %}
     <div class="recipes-grid" id="results">
+
       {% for recipe in recipes %}
       <article class="recipe-card">
         <a class="card-link" href="{{ url_for('recipe_details_bp.get_recipe_details', recipe_id=recipe.id) }}">
@@ -34,8 +21,11 @@
         </a>
       </article>
       {% endfor %}
+
     </div>
 
+
+{#    add empty page html no recipes#}
     <!-- pagination -->
     <nav class="pagination" aria-label="Recipes pages">
       {% if page > 1 %}
@@ -64,4 +54,8 @@
         <a class="page next" href="{{ url_for('browse_bp.browse', page=page+1, sort=selected_sort, category=selected_category, author=selected_author) }}">Next ›</a>
       {% endif %}
     </nav>
+
+    {% else %}
+  <h1>No results found.</h1>
+  {% endif %}
 {% endblock %}
