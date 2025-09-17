@@ -31,11 +31,11 @@ def login():
 def register():
     form = RegisterForm()
     if form.validate_on_submit():
-        if repo.repo_instance.get_user_by_username(form.username.data):
+        if services.retrieve_user_by_name(form.username.data, repo.repo_instance):
             flash("Username already exists", "danger")
         else:
             new_user = User(username=form.username.data, password=form.password.data)
-            repo.repo_instance.add_user(new_user)
+            services.add_new_user(new_user, repo.repo_instance)
             flash("Registration successful, please log in", "success")
             return redirect(url_for('auth_bp.login'))
     return render_template("auth/register.html", form=form)
