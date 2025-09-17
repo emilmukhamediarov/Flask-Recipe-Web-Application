@@ -1,0 +1,1 @@
+from recipe.adapters.repository import AbstractRepository

@@ -670,4 +670,17 @@ label[for="toggle"]:hover {
   margin: 10px 0;
 }
 
+.favourites-list a {
+  color: #6ab547;
+  font-weight: 600;
+}
 
+.favourites-list a:hover {
+  text-decoration: underline;
+}
+
+.favourites-list {
+  list-style: none;
+  padding: 0;
+  margin: 20px 0;
+}
