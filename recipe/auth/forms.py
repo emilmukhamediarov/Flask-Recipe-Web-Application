@@ -4,11 +4,6 @@ from wtforms.validators import DataRequired, Length, EqualTo
 from password_validator import PasswordValidator
 from wtforms import ValidationError
 
-class LoginForm(FlaskForm):
-    username = StringField('Username', validators=[DataRequired()])
-    password = PasswordField('Password', validators=[DataRequired()])
-    submit = SubmitField('Login')
-
 password_schema = PasswordValidator()
 password_schema \
     .min(8) \
@@ -17,6 +12,11 @@ password_schema \
     .has().lowercase() \
     .has().digits() \
     .has().no().spaces()
+
+class LoginForm(FlaskForm):
+    username = StringField('Username', validators=[DataRequired()])
+    password = PasswordField('Password', validators=[DataRequired()])
+    submit = SubmitField('Login')
 
 class RegisterForm(FlaskForm):
     username = StringField("Username", validators=[DataRequired(), Length(min=3, max=25)])
