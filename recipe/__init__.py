@@ -45,4 +45,7 @@ def create_app(test_config=None):
         from .auth import auth
         app.register_blueprint(auth.auth_bp)
 
+        from recipe.favourites.favourites import favourites_bp
+        app.register_blueprint(favourites_bp)
+
     return app

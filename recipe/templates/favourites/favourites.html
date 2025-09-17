@@ -1,0 +1,19 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="form-container">
+  <h2>My Favourites</h2>
+  {% if favourites %}
+    <ul class="favourites-list">
+      {% for recipe in favourites %}
+        <li>
+          <a href="{{ url_for('recipe_details_bp.get_recipe_details', recipe_id=recipe.id) }}">
+            {{ recipe.title }}
+          </a>
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>You don’t have any favourite recipes yet.</p>
+  {% endif %}
+</div>
+{% endblock %}
