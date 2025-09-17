@@ -3,11 +3,11 @@ from recipe.domainmodel.review import Review
 from werkzeug.security import generate_password_hash, check_password_hash
 
 class User:
-    def __init__(self, username: str, password: str, user_id: int = None, hashed: bool = False):
+    def __init__(self, username: str, password: str, user_id: int = None):
         self.__id = user_id
         self.__username = username
         # hash password unless explicitly marked as already hashed
-        self.__password = password if hashed else generate_password_hash(password)
+        self.__password_hash = generate_password_hash(password)
         self.__favourite_recipes = []
         self.__reviews = []
 
@@ -78,7 +78,7 @@ class User:
 
     def check_password(self, password: str) -> bool:
         from werkzeug.security import check_password_hash
-        return check_password_hash(self.__password, password)
+        return check_password_hash(self.__password_hash, password)
 
     # Flask-Login required properties
     @property
