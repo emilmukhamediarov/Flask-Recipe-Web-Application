@@ -26,4 +26,4 @@ class RegisterForm(FlaskForm):
 
     def validate_password(self, field):
         if not password_schema.validate(field.data):
-            raise ValidationError("Password must be 8–20 chars, include upper/lowercase, digits, and no spaces.")
+            raise ValidationError("Password must be 8–20 chars, include upper and lowercase, digits, and no spaces.")
