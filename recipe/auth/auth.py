@@ -3,6 +3,7 @@ from flask_login import login_user, logout_user, LoginManager, login_required, c
 from recipe.domainmodel.user import User
 import recipe.adapters.repository as repo
 from recipe.auth.forms import LoginForm, RegisterForm
+import recipe.auth.services as services
 
 auth_bp = Blueprint('auth_bp', __name__, url_prefix='/auth')
 
@@ -12,13 +13,13 @@ login_manager.login_view = "auth_bp.login"
 
 @login_manager.user_loader
 def load_user(user_id):
-    return repo.repo_instance.get_user_by_id(int(user_id))
+    return services.retrieve_user_by_id(user_id, repo.repo_instance)
 
 @auth_bp.route('/login', methods=['GET', 'POST'])
 def login():
     form = LoginForm()
     if form.validate_on_submit():
-        user = repo.repo_instance.get_user_by_username(form.username.data)
+        user = services.retrieve_user_by_name(form.username.data, repo.repo_instance)
         if user and user.check_password(form.password.data):
             login_user(user)
             flash("Logged in successfully!", "success")
