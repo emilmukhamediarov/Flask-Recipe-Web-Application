@@ -666,12 +666,6 @@ label[for="toggle"]:hover {
   display: block;
 }
 
-.favourites-list {
-  list-style: none;
-  padding: 0;
-  margin: 20px 0;
-}
-
 .favourites-list li {
   margin: 10px 0;
 }
@@ -683,4 +677,10 @@ label[for="toggle"]:hover {
 
 .favourites-list a:hover {
   text-decoration: underline;
+}
+
+.favourites-list {
+  list-style: none;
+  padding: 0;
+  margin: 20px 0;
 }
