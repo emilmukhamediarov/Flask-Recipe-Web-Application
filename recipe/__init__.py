@@ -6,6 +6,7 @@ from flask import Flask, render_template
 
 import recipe.adapters.repository as repo
 from recipe.adapters.memory_repository import MemoryRepository, populate
+from recipe.auth.auth import login_manager
 
 from recipe.domainmodel.recipe import Recipe
 from recipe.domainmodel.author import Author
@@ -26,6 +27,8 @@ def create_app(test_config=None):
     repo.repo_instance = MemoryRepository()
     populate(data_path, repo.repo_instance)
 
+    login_manager.init_app(app)
+
     with app.app_context():
         from .home import home
         app.register_blueprint(home.home_bp)
@@ -38,5 +41,8 @@ def create_app(test_config=None):
 
         from .utilities import utilities
         app.register_blueprint(utilities.utilities_bp)
+
+        from .auth import auth
+        app.register_blueprint(auth.auth_bp)
 
     return app
