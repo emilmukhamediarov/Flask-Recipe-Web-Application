@@ -1,6 +1,6 @@
 import random
 from math import ceil
-from flask import Blueprint, render_template, request, url_for, redirect
+from flask import Blueprint, render_template, request, url_for
 import recipe.adapters.repository as repo
 
 from recipe.browse import services
@@ -24,23 +24,7 @@ def browse():
     selected_sort = request.args.get('sort')
     search_term = request.args.get('search')
 
-    # if selected_search:
-    #     all_recipes = services.get_recipes(repo.repo_instance)
-    #     print(all_recipes)
-    #     # recipe_get_by_name()
-    #     search = selected_search.lower()
-    #     total = []
-    #     for recipe in all_recipes:
-    #         if search in recipe.name.lower():
-    #             total.append(recipe)
-    #     match = next((r for r in all_recipes if selected_search.lower() in r.name.lower()), None)
-    #     if match:
-    #         return redirect(url_for('browse_bp.browse', recipe_id=match.name))
 
-    # remove below
-    # if selected_category and selected_author:
-    #     print("Only one filter allowed to be applied at a time")
-    #     selected_author = None
 
     recipes = services.get_recipes(repo.repo_instance)
     if selected_category:
