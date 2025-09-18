@@ -684,3 +684,22 @@ label[for="toggle"]:hover {
   padding: 0;
   margin: 20px 0;
 }
+
+.flash-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-top: 12px;
+}
+
+.flash-messages .alert {
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.alert-success { background: #6ab547; color: white; }
+.alert-danger  { background: #e74c3c; color: white; }
+.alert-warning { background: #f39c12; color: white; }
+.alert-info    { background: #3498db; color: white; }

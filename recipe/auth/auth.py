@@ -7,11 +7,8 @@ from functools import wraps
 
 auth_bp = Blueprint('auth_bp', __name__, url_prefix='/auth')
 
-# ---------------------------
-# Helper: login_required decorator
-# ---------------------------
+
 def login_required(view_func):
-    """Decorator to restrict routes to logged-in users only."""
     @wraps(view_func)
     def wrapped_view(**kwargs):
         if "username" not in session:
@@ -21,9 +18,7 @@ def login_required(view_func):
     return wrapped_view
 
 
-# ---------------------------
-# LOGIN ROUTE
-# ---------------------------
+
 @auth_bp.route('/login', methods=['GET', 'POST'])
 def login():
     form = LoginForm()
@@ -34,7 +29,7 @@ def login():
             # clear any previous session and set logged-in user
             session.clear()
             session["username"] = user.username
-            session["user_id"] = user.id  # optional, might be useful later
+            session["user_id"] = user.id
 
             flash("Logged in successfully!", "success")
             return redirect(url_for('home_bp.home'))
@@ -44,9 +39,6 @@ def login():
     return render_template("auth/login.html", form=form)
 
 
-# ---------------------------
-# REGISTER ROUTE
-# ---------------------------
 @auth_bp.route('/register', methods=['GET', 'POST'])
 def register():
     form = RegisterForm()
@@ -54,11 +46,9 @@ def register():
         if services.retrieve_user_by_name(form.username.data, repo.repo_instance):
             flash("Username already exists", "danger")
         else:
-            # create a new user (password hashing happens in services)
             new_user = User(username=form.username.data, password=form.password.data)
             services.add_new_user(new_user, repo.repo_instance)
 
-            # automatically log in the new user
             session.clear()
             session["username"] = new_user.username
             session["user_id"] = new_user.id
@@ -69,9 +59,6 @@ def register():
     return render_template("auth/register.html", form=form)
 
 
-# ---------------------------
-# LOGOUT ROUTE
-# ---------------------------
 @auth_bp.route('/logout')
 @login_required
 def logout():
