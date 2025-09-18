@@ -18,7 +18,7 @@ class MemoryRepository(AbstractRepository):
         self.__authors = list()
         self.__categories = list()
         self.__recipes = list()
-
+        self.__favourites = list()
         self._users = {}
 
     def author_add(self, new_author) -> None:
@@ -108,6 +108,20 @@ class MemoryRepository(AbstractRepository):
 
     def get_user_by_id(self, user_id: int):
         return next((u for u in self._users.values() if u.id == user_id), None)
+
+    def favourite_add(self, favourite) -> None:
+        if favourite not in self.__favourites:
+            self.__favourites.append(favourite)
+
+    def favourite_remove(self, favourite) -> None:
+        if favourite in self.__favourites:
+            self.__favourites.remove(favourite)
+
+    def favourite_get_all(self) -> List[Recipe]:
+        return self.__favourites
+
+    def favourite_get_all_by_user_id(self, user_id: int) -> List[Recipe]:
+        return [favourite for favourite in self.__favourites if user_id == favourite.user_id]
 
 def populate(data_path, repo):
     reader = CSVDataReader(data_path)
