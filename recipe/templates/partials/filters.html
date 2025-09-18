@@ -3,6 +3,10 @@
 
 <div id="filters" >
     <form method="get" action="">
+            <!-- Search Bar -->
+            <label for="search">Search:</label>
+        <input type="search" name="search" id="search" placeholder="Search by name..." value="{{ search_term|default() }}"/>
+
             <!-- Sort Dropdown -->
             <label for="sort">Sort By:</label>
             <select name="sort" id="sort" onchange="this.form.submit()">
@@ -47,6 +51,7 @@
                     {% endif %}
                 {% endfor %}
             </select>
+            <button type="submit" class="reset-button">Go</button>
             <a href="{{ url_for('browse_bp.browse') }}" class="reset-button">Reset</a>
         </form>
 </div>
