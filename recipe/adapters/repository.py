@@ -99,16 +99,32 @@ class AbstractRepository(abc.ABC):
         raise NotImplementedError
 
     @abc.abstractmethod
-    def add_user(self, user: User):
+    def user_add(self, user: User):
         """Adds User to the dictionary"""
         raise NotImplementedError
 
     @abc.abstractmethod
-    def get_user_by_username(self, username: str) -> User:
+    def user_get_by_username(self, username: str) -> User:
         """Returns the User by username"""
         raise NotImplementedError
 
     @abc.abstractmethod
-    def get_user_by_id(self, user_id: int) -> User:
+    def user_get_by_id(self, user_id: int) -> User:
         """Returns the User by id"""
+        raise NotImplementedError
+
+    @abc.abstractmethod
+    def reviews_add(self, review) -> None:
+        raise NotImplementedError
+
+    @abc.abstractmethod
+    def reviews_get_by_id(self, review_id: int) -> Review:
+        raise NotImplementedError
+
+    @abc.abstractmethod
+    def reviews_get_all_by_user_id(self, user_id: int) -> List[Review]:
+        raise NotImplementedError
+
+    @abc.abstractmethod
+    def reviews_get_all_by_recipe_id(self, recipe_id: int) -> List[Review]:
         raise NotImplementedError

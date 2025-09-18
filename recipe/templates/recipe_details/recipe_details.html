@@ -1,109 +1,154 @@
 {% extends 'layout.html' %}
 
 {% block content %}
-<div class="recipe-page">
-{#<a href="{{ request.referrer if request.referrer else url_for('browse_bp.browse') }}"#}
-{#     class="button secondary back-button">#}
-{#     ← Back#}
-{#  </a>#}
-  <article class="recipe-panel">
+    <div class="recipe-page">
+        {#<a href="{{ request.referrer if request.referrer else url_for('browse_bp.browse') }}"#}
+        {#     class="button secondary back-button">#}
+        {#     ← Back#}
+        {#  </a>#}
+        <article class="recipe-panel">
 
-    <div class="recipe-hero">
+            <div class="recipe-hero">
 
-  <div class="image-slider">
-    {% for img in recipe.images[0:5] %}
-      <input type="radio" name="slider" id="slide{{ loop.index0 }}" {% if loop.index0 == 0 %}checked{% endif %}>
-      <img src="{{ img }}" class="slide" alt="{{ recipe.name }}">
-    {% endfor %}
+                <div class="image-slider">
+                    {% for img in recipe.images[0:5] %}
+                        <input type="radio" name="slider" id="slide{{ loop.index0 }}" {% if loop.index0 == 0 %}checked{% endif %}>
+                        <img src="{{ img }}" class="slide" alt="{{ recipe.name }}">
+                    {% endfor %}
 
-    {% if recipe.images[0:5]|length > 1 %}
-      <div class="image-dots">
-        {% for img in recipe.images[0:5] %}
-          <label for="slide{{ loop.index0 }}" class="dot"></label>
-        {% endfor %}
-      </div>
-    {% endif %}
-  </div>
+                    {% if recipe.images[0:5]|length > 1 %}
+                        <div class="image-dots">
+                            {% for img in recipe.images[0:5] %}
+                                <label for="slide{{ loop.index0 }}" class="dot"></label>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
 
-</div>
+            </div>
 
-    <!-- title, author, rating -->
-    <header class="recipe-header">
-      <h1>{{ recipe.name }}</h1>
-      <p class="byline">
-          By: <a href={{ url_for('browse_bp.browse', author=recipe.author.name) }}><strong>{{ recipe.author.name }}</strong></a> •
-        <span class="muted">Date: {{ recipe.date.date() }}</span>
-      </p>
-      <p class="rating">
-        Rating: <strong>{{ recipe.rating }}</strong> • Nutritional Score: <strong>{{ recipe.nutrition.score }}</strong>
-      </p>
-    </header>
+            <!-- title, author, rating -->
+            <header class="recipe-header">
+                <h1>{{ recipe.name }}</h1>
+                <p class="byline">
+                    By: <a href={{ url_for('browse_bp.browse', author=recipe.author.name) }}><strong>{{ recipe.author.name }}</strong></a> •
+                    <span class="muted">Date: {{ recipe.date.date() }}</span>
+                </p>
+                <p class="rating">
+                    Rating: <strong>{{ recipe.rating }}</strong> • Nutritional Score: <strong>{{ recipe.nutrition.score }}</strong>
+                </p>
+            </header>
 
-    <!-- meta grid (category, prep time, cook time, servings, calories) -->
-    <section class="meta-grid" aria-label="Recipe information">
-      <div class="meta-card">
-        <div class="meta-title">Category</div>
-        <div class="meta-value">{{ recipe.category.name }}</div>
-      </div>
-      <div class="meta-card">
-        <div class="meta-title">Preparation Time</div>
-        <div class="meta-value">{{ recipe.preparation_time }} min</div>
-      </div>
-      <div class="meta-card">
-        <div class="meta-title">Cook Time</div>
-        <div class="meta-value">{{ recipe.cook_time }} min</div>
-      </div>
-      <div class="meta-card">
-        <div class="meta-title">Servings</div>
-        <div class="meta-value">{{ recipe.servings }}</div>
-      </div>
-      <div class="meta-card">
-        <div class="meta-title">Calories</div>
-        <div class="meta-value">{{ recipe.nutrition.data["Calories"] }} kcal</div>
-      </div>
-    </section>
+            <!-- meta grid (category, prep time, cook time, servings, calories) -->
+            <section class="meta-grid" aria-label="Recipe information">
+                <div class="meta-card">
+                    <div class="meta-title">Category</div>
+                    <div class="meta-value">{{ recipe.category.name }}</div>
+                </div>
+                <div class="meta-card">
+                    <div class="meta-title">Preparation Time</div>
+                    <div class="meta-value">{{ recipe.preparation_time }} min</div>
+                </div>
+                <div class="meta-card">
+                    <div class="meta-title">Cook Time</div>
+                    <div class="meta-value">{{ recipe.cook_time }} min</div>
+                </div>
+                <div class="meta-card">
+                    <div class="meta-title">Servings</div>
+                    <div class="meta-value">{{ recipe.servings }}</div>
+                </div>
+                <div class="meta-card">
+                    <div class="meta-title">Calories</div>
+                    <div class="meta-value">{{ recipe.nutrition.data["Calories"] }} kcal</div>
+                </div>
+            </section>
 
-    <!-- main content columns -->
-    <div class="recipe-body">
-      <!-- left column -->
-      <div class="main-col">
-        <section class="panel-section">
-          <h3>Description</h3>
-          <p>{{ recipe.description }}</p>
-        </section>
+            <!-- main content columns -->
+            <div class="recipe-body">
+                <!-- left column -->
+                <div class="main-col">
+                    <section class="panel-section">
+                        <h3>Description</h3>
+                        <p>{{ recipe.description }}</p>
+                    </section>
 
-        <section class="panel-section">
-          <h3>Instructions</h3>
-          <ol class="instructions-list">
-            {% for step in recipe.instructions %}
-              <li>{{ step }}</li>
+                    <section class="panel-section">
+                        <h3>Instructions</h3>
+                        <ol class="instructions-list">
+                            {% for step in recipe.instructions %}
+                                <li>{{ step }}</li>
+                            {% endfor %}
+                        </ol>
+                    </section>
+                </div>
+
+                <!-- right sidebar -->
+                <aside class="sidebar-col">
+                    <div class="panel-box">
+                        <h4>Ingredients</h4>
+                        <ul class="ingredients">
+                            {% for i in range(recipe.ingredients|length) %}
+                                <li>
+                                    {{ recipe.ingredient_quantities[i] | capitalize if recipe.ingredient_quantities[i] != "NA" else "" }}
+                                    {{ recipe.ingredients[i] | capitalize}}
+                                </li>
+                            {% endfor %}
+                        </ul>
+                        <h4>Nutritional Values</h4>
+                        <ul class="ingredients">
+                            {% for key, value in recipe.nutrition.data.items() %}
+                                <li>{{ key }} : {{ value }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </aside>
+
+            </div>
+        </article>
+
+        <article class="review-panel">
+            <header class="review-header">
+                <h1>Reviews</h1>
+            </header>
+            {% if reviews %}
+            {% for review in reviews %}
+            <div class="review-box">
+                <h2>{{ review.name }}</h2>
+                <h3>{{ review.rating }}</h3>
+                <p>{{ review.text }}</p>
+            </div>
             {% endfor %}
-          </ol>
-        </section>
-      </div>
+            {% endif %}
+        </article>
 
-      <!-- right sidebar -->
-      <aside class="sidebar-col">
-        <div class="panel-box">
-          <h4>Ingredients</h4>
-          <ul class="ingredients">
-            {% for i in range(recipe.ingredients|length) %}
-              <li>
-                {{ recipe.ingredient_quantities[i] | capitalize if recipe.ingredient_quantities[i] != "NA" else "" }}
-                {{ recipe.ingredients[i] | capitalize}}
-                </li>
-            {% endfor %}
-          </ul>
-          <h4>Nutritional Values</h4>
-          <ul class="ingredients">
-            {% for key, value in recipe.nutrition.data.items() %}
-              <li>{{ key }} : {{ value }}</li>
-            {% endfor %}
-          </ul>
-        </div>
-      </aside>
+        {% if current_user.is_authenticated %}
+        <header class="review-header">
+            <h1>Please leave a review.</h1>
+        </header>
+        <form method="POST" action="{{ url_for('review_bp.review') }}">
+            <input type="hidden" name="user_id" value="{{ current_user.id }}">
+            <input type="hidden" name="recipe_id" value="{{ recipe.id }}">
+
+            <label for="rating">Rating:</label>
+            <select id="rating" name="rating" required>
+                <option value="">Pick a score</option>
+                <option value="1">⭐ - Poor</option>
+                <option value="2">⭐⭐ - Ok</option>
+                <option value="3">⭐⭐⭐ - Good</option>
+                <option value="4">⭐⭐⭐⭐ - Very Good</option>
+                <option value="5">⭐⭐⭐⭐⭐ - Excellent</option>
+            </select>
+
+            <br>
+
+            <label for="text">Your Review:</label>
+            <textarea id="text" name="text" rows="5" cols="40" required></textarea>
+
+            <br>
+
+            <button type="submit">Submit Review</button>
+        </form>
+        {% endif %}
+
     </div>
-
-  </article>
-</div>
 {% endblock %}
