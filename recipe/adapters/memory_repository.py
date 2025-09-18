@@ -8,6 +8,7 @@ from recipe.domainmodel.author import Author
 from recipe.domainmodel.category import Category
 from recipe.domainmodel.nutrition import Nutrition
 from recipe.domainmodel.recipe import Recipe
+from recipe.domainmodel.user import User
 from recipe.adapters.repository import AbstractRepository
 from datetime import datetime
 
@@ -17,6 +18,8 @@ class MemoryRepository(AbstractRepository):
         self.__authors = list()
         self.__categories = list()
         self.__recipes = list()
+
+        self._users = {}
 
     def author_add(self, new_author) -> None:
         if not isinstance(new_author, Author):
@@ -95,6 +98,16 @@ class MemoryRepository(AbstractRepository):
 
     def recipe_get_latest(self, num: int) -> List[Recipe]:
         return self.__recipes[-num:]
+
+    def add_user(self, user: User):
+        user.id = len(self._users) + 1
+        self._users[user.username] = user
+
+    def get_user_by_username(self, username: str):
+        return self._users.get(username)
+
+    def get_user_by_id(self, user_id: int):
+        return next((u for u in self._users.values() if u.id == user_id), None)
 
 def populate(data_path, repo):
     reader = CSVDataReader(data_path)
