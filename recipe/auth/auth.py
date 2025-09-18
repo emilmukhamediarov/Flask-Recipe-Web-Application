@@ -26,7 +26,6 @@ def login():
         user = services.retrieve_user_by_name(form.username.data, repo.repo_instance)
 
         if user and user.check_password(form.password.data):
-            # clear any previous session and set logged-in user
             session.clear()
             session["username"] = user.username
             session["user_id"] = user.id
