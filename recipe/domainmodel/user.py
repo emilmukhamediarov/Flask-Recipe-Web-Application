@@ -40,8 +40,8 @@ class User:
         return self.__username
 
     @property
-    def password(self) -> str:
-        return self.__password
+    def password_hash(self) -> str:
+        return self.__password_hash
 
     @property
     def favourite_recipes(self) -> list["Favourite"]:
