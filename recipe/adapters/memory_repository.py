@@ -59,7 +59,7 @@ class MemoryRepository(AbstractRepository):
             raise ValueError("Category name must be provided as an instance of str.")
         category = next((category for category in self.__categories if category.name == category_name), None)
         if category is None:
-            category = Category(category_name, id=len(self.__categories))
+            category = Category(category_name)
             self.__categories.append(category)
         return category
 

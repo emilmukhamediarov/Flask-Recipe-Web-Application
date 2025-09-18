@@ -61,6 +61,17 @@ The data files are modified excerpts downloaded from:
 https://www.kaggle.com/datasets/irkaal/foodcom-recipes-and-reviews/
 
 
+## Health Star Rating
+Nutritional values are scaled according to FDA recommended daily intakes.
+
+'Protein' and 'Fiber' are considered positive impacts.
+'Calories', 'Sugar', 'Sodium' and 'Saturated Fat' are considered negative impacts.
+
+Proportional values for negative and positive impacts have their weighted average calculated (with weights based on WHO advice for relative impacts).
+Negative and positive impacts have their total weighted average calculated (with weights based on the proportion on negative/positively affecting data available).
+
+Raw score is inputted to a sigmoid function to scale between 1 and 5, and then rounded to the nearest 0.5.
+
 
 
 
