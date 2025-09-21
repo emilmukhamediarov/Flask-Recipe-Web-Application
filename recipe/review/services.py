@@ -7,7 +7,5 @@ class UserNotFound(Exception):
 def create_review(user_id, recipe_id, rating, text, repository : AbstractRepository):
     if not repository.user_get_by_id(user_id):
         raise UserNotFound
-    return Review(user_id, recipe_id, rating, text)
-
-def add_review(review : Review, repository:AbstractRepository):
-    repository.reviews_add(review)
+    r = Review(user_id, recipe_id, rating, text)
+    repository.reviews_add(r)

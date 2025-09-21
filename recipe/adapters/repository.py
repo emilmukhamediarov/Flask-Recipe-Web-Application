@@ -135,8 +135,8 @@ class AbstractRepository(abc.ABC):
         raise NotImplementedError
 
     @abc.abstractmethod
-    def favourite_remove(self, recipe) -> None:
-        """Removes a recipe from favourites"""
+    def favourite_remove(self, user_id, recipe_id) -> None:
+        """Removes a favourite by id match"""
         raise NotImplementedError
 
     @abc.abstractmethod

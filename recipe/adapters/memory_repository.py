@@ -131,9 +131,10 @@ class MemoryRepository(AbstractRepository):
         if favourite not in self.__favourites:
             self.__favourites.append(favourite)
 
-    def favourite_remove(self, favourite) -> None:
-        if favourite in self.__favourites:
-            self.__favourites.remove(favourite)
+    def favourite_remove(self, user_id : int, recipe_id : int) -> None:
+        f = next((f for f in self.__favourites if f.user_id == user_id and f.recipe_id == recipe_id), None)
+        if f:
+            self.__favourites.remove(f)
 
     def favourite_get_all(self) -> List[Recipe]:
         return self.__favourites

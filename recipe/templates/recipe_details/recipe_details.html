@@ -34,11 +34,19 @@
                     Rating: <strong>{{ recipe.rating }}</strong> • Nutritional Score: <strong>{{ recipe.nutrition.score }}</strong>
                 </p>
 
+            <!-- Add/Remove Favourite -->
                 {% if session['user_id'] %}
+                    {% if is_favourite %}
+                    <form method="POST" action="{{ url_for('favourites_bp.remove') }}">
+                        <input type="hidden" name="recipe_id" value="{{ recipe.id }}">
+                        <button class="button" type="submit">Remove favourites ♥</button>
+                    </form>
+                    {% else %}
                     <form method="POST" action="{{ url_for('favourites_bp.favourites') }}">
                         <input type="hidden" name="recipe_id" value="{{ recipe.id }}">
-                        <button type="submit">Add to favourites ♡</button>
+                        <button class="button" type="submit">Add to favourites ♡</button>
                     </form>
+                    {% endif %}
                 {% endif %}
             </header>
 
@@ -135,33 +143,33 @@
         </div>
         {% endif %}
 
-            {% if session["user_id"] %}
-                <header class="review-header">
-                    <h2>Tried this recipe? Leave a review!</h2>
-                </header>
-                <form method="POST" action="{{ url_for('review_bp.review') }}">
-                    <input type="hidden" name="recipe_id" value="{{ recipe.id }}">
+        {% if session["user_id"] %}
+            <header class="review-header">
+                <h2>Tried this recipe? Leave a review!</h2>
+            </header>
+            <form method="POST" action="{{ url_for('review_bp.review') }}">
+                <input type="hidden" name="recipe_id" value="{{ recipe.id }}">
 
-                    <label for="rating"></label>
-                    <select id="rating" name="rating" required>
-                        <option value="">Rating:</option>
-                        <option value="1">★ - Poor</option>
-                        <option value="2">★★ - Ok</option>
-                        <option value="3">★★★ - Good</option>
-                        <option value="4">★★★★ - Very Good</option>
-                        <option value="5">★★★★★ - Excellent</option>
-                    </select>
+                <label for="rating"></label>
+                <select id="rating" name="rating" required>
+                    <option value="">Rating:</option>
+                    <option value="1">★ - Poor</option>
+                    <option value="2">★★ - Ok</option>
+                    <option value="3">★★★ - Good</option>
+                    <option value="4">★★★★ - Very Good</option>
+                    <option value="5">★★★★★ - Excellent</option>
+                </select>
 
-                    <br>
+                <br>
 
-                    <label for="text"></label>
-                    <textarea id="text" name="text" rows="5" cols="40" required></textarea>
+                <label for="text"></label>
+                <textarea id="text" name="text" rows="5" cols="40" required></textarea>
 
-                    <br>
+                <br>
 
-                    <button type="submit">Submit Review</button>
-                </form>
-            {% endif %}
-        </article>
+                <button type="submit">Submit Review</button>
+            </form>
+        {% endif %}
+
     </div>
 {% endblock %}

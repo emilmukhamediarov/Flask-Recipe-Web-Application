@@ -17,9 +17,7 @@ def review():
     text = request.form['text']
 
     try:
-        review = services.create_review(user_id, recipe_id, rating, text, repo.repo_instance)
-
-        services.add_review(review, repo.repo_instance)
+        services.create_review(user_id, recipe_id, rating, text, repo.repo_instance)
         flash("Review successfully submitted", "success")
         return redirect(url_for('recipe_details_bp.get_recipe_details', recipe_id=recipe_id))
     except UserNotFound:
