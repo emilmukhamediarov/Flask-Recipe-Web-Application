@@ -1,8 +1,4 @@
-from math import ceil
-from typing import TYPE_CHECKING, List
 from recipe.adapters.repository import AbstractRepository
-from recipe.adapters.memory_repository import MemoryRepository
-from recipe.domainmodel import favourite
 from recipe.domainmodel.favourite import Favourite
 
 def add_new_favourite(new_favourite:Favourite, repository:AbstractRepository):

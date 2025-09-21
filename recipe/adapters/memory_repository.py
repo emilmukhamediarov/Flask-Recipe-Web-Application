@@ -10,6 +10,7 @@ from recipe.domainmodel.nutrition import Nutrition
 from recipe.domainmodel.recipe import Recipe
 from recipe.domainmodel.review import Review
 from recipe.domainmodel.user import User
+from recipe.domainmodel.favourite import Favourite
 from recipe.adapters.repository import AbstractRepository
 from datetime import datetime
 
@@ -137,7 +138,7 @@ class MemoryRepository(AbstractRepository):
     def favourite_get_all(self) -> List[Recipe]:
         return self.__favourites
 
-    def favourite_get_all_by_user_id(self, user_id: int) -> List[Recipe]:
+    def favourite_get_all_by_user_id(self, user_id: int) -> List[Favourite]:
         return [favourite for favourite in self.__favourites if user_id == favourite.user_id]
 
 def populate(data_path, repo):

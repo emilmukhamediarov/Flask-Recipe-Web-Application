@@ -1,6 +1,4 @@
-import recipe.adapters.repository as repo
 from recipe.adapters.repository import AbstractRepository
-from recipe.adapters.memory_repository import MemoryRepository
 
 NUMBER_OF_FEATURE_RECIPES = 4
 

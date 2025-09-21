@@ -1,7 +1,6 @@
 from math import ceil
 from typing import TYPE_CHECKING, List
 from recipe.adapters.repository import AbstractRepository
-from recipe.adapters.memory_repository import MemoryRepository
 
 if TYPE_CHECKING:
     from recipe.domainmodel.recipe import Recipe

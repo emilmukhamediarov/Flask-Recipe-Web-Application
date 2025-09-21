@@ -1,5 +1,3 @@
-import random
-from math import ceil
 from flask import Blueprint, render_template, request, url_for
 import recipe.adapters.repository as repo
 

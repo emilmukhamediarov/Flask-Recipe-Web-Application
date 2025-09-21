@@ -33,6 +33,13 @@
                 <p class="rating">
                     Rating: <strong>{{ recipe.rating }}</strong> • Nutritional Score: <strong>{{ recipe.nutrition.score }}</strong>
                 </p>
+
+                {% if session['user_id'] %}
+                    <form method="POST" action="{{ url_for('favourites_bp.favourites') }}">
+                        <input type="hidden" name="recipe_id" value="{{ recipe.id }}">
+                        <button type="submit">Add to favourites ♡</button>
+                    </form>
+                {% endif %}
             </header>
 
             <!-- meta grid (category, prep time, cook time, servings, calories) -->
@@ -113,35 +120,36 @@
                 <h3>{{ review.rating }}</h3>
                 <p>{{ review.text }}</p>
             </div>
+            {% endfor %}
+            {% endif %}
 
-        {% if session["user_id"] %}
-        <header class="review-header">
-            <h1>Please leave a review.</h1>
-        </header>
-        <form method="POST" action="{{ url_for('review_bp.review') }}">
-            <input type="hidden" name="user_id" value="{{ current_user.id }}">
-            <input type="hidden" name="recipe_id" value="{{ recipe.id }}">
+            {% if session["user_id"] %}
+                <header class="review-header">
+                    <h1>Please leave a review.</h1>
+                </header>
+                <form method="POST" action="{{ url_for('review_bp.review') }}">
+                    <input type="hidden" name="recipe_id" value="{{ recipe.id }}">
 
-            <label for="rating">Rating:</label>
-            <select id="rating" name="rating" required>
-                <option value="">Pick a score</option>
-                <option value="1">⭐ - Poor</option>
-                <option value="2">⭐⭐ - Ok</option>
-                <option value="3">⭐⭐⭐ - Good</option>
-                <option value="4">⭐⭐⭐⭐ - Very Good</option>
-                <option value="5">⭐⭐⭐⭐⭐ - Excellent</option>
-            </select>
+                    <label for="rating">Rating:</label>
+                    <select id="rating" name="rating" required>
+                        <option value="">Pick a score</option>
+                        <option value="1">⭐ - Poor</option>
+                        <option value="2">⭐⭐ - Ok</option>
+                        <option value="3">⭐⭐⭐ - Good</option>
+                        <option value="4">⭐⭐⭐⭐ - Very Good</option>
+                        <option value="5">⭐⭐⭐⭐⭐ - Excellent</option>
+                    </select>
 
-            <br>
+                    <br>
 
-            <label for="text">Your Review:</label>
-            <textarea id="text" name="text" rows="5" cols="40" required></textarea>
+                    <label for="text">Your Review:</label>
+                    <textarea id="text" name="text" rows="5" cols="40" required></textarea>
 
-            <br>
+                    <br>
 
-            <button type="submit">Submit Review</button>
-        </form>
-        {% endif %}
-
+                    <button type="submit">Submit Review</button>
+                </form>
+            {% endif %}
+        </article>
     </div>
 {% endblock %}
