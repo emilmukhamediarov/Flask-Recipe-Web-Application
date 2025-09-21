@@ -19,10 +19,9 @@ class MemoryRepository(AbstractRepository):
         self.__authors = list()
         self.__categories = list()
         self.__recipes = list()
-
         self.__reviews = list()
-
-        self._users = {}
+        self.__favourites = list()
+        self._users = dict()
 
     def author_add(self, new_author) -> None:
         if not isinstance(new_author, Author):
@@ -127,6 +126,20 @@ class MemoryRepository(AbstractRepository):
     def reviews_get_all_by_recipe_id(self, recipe_id : int) -> List[Review]:
         return [review for review in self.__reviews if review.recipe_id == recipe_id]
 
+    def favourite_add(self, favourite) -> None:
+        if favourite not in self.__favourites:
+            self.__favourites.append(favourite)
+
+    def favourite_remove(self, favourite) -> None:
+        if favourite in self.__favourites:
+            self.__favourites.remove(favourite)
+
+    def favourite_get_all(self) -> List[Recipe]:
+        return self.__favourites
+
+    def favourite_get_all_by_user_id(self, user_id: int) -> List[Recipe]:
+        return [favourite for favourite in self.__favourites if user_id == favourite.user_id]
+
 def populate(data_path, repo):
     reader = CSVDataReader(data_path)
     data = reader.read()
@@ -160,7 +173,6 @@ def populate(data_path, repo):
         sugar_content = float(row["SugarContent"])
         protein_content = float(row["ProteinContent"])
 
-        # Is there a way of getting these without an extra library?
         recipe_images = ast.literal_eval(row["Images"])
         ingredient_quantities = ast.literal_eval(row["RecipeIngredientQuantities"])
         ingredient_parts = ast.literal_eval(row["RecipeIngredientParts"])

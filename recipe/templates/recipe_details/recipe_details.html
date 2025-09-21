@@ -2,10 +2,6 @@
 
 {% block content %}
     <div class="recipe-page">
-        {#<a href="{{ request.referrer if request.referrer else url_for('browse_bp.browse') }}"#}
-        {#     class="button secondary back-button">#}
-        {#     ← Back#}
-        {#  </a>#}
         <article class="recipe-panel">
 
             <div class="recipe-hero">
@@ -117,11 +113,8 @@
                 <h3>{{ review.rating }}</h3>
                 <p>{{ review.text }}</p>
             </div>
-            {% endfor %}
-            {% endif %}
-        </article>
 
-        {% if current_user.is_authenticated %}
+        {% if session["user_id"] %}
         <header class="review-header">
             <h1>Please leave a review.</h1>
         </header>

@@ -1,9 +1,9 @@
 class Favourite:
 # TODO: Complete the implementation of the Favourite class.
     id_count = 1
-    def __init__(self, my_user: object, my_recipe: object):
-        self.__user = my_user
-        self.__recipe = my_recipe
+    def __init__(self, user_id : int, my_recipe_id: int):
+        self.__user_id = user_id
+        self.__recipe_id = my_recipe_id
         self.__id = Favourite.id_count
         Favourite.id_count += 1
 
@@ -12,11 +12,11 @@ class Favourite:
         return self.__id
 
     @property
-    def user(self):
-        return self.__user
+    def user_id(self):
+        return self.__user_id
     @property
-    def recipe(self):
-        return self.__recipe
+    def recipe_id(self):
+        return self.__recipe_id
 
     def __repr__(self):
         return f"favourite(id={self.id}, user={self.user}, recipe={self.recipe})"
