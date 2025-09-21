@@ -109,7 +109,7 @@ class MemoryRepository(AbstractRepository):
     def user_get_by_username(self, username: str):
         return self._users.get(username)
 
-    def user_get_by_id(self, user_id : int):
+    def user_get_by_id(self, user_id : int) -> User:
         return next((u for u in self._users.values() if u.id == user_id), None)
 
     def reviews_add(self, review) -> None:

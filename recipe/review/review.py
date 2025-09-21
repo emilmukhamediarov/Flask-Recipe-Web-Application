@@ -4,6 +4,7 @@ from recipe.domainmodel.review import Review
 import recipe.adapters.repository as repo
 from recipe.review import services
 from recipe.auth.auth import login_required
+from recipe.review.services import UserNotFound
 
 review_bp = Blueprint('review_bp', __name__)
 
@@ -15,11 +16,15 @@ def review():
     rating = int(request.form['rating'])
     text = request.form['text']
 
-    review = Review(user_id, recipe_id, rating, text)
+    try:
+        review = services.create_review(user_id, recipe_id, rating, text, repo.repo_instance)
 
-    services.add_review(review, repo.repo_instance)
-    flash("Review successfully submitted", "success")
-    return redirect(url_for('recipe_details_bp.get_recipe_details', recipe_id=recipe_id))
+        services.add_review(review, repo.repo_instance)
+        flash("Review successfully submitted", "success")
+        return redirect(url_for('recipe_details_bp.get_recipe_details', recipe_id=recipe_id))
+    except UserNotFound:
+        flash("User doesn't exist", "warning")
+        return redirect(url_for('recipe_details_bp.get_recipe_details', recipe_id=recipe_id))
 
 
 
