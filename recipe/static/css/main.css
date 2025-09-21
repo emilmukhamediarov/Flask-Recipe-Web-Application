@@ -55,6 +55,10 @@ a {
   color: var(--text-green);
 }
 
+.nav-actions span {
+  margin: 0 10px;
+}
+
 /* ========== Buttons ========== */
 .button {
   background: var(--text-green);
@@ -633,4 +637,40 @@ a {
   font-size: 0.85rem;
   margin-top: 4px;
   display: block;
+}
+
+/* ======================= */
+/* User Reviews */
+.reviews-section {
+  margin-top: 40px;
+}
+
+.reviews-list {
+  display: grid;
+  gap: 20px;
+}
+
+.review-author {
+  font-weight: 600;
+  color: var(--text-green);
+}
+
+.review-card {
+  background: #fff;
+  border: 1px solid #eee;
+  border-radius: 12px;
+  padding: 16px 20px;
+  margin: 10px 0;
+  box-shadow: var(--shadow-md, 0 2px 6px rgba(0,0,0,0.08));
+  transition: transform 0.2s ease;
+}
+
+.review-card:hover {
+  transform: translateY(-3px);
+}
+
+.review-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
