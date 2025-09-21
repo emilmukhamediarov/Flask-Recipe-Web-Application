@@ -42,7 +42,10 @@ def create_app(test_config=None):
         from .auth import auth
         app.register_blueprint(auth.auth_bp)
 
-        from recipe.favourites.favourites import favourites_bp
-        app.register_blueprint(favourites_bp)
+        from .favourites import favourites
+        app.register_blueprint(favourites.favourites_bp)
+
+        from .review import review
+        app.register_blueprint(review.review_bp)
 
     return app

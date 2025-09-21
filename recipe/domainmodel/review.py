@@ -1,9 +1,8 @@
 class Review:
-# TODO: Complete the implementation of the Review class.
     id_count = 1
-    def __init__(self, my_author: object, my_recipe: object, rating: int, text: str):
-        self.__my_author = my_author
-        self.__my_recipe = my_recipe
+    def __init__(self, user_id: int, recipe_id: int, rating: int, text: str):
+        self.__user_id = user_id
+        self.__recipe_id = recipe_id
         self.__rating = rating
         if self.__rating < 0 or self.__rating > 5:
             raise ValueError("rating must be between 0 and 5 inclusive.")
@@ -17,12 +16,12 @@ class Review:
         return self.__id
 
     @property
-    def author(self):
-        return self.__my_author
+    def user_id(self):
+        return self.__user_id
 
     @property
-    def recipe(self):
-        return self.__my_recipe
+    def recipe_id(self):
+        return self.__recipe_id
 
     @property
     def rating(self):
