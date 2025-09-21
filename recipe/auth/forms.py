@@ -1,8 +1,8 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField
+from wtforms import StringField, PasswordField, SubmitField, ValidationError
 from wtforms.validators import DataRequired, Length, EqualTo
 from password_validator import PasswordValidator
-from wtforms import ValidationError
+
 import recipe.adapters.repository as repo
 import recipe.auth.services as services
 
