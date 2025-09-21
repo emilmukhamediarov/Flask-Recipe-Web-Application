@@ -684,3 +684,42 @@ label[for="toggle"]:hover {
   padding: 0;
   margin: 20px 0;
 }
+
+.flash-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-top: 12px;
+}
+
+.flash-messages .alert {
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.alert-success {
+  background: #dff6dd;
+  color: #256029;
+  border: 1px solid #b5e6b3;
+}
+
+.alert-danger,
+.alert-error {
+  background: #fdecea;
+  color: #611a15;
+  border: 1px solid #f5c6cb;
+}
+
+.alert-warning {
+  background: #fff3cd;
+  color: #664d03;
+  border: 1px solid #ffeeba;
+}
+
+.alert-info {
+  background: #e7f1ff;
+  color: #084298;
+  border: 1px solid #b6d4fe;
+}

@@ -6,7 +6,6 @@ from flask import Flask, render_template
 
 import recipe.adapters.repository as repo
 from recipe.adapters.memory_repository import MemoryRepository, populate
-from recipe.auth.auth import login_manager
 
 from recipe.domainmodel.recipe import Recipe
 from recipe.domainmodel.author import Author
@@ -26,8 +25,6 @@ def create_app(test_config=None):
 
     repo.repo_instance = MemoryRepository()
     populate(data_path, repo.repo_instance)
-
-    login_manager.init_app(app)
 
     with app.app_context():
         from .home import home
