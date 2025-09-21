@@ -112,3 +112,23 @@ class AbstractRepository(abc.ABC):
     def get_user_by_id(self, user_id: int) -> User:
         """Returns the User by id"""
         raise NotImplementedError
+
+    @abc.abstractmethod
+    def favourite_add(self, recipe) -> None:
+        """Adds a recipe to favourites"""
+        raise NotImplementedError
+
+    @abc.abstractmethod
+    def favourite_remove(self, recipe) -> None:
+        """Removes a recipe from favourites"""
+        raise NotImplementedError
+
+    @abc.abstractmethod
+    def favourite_get_all(self) -> List[Recipe]:
+        """Returns a list of favourites"""
+        raise NotImplementedError
+
+    @abc.abstractmethod
+    def favourite_get_all_by_user_id(self, user_id) -> List[Recipe]:
+        """Returns a list of favourites by user_id"""
+        raise NotImplementedError

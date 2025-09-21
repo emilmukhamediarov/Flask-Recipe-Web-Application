@@ -1,19 +1,27 @@
 {% extends "layout.html" %}
 {% block content %}
-<div class="form-container">
-  <h2>My Favourites</h2>
-  {% if favourites %}
-    <ul class="favourites-list">
-      {% for recipe in favourites %}
-        <li>
-          <a href="{{ url_for('recipe_details_bp.get_recipe_details', recipe_id=recipe.id) }}">
-            {{ recipe.name }}
-          </a>
-        </li>
-      {% endfor %}
-    </ul>
-  {% else %}
-    <p>You don’t have any favourite recipes yet.</p>
-  {% endif %}
-</div>
+{% if recipes %}
+        <h2>My Favourites</h2>
+        <div class="recipes-grid" id="results">
+
+            {% for recipe in recipes %}
+                <article class="recipe-card">
+                    <a class="card-link" href="{{ url_for('recipe_details_bp.get_recipe_details', recipe_id=recipe.id) }}">
+                        <div class="media">
+                            <img src="{{ recipe.images[0] }}" alt="{{ recipe.name }}">
+                        </div>
+
+                        <div class="card-body">
+                            <h3 class="card-title">{{ recipe.name }}</h3>
+                            <p class="meta">By: {{ recipe.author.name }}
+                                <br>
+                                {% if recipe.nutrition.score | length < 6 %}Health Score: {% endif %}{{ recipe.nutrition.score }}
+                            </p>
+                        </div>
+                    </a>
+                </article>
+            {% endfor %}
+
+        </div>
+{% endif %}
 {% endblock %}

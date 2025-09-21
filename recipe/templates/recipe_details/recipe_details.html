@@ -37,6 +37,14 @@
       <p class="rating">
         Rating: <strong>{{ recipe.rating }}</strong> • Nutritional Score: <strong>{{ recipe.nutrition.score }}</strong>
       </p>
+
+ {% if current_user.is_authenticated %}
+  <form method="POST" action="{{ url_for('favourites_bp.favourites') }}">
+    <input type="hidden" name="user_id" value="{{ current_user.id }}">
+    <input type="hidden" name="recipe_id" value="{{ recipe.id }}">
+    <button type="submit">Add to favourites ♡</button>
+</form>
+{% endif %}
     </header>
 
     <!-- meta grid (category, prep time, cook time, servings, calories) -->
