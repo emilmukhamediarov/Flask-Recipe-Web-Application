@@ -7,17 +7,14 @@ from functools import wraps
 
 auth_bp = Blueprint('auth_bp', __name__, url_prefix='/auth')
 
-
 def login_required(view_func):
     @wraps(view_func)
     def wrapped_view(**kwargs):
-        if "username" not in session:
+        if not session.get('user_id'):
             flash("Please log in to access this page.", "warning")
             return redirect(url_for("auth_bp.login"))
         return view_func(**kwargs)
     return wrapped_view
-
-
 
 @auth_bp.route('/login', methods=['GET', 'POST'])
 def login():

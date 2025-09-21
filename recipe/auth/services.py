@@ -9,3 +9,4 @@ def retrieve_user_by_id(user_id, repository:AbstractRepository):
 
 def add_new_user(new_user:User, repository:AbstractRepository):
     repository.user_add(new_user)
+
