@@ -1,5 +1,5 @@
 <input type="checkbox" id="toggle" {%  if selected_sort or selected_category or selected_author %}checked{% endif %}>
-<label for="toggle">Show Filters</label>
+<label for="toggle" class="button">Show Filters</label>
 
 <div id="filters" >
     <form method="get" action="">
@@ -51,7 +51,7 @@
                     {% endif %}
                 {% endfor %}
             </select>
-            <button type="submit" class="reset-button">Go</button>
+            <button type="submit" class="button">Go</button>
             <a href="{{ url_for('browse_bp.browse') }}" class="reset-button">Reset</a>
         </form>
 </div>

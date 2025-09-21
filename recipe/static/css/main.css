@@ -1,15 +1,24 @@
+:root {
+  --gap: 24px;
+  --card-bg: #111;
+  --card-color: #242121;
+  --card-radius: 6px;
+
+  --text-green: #6ab547;
+  --text-dark-green: #4e8c33;
+  --text-dark-grey: #333;
+}
+
 /* ========== Base Reset & Typography ========== */
 body {
-  margin: 0;
   font-family: 'Open Sans', sans-serif;
   background: #fafafa;
-  color: #333;
   line-height: 1.6;
 }
 
 h1, h2, h3, h4 {
   font-family: 'Poppins', sans-serif;
-  color: #6ab547;
+  color: var(--text-dark-grey);
   margin-bottom: 0.5em;
 }
 
@@ -19,80 +28,50 @@ a {
 }
 
 /* ========== Navbar ========== */
-.topbar nav {
+.navbar .nav-container {
   display: flex;
   justify-content: space-between;
   align-items: center;
   background: #faec51;
   padding: 12px 24px;
-  color: #333;
+  color: var(--text-dark-grey);
 }
 
-.topbar .logo a {
+.navbar .logo {
   font-family: 'Lobster', cursive;
   font-size: 1.6rem;
-  color: #333;
-  font-weight: bold;
+  color: var(--text-dark-grey);
 }
 
 .nav-links {
   list-style: none;
   display: flex;
   gap: 20px;
-}
-
-.nav-links li {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-
-.nav-links a {
   font-weight: 600;
-  color: #333;
+  color: var(--text-dark-grey);
 }
 
 .nav-links a:hover {
-  color: #6ab547;
-/* <<<<<<< recipe_details */
-    transform: scale(1.03);
-
-/* why */
-}
-
-.nav-actions .button {
-  background: #6ab547;
-  color: white;
-  padding: 8px 16px;
-  border-radius: 20px;
-  font-weight: 600;
-}
-
-.nav-actions .button:hover {
-  background: #4e8c33;
+  color: var(--text-green);
 }
 
 /* ========== Buttons ========== */
 .button {
-  background: #f7d716;
-  color: #333;
+  background: var(--text-green);
+  color: white;
+  margin: auto 2px;
   padding: 10px 20px;
-  border-radius: 30px;
+  border-radius: 20px;
   border: none;
-  cursor: pointer;
   font-weight: 600;
   display: inline-block;
   text-align: center;
-}
-
-.button.secondary {
-  background: #6ab547;
-  color: white;
+  cursor: pointer;
 }
 
 .button:hover {
-  background: #e6c60f;
-    transform: scale(1.03);
+  background: var(--text-dark-green);
+  transform: scale(1.03);
 }
 
 /* ========== Recipe Page Layout ========== */
@@ -113,7 +92,6 @@ a {
     text-decoration: underline;
 }
 
-
 .recipe-hero {
   text-align: center;
   padding: 20px;
@@ -125,7 +103,6 @@ a {
   border-radius: 10px;
   box-shadow: 0 4px 12px rgba(0,0,0,0.08);
 }
-
 
 .recipe-header {
   padding: 20px;
@@ -142,9 +119,8 @@ a {
 }
 
 .rating strong {
-  color: #6ab547;
+  color: var(--text-green);
 }
-
 
 .meta-grid {
   display: grid;
@@ -169,9 +145,8 @@ a {
 .meta-value {
   font-size: 1.1rem;
   font-weight: bold;
-  color: #6ab547;
+  color: var(--text-green);
 }
-
 
 .recipe-body {
   display: grid;
@@ -224,14 +199,7 @@ a {
         vertical-align: top;
 }
 
-
 /* Browse main pages */
-:root {
-  --gap: 24px;
-  --card-bg: #111;
-  --card-color: #242121;
-  --card-radius: 6px;
-}
 
 /* page container */
 .container {
@@ -434,21 +402,6 @@ a {
     display: none;
 }
 
-label[for="toggle"] {
-    display: inline-block;
-    background: #6ab547;
-    color: white;
-    padding: 8px 16px;
-    border-radius: 20px;
-    font-weight: 600;
-    cursor: pointer;
-}
-
-label[for="toggle"]:hover {
-    background: #4e8c33;
-    transform: scale(1.03);
-}
-
 #filters {
     max-height: 0;
     overflow: hidden;
@@ -502,7 +455,7 @@ label[for="toggle"]:hover {
 
 .image-dots .dot:hover {
   transform: scale(1.2);
-  background-color: #6ab547;
+  background-color: var(--text-green);
 }
 
 #slide0:checked ~ .image-dots label[for="slide0"],
@@ -510,25 +463,7 @@ label[for="toggle"]:hover {
 #slide2:checked ~ .image-dots label[for="slide2"],
 #slide3:checked ~ .image-dots label[for="slide3"],
 #slide4:checked ~ .image-dots label[for="slide4"] {
-  background-color: #6ab547;
-}
-
-.back-button {
-  background: #f7d716;
-  color: #333;
-  padding: 10px 20px;
-  margin-bottom: 10px;
-  border-radius: 30px;
-  border: none;
-  cursor: pointer;
-  font-weight: 600;
-  display: inline-block;
-  text-align: center;
-}
-
-.back-button:hover {
-  background: #4e8c33;
-  transform: scale(1.03);
+  background-color: var(--text-green);
 }
 
 /* filters */
@@ -557,7 +492,7 @@ label[for="toggle"]:hover {
   box-shadow: 0 3px 8px rgba(0,0,0,0.03);
   min-width: 180px;
   font-weight: 500;
-  color: #333;
+  color: var(--text-dark-grey);
 }
 
 #filters .reset-button {
@@ -565,7 +500,7 @@ label[for="toggle"]:hover {
   margin-left: 6px;
   padding: 8px 12px;
   border-radius: 10px;
-  color: #6ab547;
+  color: var(--text-green);
   font-weight: 700;
   border: 1px solid rgba(106,181,71,0.12);
 }
@@ -586,7 +521,7 @@ label[for="toggle"]:hover {
 .form-container h2 {
   text-align: center;
   margin-bottom: 1.2em;
-  color: #6ab547;
+  color: var(--text-green);
 }
 
 .form-group {
@@ -598,7 +533,7 @@ label[for="toggle"]:hover {
 .form-group label {
   font-weight: 600;
   margin-bottom: 6px;
-  color: #333;
+  color: var(--text-dark-grey);
 }
 
 .form-control {
@@ -609,7 +544,7 @@ label[for="toggle"]:hover {
 }
 
 .form-control:focus {
-  border-color: #6ab547;
+  border-color: var(--text-green);
   outline: none;
   box-shadow: 0 0 6px rgba(106,181,71,0.3);
 }
@@ -618,6 +553,40 @@ label[for="toggle"]:hover {
   width: 100%;
   border-radius: 10px;
   margin-top: 12px;
+}
+
+.favourites-list li {
+  margin: 10px 0;
+}
+
+.favourites-list a {
+  color: var(--text-green);
+  font-weight: 600;
+}
+
+.favourites-list a:hover {
+  text-decoration: underline;
+}
+
+.favourites-list {
+  list-style: none;
+  padding: 0;
+  margin: 20px 0;
+}
+
+/* Flash Messages */
+.flash-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-top: 12px;
+}
+
+.flash-messages .alert {
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-weight: 600;
+  margin-bottom: 6px;
 }
 
 .flash-messages {
@@ -664,62 +633,4 @@ label[for="toggle"]:hover {
   font-size: 0.85rem;
   margin-top: 4px;
   display: block;
-}
-
-.favourites-list li {
-  margin: 10px 0;
-}
-
-.favourites-list a {
-  color: #6ab547;
-  font-weight: 600;
-}
-
-.favourites-list a:hover {
-  text-decoration: underline;
-}
-
-.favourites-list {
-  list-style: none;
-  padding: 0;
-  margin: 20px 0;
-}
-
-.flash-container {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  margin-top: 12px;
-}
-
-.flash-messages .alert {
-  padding: 10px 20px;
-  border-radius: 8px;
-  font-weight: 600;
-  margin-bottom: 6px;
-}
-
-.alert-success {
-  background: #dff6dd;
-  color: #256029;
-  border: 1px solid #b5e6b3;
-}
-
-.alert-danger,
-.alert-error {
-  background: #fdecea;
-  color: #611a15;
-  border: 1px solid #f5c6cb;
-}
-
-.alert-warning {
-  background: #fff3cd;
-  color: #664d03;
-  border: 1px solid #ffeeba;
-}
-
-.alert-info {
-  background: #e7f1ff;
-  color: #084298;
-  border: 1px solid #b6d4fe;
 }
