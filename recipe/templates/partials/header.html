@@ -6,14 +6,13 @@
         <li><a href="{{url_for('home_bp.home')}}">Home</a> <i class="fa-solid fa-house"></i></li>
         <li><a href="{{url_for('browse_bp.browse')}}">Browse Recipes</a> <i class="fa-solid fa-kitchen-set"></i></li>
         <li><a href="{{url_for('utilities_bp.get_random_recipe')}}">Random Recipe</a> <i class="fa-solid fa-user"></i></li>
-        {% if current_user.is_authenticated %}
-            <li><a href="{{ url_for('favourites_bp.favourites') }}">Favourites <i class="fa-solid fa-user"></i></a></li>
-        {% endif %}
+        <li><a href="{{ url_for('favourites_bp.favourites') }}">Favourites <i class="fa-solid fa-user"></i></a></li>
     </ul>
 
     <!-- action button on the right -->
     <div class="nav-actions">
-      {% if current_user.is_authenticated %}
+      {% if session.get("username") %}
+        <span class="welcome-text">Hi, {{ session["username"] }}!</span>
         <a class="button" href="{{ url_for('auth_bp.logout') }}">Logout</a>
       {% else %}
         <a class="button" href="{{ url_for('auth_bp.login') }}">Login</a>
@@ -21,3 +20,4 @@
       {% endif %}
 </div>
   </nav>
+
