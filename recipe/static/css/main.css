@@ -1,3 +1,8 @@
+html, body {
+  margin: 0;
+  padding: 0;
+}
+
 :root {
   --gap: 24px;
   --card-bg: #111;
@@ -28,6 +33,12 @@ a {
 }
 
 /* ========== Navbar ========== */
+
+html, body {
+  margin: 0;
+  padding: 0;
+}
+
 .navbar .nav-container {
   display: flex;
   justify-content: space-between;
