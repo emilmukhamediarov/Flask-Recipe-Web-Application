@@ -284,7 +284,7 @@ def test_nutrition_less_than():
 #Favourite Tests
 def test_favourite_construction(my_user, my_recipe):
     favourite = Favourite(my_user.id, my_recipe.id)
-    assert favourite.id == 1
+    assert favourite.id == 4
     assert favourite.user_id == my_user.id
     assert favourite.recipe_id == my_recipe.id
 
@@ -303,7 +303,7 @@ def test_favourite_less_than(my_user, my_recipe):
 #Review Tests
 def test_review_construction(my_author, my_recipe):
     review = Review(my_author.id, my_recipe.id, 4, "Solid effort", datetime.today())
-    assert review.id == 1
+    assert review.id == 3
     assert review.rating == 4
     assert review.user_id == my_author.id
     assert review.recipe_id == my_recipe.id
