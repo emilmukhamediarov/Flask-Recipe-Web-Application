@@ -3,8 +3,14 @@ import pytest
 import recipe.home.services as home_services
 import recipe.browse.services as browse_services
 import recipe.recipedetails.services as recipe_details_services
+import recipe.favourites.services as favourite_services
+import recipe.review.services as review_services
 import recipe.adapters.repository as repo
 from recipe.domainmodel.category import Category
+from recipe.domainmodel.favourite import Favourite
+from recipe.domainmodel.recipe import Recipe
+from recipe.domainmodel.author import Author
+from recipe.domainmodel.user import User
 
 # --- Home Services ---
 def test_services_can_get_number_of_recipes(in_memory_repo):
@@ -67,3 +73,119 @@ def test_services_can_get_recipe(in_memory_repo):
     assert len(repo_list) > 0
     assert returned is not None
     assert returned.id == first.id
+
+def test_services_can_get_review(in_memory_repo):
+    user = User('RecipeTester987', 'RecipeTester987')
+    author = Author(1, 'Maker')
+    category = Category('Breakfast')
+    recipe = Recipe(1, 'Carbohydrates', author, category=category)
+
+    in_memory_repo.user_add(user)
+    in_memory_repo.recipe_add(recipe)
+
+    review_services.create_review(user.id, recipe.id, 3, "OK", in_memory_repo)
+    reviews = recipe_details_services.get_reviews(recipe.id, in_memory_repo)
+    assert isinstance(reviews, list)
+    assert len(reviews) == 1
+    review_details = reviews[0]
+    assert review_details["name"] == user.username
+    assert review_details["rating"] == 3
+    assert review_details["text"] == "OK"
+
+def test_services_recipe_is_favourite(in_memory_repo):
+    user = User('favouriteTest987', 'favouriteTest987')
+    author = Author(1, 'Maker')
+    category = Category('Breakfast')
+    recipe = Recipe(1, 'Carbohydrates', author, category=category)
+
+    in_memory_repo.user_add(user)
+    in_memory_repo.recipe_add(recipe)
+
+    assert recipe_details_services.recipe_is_favourite(user.id, recipe.id, in_memory_repo) is False
+
+    favourite = Favourite(user.id, recipe.id)
+    in_memory_repo.favourite_add(favourite)
+    assert recipe_details_services.recipe_is_favourite(user.id, recipe.id, in_memory_repo) is True
+    assert recipe_details_services.recipe_is_favourite(user.id, 9999, in_memory_repo) is False
+    assert recipe_details_services.recipe_is_favourite(0, recipe.id, in_memory_repo) is False
+
+
+
+# --- Favourites Services ---
+def test_services_can_create_favourite(in_memory_repo):
+    user = User("TestUser123", 'TestUser123')
+    author = Author(1, 'John')
+    category = Category('Milk')
+    recipe = Recipe(1, 'CakePlaceholder', author, category=category)
+
+    in_memory_repo.user_add(user)
+    in_memory_repo.recipe_add(recipe)
+
+    favourite_services.create_favourite(user.id, recipe.id, in_memory_repo)
+    service_recipes = favourite_services.get_favourites(user.id, in_memory_repo)
+    assert isinstance(service_recipes, list)
+    assert len(service_recipes) == 1
+    assert service_recipes[0] is recipe
+    assert 'CakePlaceholder' in service_recipes[0].name
+
+
+def test_services_can_remove_favourite(in_memory_repo):
+    user = User("TestUser123", 'TestUser123')
+    author = Author(1, 'John')
+    category = Category('Milk')
+    recipe = Recipe(1, 'CakePlaceholder', author, category=category)
+    in_memory_repo.user_add(user)
+    in_memory_repo.recipe_add(recipe)
+
+    favourite_services.create_favourite(user.id, recipe.id, in_memory_repo)
+
+    favourite_services.remove_favourite(user.id, recipe.id, in_memory_repo)
+    service_recipes = favourite_services.get_favourites(user.id, in_memory_repo)
+    assert isinstance(service_recipes, list)
+    assert len(service_recipes) == 0
+    assert favourite_services.get_favourites(user.id, in_memory_repo) == []
+
+def test_services_can_get_favourites(in_memory_repo):
+    user = User("TestUser123", 'TestUser123')
+    author = Author(1, 'John')
+    category = Category('Milk')
+    r1 = Recipe(1, 'CakePlaceholder', author, category=category)
+    r2 = Recipe(2, 'Toast', author, category=category)
+
+    in_memory_repo.user_add(user)
+    in_memory_repo.recipe_add(r1)
+    in_memory_repo.recipe_add(r2)
+
+    favourite_services.create_favourite(user.id, r1.id, in_memory_repo)
+    favourite_services.create_favourite(user.id, r2.id, in_memory_repo)
+
+    recipes = favourite_services.get_favourites(user.id, in_memory_repo)
+
+    assert isinstance(recipes, list)
+    assert len(recipes) == 2
+    assert recipes[0] is r1
+    assert recipes[1] is r2
+
+
+
+# --- Review Services ---
+def test_services_can_create_review(in_memory_repo):
+    user = User("TestUser123", 'TestUser123')
+
+    author = Author(1, 'John')
+    category = Category('Dessert')
+    recipe = Recipe(1, 'CakePlaceholder', author, category=category)
+
+    in_memory_repo.user_add(user)
+    in_memory_repo.recipe_add(recipe)
+
+    review_services.create_review(user.id, recipe.id, 5, "Wow so good!", in_memory_repo)
+
+    reviews = in_memory_repo.reviews_get_all_by_recipe_id(recipe.id)
+    assert isinstance(reviews, list)
+    assert len(reviews) == 1
+    r = reviews[0]
+    assert r.user_id == user.id
+    assert r.recipe_id == recipe.id
+    assert r.rating == 5
+    assert r.text == "Wow so good!"
