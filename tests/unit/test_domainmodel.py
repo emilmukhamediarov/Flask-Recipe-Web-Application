@@ -1,5 +1,6 @@
 import pytest
 from datetime import datetime
+from werkzeug.security import generate_password_hash, check_password_hash
 
 from recipe.domainmodel.user import User
 from recipe.domainmodel.author import Author
@@ -81,7 +82,6 @@ def test_user_construction():
     user = User("john_doe", "secret123", 1)
     assert user.id == 1
     assert user.username == "john_doe"
-    assert user.password == "secret123"
     assert user.favourite_recipes == []
     assert user.reviews == []
 
@@ -260,15 +260,15 @@ def test_author_set_recipe_invalid_type(my_author):
 
 #Nutrition Tests
 def test_nutrition_construction():
-    nutrition = Nutrition({'food_science' : 60})
+    nutrition = Nutrition({'Saturated Fat' : 60})
     id = nutrition.id
-    assert 'food_science' in nutrition.data
+    assert 'Saturated Fat' in nutrition.data
     assert isinstance(id, int)
     assert id > 0
-    assert nutrition.data.get('food_science') == 60
+    assert nutrition.data.get('Saturated Fat') == 60
 
 def test_nutrition_equality():
-    nutrition_data = {"calories" : 1}
+    nutrition_data = {"Calories" : 1}
     n1 = Nutrition(nutrition_data)
     n2 = Nutrition(nutrition_data)
     n3 = n1
@@ -276,17 +276,17 @@ def test_nutrition_equality():
     assert n1 != n2
 
 def test_nutrition_less_than():
-    nutrition_data = {"calories": 1}
+    nutrition_data = {"Calories": 1}
     n1 = Nutrition(nutrition_data)
     n2 = Nutrition(nutrition_data)
     assert n1 < n2
 
 #Favourite Tests
 def test_favourite_construction(my_user, my_recipe):
-    favourite = Favourite(my_user, my_recipe)
+    favourite = Favourite(my_user.id, my_recipe.id)
     assert favourite.id == 1
-    assert favourite.user.id == my_user.id
-    assert favourite.recipe.id == my_recipe.id
+    assert favourite.user_id == my_user.id
+    assert favourite.recipe_id == my_recipe.id
 
 def test_favourite_equality(my_user, my_recipe):
     f1 = Favourite(my_user, my_recipe)
@@ -296,38 +296,38 @@ def test_favourite_equality(my_user, my_recipe):
     assert f1 != f2
 
 def test_favourite_less_than(my_user, my_recipe):
-    f1 = Favourite(my_user, my_recipe)
-    f2 = Favourite(my_user, my_recipe)
+    f1 = Favourite(my_user.id, my_recipe.id)
+    f2 = Favourite(my_user.id, my_recipe.id)
     assert f1 < f2
 
 #Review Tests
 def test_review_construction(my_author, my_recipe):
-    review = Review(my_author, my_recipe, 4, "Solid effort")
+    review = Review(my_author.id, my_recipe.id, 4, "Solid effort", datetime.today())
     assert review.id == 1
     assert review.rating == 4
-    assert review.author.id == my_author.id
-    assert review.recipe.id == my_recipe.id
+    assert review.user_id == my_author.id
+    assert review.recipe_id == my_recipe.id
     assert review.text == "Solid effort"
 
 def test_review_equality(my_author, my_recipe):
-    r1 = Review(my_author, my_recipe, 1, "test")
-    r2 = Review(my_author, my_recipe, 1, "test")
+    r1 = Review(my_author.id, my_recipe.id, 1, "test", datetime.today())
+    r2 = Review(my_author.id, my_recipe.id, 1, "test", datetime.today())
     r3 = r1
     assert r1 != r2
     assert r1 == r3
 
 def test_review_less_than(my_author, my_recipe):
-    r1 = Review(my_author, my_recipe, 1, "test")
-    r2 = Review(my_author, my_recipe, 1, "test")
+    r1 = Review(my_author, my_recipe, 1, "test", datetime.today())
+    r2 = Review(my_author, my_recipe, 1, "test", datetime.today())
     assert r1 < r2
 
 def test_review_rating_greater_than_5(my_author, my_recipe):
     with pytest.raises(ValueError):
-        review = Review(my_author, my_recipe, 6, "test")
+        review = Review(my_author, my_recipe, 6, "test", datetime.today())
 
 def test_review_rating_less_than_0(my_author, my_recipe):
     with pytest.raises(ValueError):
-        review = Review(my_author, my_recipe, -1, "test")
+        review = Review(my_author, my_recipe, -1, "test", datetime.today())
 
 
 

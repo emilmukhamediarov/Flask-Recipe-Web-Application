@@ -135,14 +135,28 @@ def test_repository_can_get_user_by_id(in_memory_repo):
 
 # --- Reviews repository methods ---
 def test_repository_can_add_review_and_get_by_id(in_memory_repo):
-    review = Review(1, 38, 3, "Test review")
+    user = User("TestUser111", "TestUser111")
+    in_memory_repo.user_add(user)
+
+    review = Review(1, 38, 3, "Test review", date.today())
     in_memory_repo.reviews_add(review)
-    assert in_memory_repo.reviews_get_by_id(1) is review
+
+    result = in_memory_repo.reviews_get_by_id(1)
+
+    assert result.id == 1
+    assert result.recipe_id == 38
+    assert result.rating == 3
+    assert result.text == "Test review"
+    assert result.created_date == date.today()
+
+
 
 def test_repository_can_get_all_reviews_by_user_id_and_recipe_id(in_memory_repo):
-    review1 = Review(1, 38, 1, "Test review1")
-    review2 = Review(1, 56, 2, "Test review2")
-    review3 = Review(1, 1940, 3, "Test review3")
+    user = User("TestUser111", "TestUser111")
+    in_memory_repo.user_add(user)
+    review1 = Review(1, 38, 1, "Test review1", date.today())
+    review2 = Review(1, 56, 2, "Test review2", date.today())
+    review3 = Review(1, 1940, 3, "Test review3", date.today())
     in_memory_repo.reviews_add(review1)
     in_memory_repo.reviews_add(review2)
     in_memory_repo.reviews_add(review3)
