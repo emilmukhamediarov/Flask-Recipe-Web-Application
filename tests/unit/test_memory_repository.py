@@ -4,6 +4,9 @@ from recipe.domainmodel.author import Author
 from recipe.domainmodel.category import Category
 from recipe.domainmodel.nutrition import Nutrition
 from recipe.domainmodel.recipe import Recipe
+from recipe.domainmodel.review import Review
+from recipe.domainmodel.user import User
+from recipe.domainmodel.favourite import Favourite
 
 # --- Authors repository methods ---
 def test_repository_can_add_an_author(in_memory_repo):
@@ -105,3 +108,71 @@ def test_repository_can_get_a_list_of_category_names(in_memory_repo):
     assert len(category_names) > 1 and type(category_names) is list and type(category_names[0]) is str
 
 
+# --- Users repository methods ---
+def test_repository_can_add_user_and_get_by_username(in_memory_repo):
+    user = User("TestUser123", "TestUser123")
+    in_memory_repo.user_add(user)
+
+    retrieved = in_memory_repo.user_get_by_username("TestUser123")
+    assert retrieved.username == "TestUser123"
+    assert retrieved is user
+    assert retrieved.id == 1
+
+def test_repository_can_get_user_by_id(in_memory_repo):
+    user1 = User("TestUser111", "TestUser111")
+    user2 = User("TestUser222", "TestUser222")
+    in_memory_repo.user_add(user1)
+    in_memory_repo.user_add(user2)
+
+    retrieved1 = in_memory_repo.user_get_by_id(user1.id)
+    retrieved2 = in_memory_repo.user_get_by_id(user2.id)
+    assert retrieved1.id == 1
+    assert retrieved2.id == 2
+    assert retrieved1.username == "TestUser111"
+    assert retrieved2.username == "TestUser222"
+
+
+
+# --- Reviews repository methods ---
+def test_repository_can_add_review_and_get_by_id(in_memory_repo):
+    review = Review(1, 38, 3, "Test review")
+    in_memory_repo.reviews_add(review)
+    assert in_memory_repo.reviews_get_by_id(1) is review
+
+def test_repository_can_get_all_reviews_by_user_id_and_recipe_id(in_memory_repo):
+    review1 = Review(1, 38, 1, "Test review1")
+    review2 = Review(1, 56, 2, "Test review2")
+    review3 = Review(1, 1940, 3, "Test review3")
+    in_memory_repo.reviews_add(review1)
+    in_memory_repo.reviews_add(review2)
+    in_memory_repo.reviews_add(review3)
+
+    assert len(in_memory_repo.reviews_get_all_by_user_id(1)) == 3
+    assert in_memory_repo.reviews_get_all_by_user_id(1)[0] is review1
+    assert len(in_memory_repo.reviews_get_all_by_recipe_id(56)) == 1
+    assert in_memory_repo.reviews_get_all_by_recipe_id(56)[0] is review2
+
+
+
+# --- Favourites repository methods ---
+def test_repository_can_add_and_get_favourites_by_id(in_memory_repo):
+    favourite = Favourite(1, 38)
+
+    in_memory_repo.favourite_add(favourite)
+
+    all_favourites = in_memory_repo.favourite_get_all()
+    assert len(all_favourites) == 1
+    assert isinstance(all_favourites, list)
+
+    user_favourites = in_memory_repo.favourite_get_all_by_user_id(favourite.user_id)
+    assert isinstance(user_favourites, list)
+    assert len(user_favourites) == 1
+    assert user_favourites[0] is favourite
+
+
+def test_repository_can_remove_favourite(in_memory_repo):
+    favourite = Favourite(2, 38)
+    in_memory_repo.favourite_add(favourite)
+
+    in_memory_repo.favourite_remove(2, 38)
+    assert len(in_memory_repo.favourite_get_all_by_user_id(2)) == 0
