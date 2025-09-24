@@ -3,14 +3,54 @@ from recipe.favourites import services
 import recipe.adapters.repository as repo
 from tests.conftest import AuthenticationManager
 from flask import session
+import recipe.auth.services as auth_services
 
+def test_register_creates_user(client):
+    response = client.post(
+        "/auth/register",
+        data={
+            "username": "newuser",
+            "password": "Helloworld1",
+            "confirm": "Helloworld1",  # must match password
+        },
+        follow_redirects=True,
+    )
+
+    assert b"Registration successful" in response.data
+    user = auth_services.retrieve_user_by_name("newuser", repo.repo_instance)
+    assert user is not None
+    assert user.check_password("Helloworld1")
+
+def test_login(client, auth):
+    response = client.post(
+        "/auth/register",
+        data={
+            "username": "newuser",
+            "password": "Helloworld1",
+            "confirm": "Helloworld1",  # must match password
+        },
+        follow_redirects=True,
+    )
+    with client:
+        auth.login()
+        assert session['username'] == 'newuser'
+        assert session['user_id'] is not None
 
 def test_logout(client, auth):
-    auth.login()
-
+    response = client.post(
+        "/auth/register",
+        data={
+            "username": "newuser",
+            "password": "Helloworld1",
+            "confirm": "Helloworld1",  # must match password
+        },
+        follow_redirects=True,
+    )
     with client:
+        auth.login()
         auth.logout()
         assert 'user_id' not in session
+
 
 def test_index(client):
     response = client.get('/')
@@ -86,13 +126,178 @@ def test_wrong_login_details(client):
     assert b'Invalid username or password' in response.data
 
 
-
 def test_search_no_result(client):
     response = client.get('/browse?search=qqqqq&sort=&category=&author=')
     assert response.status_code == 200
     assert b'No results found.' in response.data
 
 
+def test_favourite_add(client, auth):
+    response = client.post(
+        "/auth/register",
+        data={
+            "username": "newuser",
+            "password": "Helloworld1",
+            "confirm": "Helloworld1",  # must match password
+        },
+        follow_redirects=True,
+    )
+    with client:
+        auth.login()
+
+        response = client.post(
+            "/favourites/",
+            data={"recipe_id": 38},
+            follow_redirects=True
+        )
+        assert response.status_code == 200
+        assert b"Favourite has been added" in response.data
+
+
+def test_favourite_remove(client, auth):
+    response = client.post(
+        "/auth/register",
+        data={
+            "username": "newuser",
+            "password": "Helloworld1",
+            "confirm": "Helloworld1",  # must match password
+        },
+        follow_redirects=True,
+    )
+    with client:
+        auth.login()
+
+        response = client.post(
+            "/favourites/",
+            data={"recipe_id": 38},
+            follow_redirects=True
+        )
+        assert response.status_code == 200
+
+        response = client.post(
+            "/favourites/remove",
+            data={"recipe_id": 38},
+            follow_redirects=True
+        )
+        assert response.status_code == 200
+        assert b"Favourite has been removed" in response.data
+
+def test_view_favourite_recipe(client, auth):
+    client.post(
+        "/auth/register",
+        data={
+            "username": "newuser",
+            "password": "Helloworld1",
+            "confirm": "Helloworld1",
+        },
+        follow_redirects=True,
+    )
+
+    with client:
+        auth.login()
+        assert session["username"] == "newuser"
+
+        response = client.post(
+            "/favourites/",
+            data={"recipe_id": 13107},
+            follow_redirects=True
+        )
+        assert response.status_code == 200
+        assert b"Favourite has been added" in response.data
+
+        response = client.get("/favourites/")
+        assert response.status_code == 200
+
+        assert b"Sauteed Scallops" in response.data
+
+def test_empty_favourites_page(client, auth):
+    client.post(
+        "/auth/register",
+        data={
+            "username": "newuser",
+            "password": "Helloworld1",
+            "confirm": "Helloworld1",
+        },
+        follow_redirects=True,
+    )
+
+    with client:
+        auth.login()
+        assert session["username"] == "newuser"
+
+        response = client.get("/favourites/")
+        assert response.status_code == 200
+
+        assert b"No favourites yet" in response.data
+
+
+def test_post_review(client, auth):
+    client.post(
+        "/auth/register",
+        data={
+            "username": "newuser",
+            "password": "Helloworld1",
+            "confirm": "Helloworld1",
+        },
+        follow_redirects=True,
+    )
+    with client:
+        auth.login()
+        assert session["username"] == "newuser"
+
+        response = client.post(
+            "/review",
+            data={
+                "recipe_id": 38,
+                "rating": 5,
+                "text": "This recipe is amazing!"
+            },
+            follow_redirects=True
+        )
+
+        assert response.status_code == 200
+        assert b"Review successfully submitted" in response.data
+
+def test_duplicate_review(client, auth):
+    client.post(
+        "/auth/register",
+        data={
+            "username": "newuser",
+            "password": "Helloworld1",
+            "confirm": "Helloworld1",
+        },
+        follow_redirects=True,
+    )
+
+    with client:
+        auth.login()
+        assert session["username"] == "newuser"
+
+        response = client.post(
+            "/review",
+            data={
+                "recipe_id": 38,
+                "rating": 5,
+                "text": "Great recipe!"
+            },
+            follow_redirects=True
+        )
+
+        assert response.status_code == 200
+        assert b"Review successfully submitted" in response.data
+
+        response = client.post(
+            "/review",
+            data={
+                "recipe_id": 38,
+                "rating": 4,
+                "text": "Trying to submit again"
+            },
+            follow_redirects=True
+        )
+
+        assert response.status_code == 200
+        assert b"You have already reviewed this recipe" in response.data
 
 
 
@@ -100,39 +305,3 @@ def test_search_no_result(client):
 
 
 
-
-
-def test_favourite_duplicate_add(client, auth):
-    auth.login()
-    client.post('/favourite/add', data={'recipe_id': 101})
-    response = client.post('/favourite/add', data={'recipe_id': 101}, follow_redirects=True)
-    assert b"already in favourites" in response.data
-
-def test_favourite_add_and_list(client, auth):
-    auth.login()
-    response = client.post('/favourite/add', data={'recipe_id': 38}, follow_redirects=True)
-    assert b"Added in favourites" in response.data
-
-    list_page = client.get('/favourites')
-    assert list_page.status_code == 200
-    assert b'Low-Fat Berry Blue Frozen Dessert' in list_page.data
-
-
-def test_user_can_comment(client):
-    response = client.post('/recipe/38/comment', data={'text': 'Hello Frozen Dessert what are you'}, follow_redirects=True)
-    assert response.status_code == 200
-    assert b'Hello Frozen Dessert what are you' in response.data
-
-
-
-
-def test_post_review_unauthenticated(client, auth):
-    auth.login()
-    response = client.delete('/recipe/7989/review/', data = {'review_id': '1234'}, follow_redirects=True)
-    assert response.status_code == 200
-
-def test_adding_duplicate_favourites(client, auth):
-    auth.login()
-    res_1 = client.post('/user/favourites', data = {'recipe_id' : '7989'})
-    res_2 = client.post('/user/favourites', data = {'recipe_id' : '7989'})
-    assert res_2.status_code == 400
