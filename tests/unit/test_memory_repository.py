@@ -4,6 +4,7 @@ from recipe.domainmodel.author import Author
 from recipe.domainmodel.category import Category
 from recipe.domainmodel.nutrition import Nutrition
 from recipe.domainmodel.recipe import Recipe
+from recipe.domainmodel.user import User
 
 # --- Authors repository methods ---
 def test_repository_can_add_an_author(in_memory_repo):
@@ -104,4 +105,6 @@ def test_repository_can_get_a_list_of_category_names(in_memory_repo):
     category_names = in_memory_repo.category_get_all_names()
     assert len(category_names) > 1 and type(category_names) is list and type(category_names[0]) is str
 
+
+# --- Favourites repository methods ---
 
