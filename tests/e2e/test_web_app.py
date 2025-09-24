@@ -1,8 +1,16 @@
 import pytest
 from recipe.favourites import services
 import recipe.adapters.repository as repo
+from tests.conftest import AuthenticationManager
+from flask import session
 
 
+def test_logout(client, auth):
+    auth.login()
+
+    with client:
+        auth.logout()
+        assert 'user_id' not in session
 
 def test_index(client):
     response = client.get('/')
@@ -72,16 +80,21 @@ def test_wrong_login_details(client):
     response = client.post(
         '/auth/login',
         data={'username': 'Not a user', 'password': 'Not a password'},
-        follow_redirects=True  # ensures the flash message is included in the response
+        follow_redirects=True
     )
     assert response.status_code == 200
     assert b'Invalid username or password' in response.data
+
 
 
 def test_search_no_result(client):
     response = client.get('/browse?search=qqqqq&sort=&category=&author=')
     assert response.status_code == 200
     assert b'No results found.' in response.data
+
+
+
+
 
 
 

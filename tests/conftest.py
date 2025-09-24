@@ -27,9 +27,9 @@ class AuthenticationManager:
     def __init__(self, client):
         self.__client = client
 
-    def login(self, user_name='username', password='password'):
+    def login(self, user_name='username', password='Helloworld1'):
         return self.__client.post(
-            'authentication/login',
+            'auth/login',
             data={'user_name': user_name, 'password': password}
         )
 
