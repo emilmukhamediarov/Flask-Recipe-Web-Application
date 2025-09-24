@@ -730,3 +730,10 @@ html, body {
   justify-content: space-between;
   align-items: center;
 }
+
+.review-card p {
+  word-wrap: break-word;
+  overflow-wrap: anywhere;
+  white-space: normal;
+  max-width: 100%;
+}

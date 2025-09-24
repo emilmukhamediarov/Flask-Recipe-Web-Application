@@ -45,7 +45,11 @@ def register():
             new_user = User(username=form.username.data, password=form.password.data)
             services.add_new_user(new_user, repo.repo_instance)
 
-            flash("Registration successful! Please log in.", "success")
+            session.clear()
+            session["username"] = new_user.username
+            session["user_id"] = new_user.id
+
+            flash("Registration successful! You are now logged in.", "success")
             return redirect(url_for('home_bp.home'))
 
     return render_template("auth/register.html", form=form)

@@ -7,7 +7,8 @@ def get_reviews(id : int, repository:AbstractRepository):
     return [{
         'name': repository.user_get_by_id(review.user_id).username,
         'rating': review.rating,
-        'text': review.text
+        'text': review.text,
+        'created_date': review.created_date
     } for review in repository.reviews_get_all_by_recipe_id(id)]
 
 def recipe_is_favourite(user_id, recipe_id, repository:AbstractRepository):
