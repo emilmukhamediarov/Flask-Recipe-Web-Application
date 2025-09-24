@@ -108,6 +108,31 @@ def test_repository_can_get_a_list_of_category_names(in_memory_repo):
     assert len(category_names) > 1 and type(category_names) is list and type(category_names[0]) is str
 
 
+# --- Users repository methods ---
+def test_repository_can_add_user_and_get_by_username(in_memory_repo):
+    user = User("TestUser123", "TestUser123")
+    in_memory_repo.user_add(user)
+
+    retrieved = in_memory_repo.user_get_by_username("TestUser123")
+    assert retrieved.username == "TestUser123"
+    assert retrieved is user
+    assert retrieved.id == 1
+
+def test_repository_can_get_user_by_id(in_memory_repo):
+    user1 = User("TestUser111", "TestUser111")
+    user2 = User("TestUser222", "TestUser222")
+    in_memory_repo.user_add(user1)
+    in_memory_repo.user_add(user2)
+
+    retrieved1 = in_memory_repo.user_get_by_id(user1.id)
+    retrieved2 = in_memory_repo.user_get_by_id(user2.id)
+    assert retrieved1.id == 1
+    assert retrieved2.id == 2
+    assert retrieved1.username == "TestUser111"
+    assert retrieved2.username == "TestUser222"
+
+
+
 # --- Reviews repository methods ---
 def test_repository_can_add_review_and_get_by_id(in_memory_repo):
     review = Review(1, 38, 3, "Test review")
