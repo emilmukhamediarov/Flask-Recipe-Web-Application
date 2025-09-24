@@ -25,16 +25,17 @@ def client():
 
 class AuthenticationManager:
     def __init__(self, client):
-        self.__client = client
+        self._client = client
 
-    def login(self, user_name='username', password='password'):
-        return self.__client.post(
-            'authentication/login',
-            data={'user_name': user_name, 'password': password}
+    def login(self, username="newuser", password="Helloworld1", follow_redirects=True):
+        return self._client.post(
+            "/auth/login",
+            data={"username": username, "password": password},
+            follow_redirects=follow_redirects
         )
 
-    def logout(self):
-        return self.__client.get('/auth/logout')
+    def logout(self, follow_redirects=True):
+        return self._client.get("/auth/logout", follow_redirects=follow_redirects)
 
 @pytest.fixture
 def auth(client):
