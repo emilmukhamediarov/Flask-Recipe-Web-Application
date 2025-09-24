@@ -11,6 +11,9 @@ from recipe.domainmodel.favourite import Favourite
 from recipe.domainmodel.recipe import Recipe
 from recipe.domainmodel.author import Author
 from recipe.domainmodel.user import User
+from datetime import date
+
+
 
 # --- Home Services ---
 def test_services_can_get_number_of_recipes(in_memory_repo):
@@ -83,7 +86,7 @@ def test_services_can_get_review(in_memory_repo):
     in_memory_repo.user_add(user)
     in_memory_repo.recipe_add(recipe)
 
-    review_services.create_review(user.id, recipe.id, 3, "OK", in_memory_repo)
+    review_services.create_review(user.id, recipe.id, 3, "OK", date.today(), in_memory_repo)
     reviews = recipe_details_services.get_reviews(recipe.id, in_memory_repo)
     assert isinstance(reviews, list)
     assert len(reviews) == 1
@@ -179,7 +182,7 @@ def test_services_can_create_review(in_memory_repo):
     in_memory_repo.user_add(user)
     in_memory_repo.recipe_add(recipe)
 
-    review_services.create_review(user.id, recipe.id, 5, "Wow so good!", in_memory_repo)
+    review_services.create_review(user.id, recipe.id, 5, "Wow so good!", date.today(), in_memory_repo)
 
     reviews = in_memory_repo.reviews_get_all_by_recipe_id(recipe.id)
     assert isinstance(reviews, list)
@@ -189,3 +192,21 @@ def test_services_can_create_review(in_memory_repo):
     assert r.recipe_id == recipe.id
     assert r.rating == 5
     assert r.text == "Wow so good!"
+    assert r.created_date == date.today()
+
+def test_services_that_review_already_exists(in_memory_repo):
+    user = User("TestUser123", "TestUser123")
+    author = Author(1, 'John')
+    category = Category('Dessert')
+    recipe = Recipe(1, 'CakePlaceholder', author, category=category)
+    recipe2 = Recipe(2, 'Toast', author, category=category)
+    in_memory_repo.user_add(user)
+    in_memory_repo.recipe_add(recipe)
+    in_memory_repo.recipe_add(recipe2)
+
+    review_services.create_review(user.id, recipe.id, 5, "Wow so good!", date.today(), in_memory_repo)
+
+    review1_exists = review_services.review_already_exists(user.id, recipe.id, in_memory_repo)
+    review2_nonexistent = review_services.review_already_exists(user.id, recipe2.id, in_memory_repo)
+    assert review1_exists is True
+    assert review2_nonexistent is False
