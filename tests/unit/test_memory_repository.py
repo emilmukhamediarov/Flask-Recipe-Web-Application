@@ -141,9 +141,9 @@ def test_repository_can_add_review_and_get_by_id(in_memory_repo):
     review = Review(1, 38, 3, "Test review", date.today())
     in_memory_repo.reviews_add(review)
 
-    result = in_memory_repo.reviews_get_by_id(1)
+    result = in_memory_repo.reviews_get_by_id(review.id)
 
-    assert result.id == 1
+    assert result.id == review.id
     assert result.recipe_id == 38
     assert result.rating == 3
     assert result.text == "Test review"
