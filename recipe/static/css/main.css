@@ -241,6 +241,12 @@ html, body {
     resize: vertical;
 }
 
+.no-reviews {
+    color: #666;
+    font-style: italic;
+    text-align: center;
+    padding: 12px 0;
+}
 
 /* Browse main pages */
 
