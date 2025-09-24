@@ -125,7 +125,7 @@
                     {% for review in reviews %}
                     <article class="review-card">
                         <header class="review-header">
-                            <span class="review-author">{{ review.name }}</span>
+                            <span class="review-author">{{ review.name }} on {{ review.created_date }}</span>
                             <span>
                                 {% for i in range(1, 6) %}
                                     {% if i <= review.rating %}
