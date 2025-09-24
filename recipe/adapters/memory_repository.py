@@ -116,6 +116,8 @@ class MemoryRepository(AbstractRepository):
         if not isinstance(review, Review):
             raise ValueError("Review must be provided as an instance of Recipe.")
         if review not in self.__reviews:
+            user = self.user_get_by_id(review.user_id)
+            user.add_review(review)
             self.__reviews.append(review)
 
     def reviews_get_by_id(self, review_id : int) -> Review:
