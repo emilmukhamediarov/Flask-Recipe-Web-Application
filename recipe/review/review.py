@@ -16,13 +16,17 @@ def review():
     rating = int(request.form['rating'])
     text = request.form['text']
 
-    try:
-        services.create_review(user_id, recipe_id, rating, text, repo.repo_instance)
-        flash("Review successfully submitted", "success")
+    if services.review_already_exists(user_id, recipe_id, repo.repo_instance):
+        flash("You have already reviewed this recipe", "warning")
         return redirect(url_for('recipe_details_bp.get_recipe_details', recipe_id=recipe_id))
-    except UserNotFound:
-        flash("User doesn't exist", "warning")
-        return redirect(url_for('recipe_details_bp.get_recipe_details', recipe_id=recipe_id))
+    else:
+        try:
+            services.create_review(user_id, recipe_id, rating, text, repo.repo_instance)
+            flash("Review successfully submitted", "success")
+            return redirect(url_for('recipe_details_bp.get_recipe_details', recipe_id=recipe_id))
+        except UserNotFound:
+            flash("User doesn't exist", "warning")
+            return redirect(url_for('recipe_details_bp.get_recipe_details', recipe_id=recipe_id))
 
 
 

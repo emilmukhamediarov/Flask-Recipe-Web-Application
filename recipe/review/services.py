@@ -9,3 +9,10 @@ def create_review(user_id, recipe_id, rating, text, repository : AbstractReposit
         raise UserNotFound
     r = Review(user_id, recipe_id, rating, text)
     repository.reviews_add(r)
+
+def review_already_exists(user_id, recipe_id, repository : AbstractRepository):
+    reviews = repository.reviews_get_all_by_recipe_id(recipe_id)
+    for review in reviews:
+        if review.user_id == user_id:
+            return True
+    return False
