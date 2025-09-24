@@ -147,28 +147,24 @@
             <header class="review-header">
                 <h2>Tried this recipe? Leave a review!</h2>
             </header>
-            <form method="POST" action="{{ url_for('review_bp.review') }}">
-                <input type="hidden" name="recipe_id" value="{{ recipe.id }}">
+            <form method="POST" action="{{ url_for('review_bp.review') }}" class="review-form">
+                    <input type="hidden" name="recipe_id" value="{{ recipe.id }}">
 
-                <label for="rating"></label>
-                <select id="rating" name="rating" required>
-                    <option value="">Rating:</option>
-                    <option value="1">★ - Poor</option>
-                    <option value="2">★★ - Ok</option>
-                    <option value="3">★★★ - Good</option>
-                    <option value="4">★★★★ - Very Good</option>
-                    <option value="5">★★★★★ - Excellent</option>
-                </select>
+                    <label for="rating" class="sr-only">Rating</label>
+                    <select id="rating" name="rating" required>
+                        <option value="" disabled selected hidden></option>
+                        <option value="1">★ - Poor</option>
+                        <option value="2">★★ - Ok</option>
+                        <option value="3">★★★ - Good</option>
+                        <option value="4">★★★★ - Very Good</option>
+                        <option value="5">★★★★★ - Excellent</option>
+                    </select>
 
-                <br>
+                    <label for="text" class="sr-only">Review Text</label>
+                    <textarea id="text" name="text" rows="5" required></textarea>
 
-                <label for="text"></label>
-                <textarea id="text" name="text" rows="5" cols="40" required></textarea>
-
-                <br>
-
-                <button type="submit">Submit Review</button>
-            </form>
+                    <button class="button" type="submit">Submit Review</button>
+                </form>
         {% endif %}
 
     </div>
