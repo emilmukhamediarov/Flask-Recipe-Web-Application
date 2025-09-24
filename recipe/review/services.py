@@ -8,6 +8,7 @@ def create_review(user_id, recipe_id, rating, text, created_date, repository : A
     if not repository.user_get_by_id(user_id):
         raise UserNotFound
     r = Review(user_id, recipe_id, rating, text, created_date)
+    repository.recipe_get_by_id(recipe_id).add_review(r)
     repository.reviews_add(r)
 
 def review_already_exists(user_id, recipe_id, repository : AbstractRepository):
