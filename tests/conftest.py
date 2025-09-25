@@ -2,6 +2,8 @@ import pytest
 
 from recipe import create_app
 from recipe.adapters.memory_repository import MemoryRepository, populate
+from recipe.domainmodel.review import Review
+from recipe.domainmodel.favourite import Favourite
 
 from utils import get_project_root
 
@@ -40,3 +42,12 @@ class AuthenticationManager:
 @pytest.fixture
 def auth(client):
     return AuthenticationManager(client)
+
+
+@pytest.fixture(autouse=True)
+def reset_id_counters():
+    # reset id count to known condition just for Review and Favourite tests
+    Review.id_count = 1
+    Favourite.id_count = 1
+
+    yield

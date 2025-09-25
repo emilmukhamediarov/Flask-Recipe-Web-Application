@@ -5,6 +5,7 @@ from tests.conftest import AuthenticationManager
 from flask import session
 import recipe.auth.services as auth_services
 
+# --- Register and login and logout functionality  ---
 def test_register_creates_user(client):
     response = client.post(
         "/auth/register",
@@ -51,12 +52,18 @@ def test_logout(client, auth):
         auth.logout()
         assert 'user_id' not in session
 
-
+# --- Home page Web App ---
 def test_index(client):
     response = client.get('/')
     assert response.status_code == 200
     assert b'We just love making recipe websites.' in response.data
 
+def test_homepage(client):
+    response = client.get('/')
+    assert response.status_code == 200
+    assert b'Home' in response.data
+
+# --- Browse page Web App ---
 def test_browse_without_parameters(client):
     response = client.get('/browse')
     assert response.status_code == 200
@@ -72,17 +79,6 @@ def test_browse_with_author(client):
     assert response.status_code == 200
     assert b'Grilled Chicken Breasts' in response.data
 
-def test_recipe_details(client):
-    response = client.get('/recipe/7989')
-    assert response.status_code == 200
-    assert b'Unstuffed Mushroom Dip' in response.data
-    assert b'Nutritional Values' in response.data
-
-def test_homepage(client):
-    response = client.get('/')
-    assert response.status_code == 200
-    assert b'Home' in response.data
-
 def test_browse_2nd_page(client):
     response = client.get('/browse', query_string={'page': 2})
     assert response.status_code == 200
@@ -93,6 +89,25 @@ def test_search_recipe(client):
     assert response.status_code == 200
     assert b'Low-Fat Berry Blue Frozen Dessert' in response.data
 
+def test_search_no_result(client):
+    response = client.get('/browse?search=qqqqq&sort=&category=&author=')
+    assert response.status_code == 200
+    assert b'No results found.' in response.data
+
+# --- Recipe Details page Web App ---
+def test_recipe_details(client):
+    response = client.get('/recipe/7989')
+    assert response.status_code == 200
+    assert b'Unstuffed Mushroom Dip' in response.data
+    assert b'Nutritional Values' in response.data
+
+def test_health_star_rating(client):
+    response = client.get('/recipe/13115')
+    assert response.status_code == 200
+    assert b'Insufficient data for Health Score' in response.data
+
+
+# --- Authentication ---
 def test_authentication_register(client):
     response = client.get('/auth/register', data={'username': 'username', 'password': 'password', 'confirm_password': 'password'}, follow_redirects=True)
     assert response.status_code == 200
@@ -111,10 +126,7 @@ def test_new_user_opens_favourites(client):
     response = client.get('/favourites/', follow_redirects=True)
     assert response.status_code == 200
 
-def test_health_star_rating(client):
-    response = client.get('/recipe/13115')
-    assert response.status_code == 200
-    assert b'Insufficient data for Health Score' in response.data
+
 
 def test_wrong_login_details(client):
     response = client.post(
@@ -126,12 +138,9 @@ def test_wrong_login_details(client):
     assert b'Invalid username or password' in response.data
 
 
-def test_search_no_result(client):
-    response = client.get('/browse?search=qqqqq&sort=&category=&author=')
-    assert response.status_code == 200
-    assert b'No results found.' in response.data
 
-
+# --- Favourite Functionality ---
+# --- Can add, remove, view favourites and show none if empty ---
 def test_favourite_add(client, auth):
     response = client.post(
         "/auth/register",
@@ -231,6 +240,8 @@ def test_empty_favourites_page(client, auth):
         assert b"No favourites yet" in response.data
 
 
+# --- Review Functionality ---
+# --- user can post one review per recipe ---
 def test_post_review(client, auth):
     client.post(
         "/auth/register",
