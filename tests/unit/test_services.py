@@ -5,6 +5,7 @@ import recipe.browse.services as browse_services
 import recipe.recipedetails.services as recipe_details_services
 import recipe.favourites.services as favourite_services
 import recipe.review.services as review_services
+import recipe.auth.services as auth_services
 import recipe.adapters.repository as repo
 from recipe.domainmodel.category import Category
 from recipe.domainmodel.favourite import Favourite
@@ -210,3 +211,39 @@ def test_services_that_review_already_exists(in_memory_repo):
     review2_nonexistent = review_services.review_already_exists(user.id, recipe2.id, in_memory_repo)
     assert review1_exists is True
     assert review2_nonexistent is False
+
+
+# --- auth Services ---
+def test_services_can_retrieve_user_by_name(in_memory_repo):
+    user = User("authTester", 'authTester123')
+    in_memory_repo.user_add(user)
+
+    found_by_username = auth_services.retrieve_user_by_name("authTester", in_memory_repo)
+
+    assert found_by_username == user
+    assert found_by_username.username == "authTester"
+
+
+def test_services_can_retrieve_user_by_id(in_memory_repo):
+    user = User("authTester", 'authTester123')
+    in_memory_repo.user_add(user)
+    assert isinstance(user.id, int)
+
+    found_by_id = auth_services.retrieve_user_by_id(user.id, in_memory_repo)
+
+    assert found_by_id == user
+    assert found_by_id.username == "authTester"
+
+
+def test_services_can_add_new_user(in_memory_repo):
+    new_user = User("NewUser123", 'NewUser123')
+
+    auth_services.add_new_user(new_user, in_memory_repo)
+
+    fetched = in_memory_repo.user_get_by_username("NewUser123")
+    assert fetched is new_user
+    assert new_user.id == fetched.id
+    assert isinstance(new_user.id, int)
+
+def test_services_retrieve_user_by_name_returns_none_when_name_nonexistent(in_memory_repo):
+    assert auth_services.retrieve_user_by_name("does_not_exist_404", in_memory_repo) is None

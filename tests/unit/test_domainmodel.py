@@ -1,6 +1,6 @@
 import pytest
 from datetime import datetime
-from werkzeug.security import generate_password_hash, check_password_hash
+from werkzeug.security import check_password_hash
 
 from recipe.domainmodel.user import User
 from recipe.domainmodel.author import Author
@@ -82,6 +82,9 @@ def test_user_construction():
     user = User("john_doe", "secret123", 1)
     assert user.id == 1
     assert user.username == "john_doe"
+    assert user.password_hash != "secret123"
+    assert check_password_hash(user.password_hash, "secret123") is True
+    assert user.check_password("secret123") is True
     assert user.favourite_recipes == []
     assert user.reviews == []
 
