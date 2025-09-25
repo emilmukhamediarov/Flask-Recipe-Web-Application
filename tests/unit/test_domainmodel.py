@@ -284,16 +284,35 @@ def test_nutrition_less_than():
     n2 = Nutrition(nutrition_data)
     assert n1 < n2
 
+def test_nutrition_health_score_insufficient_data():
+    data = {"Calories": 0, "Fat": 0, "Saturated Fat": 0, "Cholesterol": 0}
+    n = Nutrition(data)
+    assert n.score == "Insufficient data for Health Score"
+
+def test_nutrition_health_score_negative_impact_example():
+    # saturated fat = low health score
+    n = Nutrition({"Saturated Fat": 60})
+
+    assert isinstance(n.score, str)
+    assert n.score == "★⯨"
+
+def test_nutrition_health_score_positive_impacts_example():
+    # fiber + protein present = high score
+    n = Nutrition({"Fiber": 14, "Protein": 25})
+    assert isinstance(n.score, str)
+    assert n.score == "★★★⯨"
+
+
 #Favourite Tests
 def test_favourite_construction(my_user, my_recipe):
     favourite = Favourite(my_user.id, my_recipe.id)
-    assert favourite.id == 4
+    assert favourite.id == 1
     assert favourite.user_id == my_user.id
     assert favourite.recipe_id == my_recipe.id
 
 def test_favourite_equality(my_user, my_recipe):
-    f1 = Favourite(my_user, my_recipe)
-    f2 = Favourite(my_user, my_recipe)
+    f1 = Favourite(my_user.id, my_recipe.id)
+    f2 = Favourite(my_user.id, my_recipe.id)
     f3 = f1
     assert f1 == f3
     assert f1 != f2
@@ -304,33 +323,33 @@ def test_favourite_less_than(my_user, my_recipe):
     assert f1 < f2
 
 #Review Tests
-def test_review_construction(my_author, my_recipe):
-    review = Review(my_author.id, my_recipe.id, 4, "Solid effort", datetime.today())
-    assert review.id == 3
+def test_review_construction(my_user, my_recipe):
+    review = Review(my_user.id, my_recipe.id, 4, "Solid effort", datetime.today())
+    assert review.id == 1
     assert review.rating == 4
-    assert review.user_id == my_author.id
+    assert review.user_id == my_user.id
     assert review.recipe_id == my_recipe.id
     assert review.text == "Solid effort"
 
-def test_review_equality(my_author, my_recipe):
-    r1 = Review(my_author.id, my_recipe.id, 1, "test", datetime.today())
-    r2 = Review(my_author.id, my_recipe.id, 1, "test", datetime.today())
+def test_review_equality(my_user, my_recipe):
+    r1 = Review(my_user.id, my_recipe.id, 1, "test", datetime.today())
+    r2 = Review(my_user.id, my_recipe.id, 1, "test", datetime.today())
     r3 = r1
     assert r1 != r2
     assert r1 == r3
 
-def test_review_less_than(my_author, my_recipe):
-    r1 = Review(my_author, my_recipe, 1, "test", datetime.today())
-    r2 = Review(my_author, my_recipe, 1, "test", datetime.today())
+def test_review_less_than(my_user, my_recipe):
+    r1 = Review(my_user.id, my_recipe.id, 1, "test", datetime.today())
+    r2 = Review(my_user.id, my_recipe.id, 1, "test", datetime.today())
     assert r1 < r2
 
-def test_review_rating_greater_than_5(my_author, my_recipe):
+def test_review_rating_greater_than_5(my_user, my_recipe):
     with pytest.raises(ValueError):
-        review = Review(my_author, my_recipe, 6, "test", datetime.today())
+        review = Review(my_user.id, my_recipe.id, 6, "test", datetime.today())
 
-def test_review_rating_less_than_0(my_author, my_recipe):
+def test_review_rating_less_than_0(my_user, my_recipe):
     with pytest.raises(ValueError):
-        review = Review(my_author, my_recipe, -1, "test", datetime.today())
+        review = Review(my_user.id, my_recipe.id, -1, "test", datetime.today())
 
 
 
