@@ -1,5 +1,4 @@
 class Favourite:
-# TODO: Complete the implementation of the Favourite class.
     id_count = 1
     def __init__(self, user_id : int, my_recipe_id: int):
         self.__user_id = user_id
@@ -19,7 +18,7 @@ class Favourite:
         return self.__recipe_id
 
     def __repr__(self):
-        return f"favourite(id={self.id}, user={self.user}, recipe={self.recipe})"
+        return f"favourite(id={self.__id}, user={self.__user_id}, recipe={self.__recipe_id})"
 
     def __eq__(self, other):
         if not isinstance(other, Favourite):

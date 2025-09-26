@@ -22,7 +22,7 @@ class MemoryRepository(AbstractRepository):
         self.__recipes = list()
         self.__reviews = list()
         self.__favourites = list()
-        self._users = dict()
+        self.__users = dict()
 
     def author_add(self, new_author) -> None:
         if not isinstance(new_author, Author):
@@ -103,22 +103,27 @@ class MemoryRepository(AbstractRepository):
         return self.__recipes[-num:]
 
     def user_add(self, user : User):
-        user.id = len(self._users) + 1
-        self._users[user.username] = user
+        self.__users[user.username] = user
 
     def user_get_by_username(self, username: str):
-        return self._users.get(username)
+        return self.__users.get(username)
 
     def user_get_by_id(self, user_id : int) -> User:
-        return next((u for u in self._users.values() if u.id == user_id), None)
+        return next((u for u in self.__users.values() if u.id == user_id), None)
 
-    def reviews_add(self, review) -> None:
+    def reviews_add(self, review : Review) -> None:
         if not isinstance(review, Review):
             raise ValueError("Review must be provided as an instance of Recipe.")
         if review not in self.__reviews:
             user = self.user_get_by_id(review.user_id)
             user.add_review(review)
             self.__reviews.append(review)
+
+    def reviews_remove(self, review : Review) -> None:
+        if not isinstance(review, Review):
+            raise ValueError("Review must be provided as an instance of Recipe.")
+        if review in self.__reviews:
+            self.__reviews.remove(review)
 
     def reviews_get_by_id(self, review_id : int) -> Review:
         return next((review for review in self.__reviews if review.id == review_id), None)
@@ -234,6 +239,10 @@ def populate(data_path, repo):
             Author(0, ""),
             Category("")
         ))
+
+    #Test user for testing
+    test_user = User("TestUser", "test")
+    repo.user_add(test_user)
 
 
 

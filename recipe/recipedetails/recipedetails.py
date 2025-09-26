@@ -8,7 +8,7 @@ recipe_details_bp = Blueprint('recipe_details_bp', __name__)
 def get_recipe_details(recipe_id):
 
     recipe = services.get_recipe(recipe_id, repo.repo_instance)
-    reviews = services.get_reviews(recipe_id, repo.repo_instance)
+    reviews = services.get_reviews(recipe, repo.repo_instance)
 
     is_favourite = services.recipe_is_favourite(session.get('user_id'), recipe_id, repo.repo_instance)
 

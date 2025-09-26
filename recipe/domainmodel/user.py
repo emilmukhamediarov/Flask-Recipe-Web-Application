@@ -3,10 +3,12 @@ from recipe.domainmodel.review import Review
 from werkzeug.security import generate_password_hash, check_password_hash
 
 class User:
-    def __init__(self, username: str, password: str, user_id: int = None):
-        self.__id = user_id
+    id_count = 1
+    def __init__(self, username: str, password: str, id : int = None):
+        self.__id = id or User.id_count
+        User.id_count += 1
         self.__username = username
-        # hash password unless explicitly marked as already hashed
+        # Should only store hashed passwords!
         self.__password_hash = generate_password_hash(password)
         self.__favourite_recipes = []
         self.__reviews = []

@@ -1,4 +1,6 @@
 from flask import Blueprint, render_template, redirect, url_for, flash, request, session
+from werkzeug.security import generate_password_hash
+
 from recipe.domainmodel.user import User
 import recipe.adapters.repository as repo
 from recipe.auth.forms import LoginForm, RegisterForm
@@ -42,7 +44,9 @@ def register():
         if services.retrieve_user_by_name(form.username.data, repo.repo_instance):
             flash("Username already exists", "danger")
         else:
-            new_user = User(username=form.username.data, password=form.password.data)
+            username = form.username.data
+            password = form.password.data
+            new_user = User(username, password)
             services.add_new_user(new_user, repo.repo_instance)
 
             session.clear()

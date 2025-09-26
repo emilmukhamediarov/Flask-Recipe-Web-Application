@@ -118,6 +118,10 @@ class AbstractRepository(abc.ABC):
         raise NotImplementedError
 
     @abc.abstractmethod
+    def reviews_remove(self, review) -> None:
+        raise NotImplementedError
+
+    @abc.abstractmethod
     def reviews_get_by_id(self, review_id: int) -> Review:
         raise NotImplementedError
 
@@ -140,7 +144,7 @@ class AbstractRepository(abc.ABC):
         raise NotImplementedError
 
     @abc.abstractmethod
-    def favourite_get_all(self) -> List[Recipe]:
+    def favourite_get_all(self) -> List[Favourite]:
         """Returns a list of favourites"""
         raise NotImplementedError
 
