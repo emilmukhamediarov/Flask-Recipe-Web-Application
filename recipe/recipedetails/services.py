@@ -9,7 +9,7 @@ def get_reviews(id : int, repository:AbstractRepository):
         'rating': review.rating,
         'text': review.text,
         'created_date': review.created_date
-    } for review in repository.reviews_get_all_by_recipe_id(id)]
+    } for review in repository.reviews_get_all_by_recipe_id(id)].sort(key=lambda review: review['created_date'], reverse=True) #Displays reviews with newest first
 
 def recipe_is_favourite(user_id, recipe_id, repository:AbstractRepository):
     if not user_id:
