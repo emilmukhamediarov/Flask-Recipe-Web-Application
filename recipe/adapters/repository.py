@@ -140,7 +140,7 @@ class AbstractRepository(abc.ABC):
         raise NotImplementedError
 
     @abc.abstractmethod
-    def favourite_get_all(self) -> List[Recipe]:
+    def favourite_get_all(self) -> List[Favourite]:
         """Returns a list of favourites"""
         raise NotImplementedError
 

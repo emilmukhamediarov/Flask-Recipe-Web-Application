@@ -237,3 +237,7 @@ class Recipe:
                 self.__rating = None
         else:
             self.__rating = None
+
+    def search(self, term : str) -> bool:
+        clean_term = term.strip().lower()
+        return clean_term in self.__name.lower() or clean_term in self.__category.name.lower() or clean_term in self.__author.name.lower()

@@ -32,7 +32,7 @@ def browse():
         recipes = [recipe for recipe in recipes if recipe.author.name == selected_author]
         breadcrumbs.append((selected_author, url_for("browse_bp.browse", author=selected_author)))
     if search_term:
-        recipes = [recipe for recipe in recipes if search_term.lower() in recipe.name.lower()]
+        recipes = [recipe for recipe in recipes if recipe.search(search_term)]
 
     sorts = ["A-z", "Author", "Category"]
 
