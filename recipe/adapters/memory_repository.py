@@ -119,6 +119,12 @@ class MemoryRepository(AbstractRepository):
             user.add_review(review)
             self.__reviews.append(review)
 
+    def reviews_remove(self, review : Review) -> None:
+        if not isinstance(review, Review):
+            raise ValueError("Review must be provided as an instance of Recipe.")
+        if review in self.__reviews:
+            self.__reviews.remove(review)
+
     def reviews_get_by_id(self, review_id : int) -> Review:
         return next((review for review in self.__reviews if review.id == review_id), None)
 

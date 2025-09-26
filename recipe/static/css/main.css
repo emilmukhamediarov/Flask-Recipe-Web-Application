@@ -729,6 +729,7 @@ html, body {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  position: relative;
 }
 
 .review-card p {
@@ -736,4 +737,15 @@ html, body {
   overflow-wrap: anywhere;
   white-space: normal;
   max-width: 100%;
+}
+
+.delete-btn {
+    background: none;
+    border: none;
+    color: #c00;
+    cursor: pointer;
+    font-size: 0.9em;
+}
+.delete-btn:hover {
+    color: #f00;
 }

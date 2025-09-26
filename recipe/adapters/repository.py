@@ -118,6 +118,10 @@ class AbstractRepository(abc.ABC):
         raise NotImplementedError
 
     @abc.abstractmethod
+    def reviews_remove(self, review) -> None:
+        raise NotImplementedError
+
+    @abc.abstractmethod
     def reviews_get_by_id(self, review_id: int) -> Review:
         raise NotImplementedError
 

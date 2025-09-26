@@ -30,5 +30,12 @@ def review():
             flash("User doesn't exist", "warning")
             return redirect(url_for('recipe_details_bp.get_recipe_details', recipe_id=recipe_id))
 
-
+@review_bp.route('/review/delete', methods=['POST'])
+@login_required
+def delete_review():
+    review_id = int(request.form['review_id'])
+    recipe_id = int(request.form['recipe_id'])
+    services.delete_review(review_id, repo.repo_instance)
+    flash("Review successfully deleted", "success")
+    return redirect(url_for('recipe_details_bp.get_recipe_details', recipe_id=recipe_id))
 

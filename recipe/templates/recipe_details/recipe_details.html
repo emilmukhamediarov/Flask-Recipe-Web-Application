@@ -125,7 +125,16 @@
                     {% for review in reviews %}
                     <article class="review-card">
                         <header class="review-header">
-                            <span class="review-author">{{ review.name }} on {{ review.created_date }}</span>
+                            <!-- Delete button -->
+                            <form action="/review/delete" method="POST" style="display:inline;">
+                                <input type="hidden" name="review_id" value="{{ review.id }}">
+                                <input type="hidden" name="recipe_id" value="{{ recipe.id }}">
+                                {% if session['username'] == review.name %}
+                                <button type="submit" class="delete-btn">✖</button>
+                                {% endif %}
+                                <span class="review-author">{{ review.name }} on {{ review.created_date }}</span>
+                            </form>
+
                             <span>
                                 {% for i in range(1, 6) %}
                                     {% if i <= review.rating %}
@@ -135,6 +144,7 @@
                                     {% endif %}
                                 {% endfor %}
                             </span>
+
                         </header>
                         <p>{{ review.text }}</p>
                     </article>
