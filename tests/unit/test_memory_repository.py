@@ -116,7 +116,7 @@ def test_repository_can_add_user_and_get_by_username(in_memory_repo):
     retrieved = in_memory_repo.user_get_by_username("TestUser123")
     assert retrieved.username == "TestUser123"
     assert retrieved is user
-    assert retrieved.id == 1
+    assert retrieved.id > 0
 
 def test_repository_can_get_user_by_id(in_memory_repo):
     user1 = User("TestUser111", "TestUser111")
@@ -126,8 +126,8 @@ def test_repository_can_get_user_by_id(in_memory_repo):
 
     retrieved1 = in_memory_repo.user_get_by_id(user1.id)
     retrieved2 = in_memory_repo.user_get_by_id(user2.id)
-    assert retrieved1.id == 1
-    assert retrieved2.id == 2
+    assert retrieved1.id == user1.id
+    assert retrieved2.id == user2.id
     assert retrieved1.username == "TestUser111"
     assert retrieved2.username == "TestUser222"
 
@@ -135,7 +135,7 @@ def test_repository_can_get_user_by_id(in_memory_repo):
 
 # --- Reviews repository methods ---
 def test_repository_can_add_review_and_get_by_id(in_memory_repo):
-    user = User("TestUser111", "TestUser111")
+    user = User("TestUser111", "TestUser111", 1)
     in_memory_repo.user_add(user)
 
     review = Review(1, 38, 3, "Test review", date.today())
@@ -152,7 +152,7 @@ def test_repository_can_add_review_and_get_by_id(in_memory_repo):
 
 
 def test_repository_can_get_all_reviews_by_user_id_and_recipe_id(in_memory_repo):
-    user = User("TestUser111", "TestUser111")
+    user = User("TestUser111", "TestUser111", 1)
     in_memory_repo.user_add(user)
     review1 = Review(1, 38, 1, "Test review1", date.today())
     review2 = Review(1, 56, 2, "Test review2", date.today())

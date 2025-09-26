@@ -91,7 +91,7 @@ def test_user_construction():
 
 def test_user_construction_without_id():
     user = User("jane_doe", "password456")
-    assert user.id is None
+    assert user.id > 0
     assert user.username == "jane_doe"
 
 

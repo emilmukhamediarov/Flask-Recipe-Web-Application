@@ -1,15 +1,20 @@
+from typing import List
+
+from recipe.domainmodel.recipe import Recipe
 from recipe.adapters.repository import AbstractRepository
+from recipe.domainmodel.review import Review
+
 
 def get_recipe(id : int, repository:AbstractRepository):
     return repository.recipe_get_by_id(id)
 
-def get_reviews(id : int, repository:AbstractRepository):
-    return [{
+def get_reviews(recipe : Recipe, repository:AbstractRepository) -> List[object]:
+    return sorted([{
         'name': repository.user_get_by_id(review.user_id).username,
         'rating': review.rating,
         'text': review.text,
         'created_date': review.created_date
-    } for review in repository.reviews_get_all_by_recipe_id(id)].sort(key=lambda review: review['created_date'], reverse=True) #Displays reviews with newest first
+    } for review in recipe.reviews], key=lambda review: review['created_date'], reverse=True) #Displays reviews with newest first
 
 def recipe_is_favourite(user_id, recipe_id, repository:AbstractRepository):
     if not user_id:

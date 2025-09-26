@@ -1,5 +1,6 @@
 from __future__ import annotations
 from datetime import datetime
+from typing import List
 
 from recipe.domainmodel.author import Author
 from recipe.domainmodel.category import Category
@@ -209,7 +210,7 @@ class Recipe:
         self.__instructions = steps
 
     @property
-    def reviews(self) -> list[Review]:
+    def reviews(self) -> List[Review]:
         return self.__reviews
 
     def add_review(self, review: Review) -> None:

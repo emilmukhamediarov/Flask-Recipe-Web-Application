@@ -4,8 +4,8 @@ from werkzeug.security import generate_password_hash, check_password_hash
 
 class User:
     id_count = 1
-    def __init__(self, username: str, password: str):
-        self.__id = User.id_count
+    def __init__(self, username: str, password: str, id : int = None):
+        self.__id = id or User.id_count
         User.id_count += 1
         self.__username = username
         # Should only store hashed passwords!

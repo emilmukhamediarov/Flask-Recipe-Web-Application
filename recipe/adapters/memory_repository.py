@@ -111,7 +111,7 @@ class MemoryRepository(AbstractRepository):
     def user_get_by_id(self, user_id : int) -> User:
         return next((u for u in self.__users.values() if u.id == user_id), None)
 
-    def reviews_add(self, review) -> None:
+    def reviews_add(self, review : Review) -> None:
         if not isinstance(review, Review):
             raise ValueError("Review must be provided as an instance of Recipe.")
         if review not in self.__reviews:

@@ -88,7 +88,7 @@ def test_services_can_get_review(in_memory_repo):
     in_memory_repo.recipe_add(recipe)
 
     review_services.create_review(user.id, recipe.id, 3, "OK", date.today(), in_memory_repo)
-    reviews = recipe_details_services.get_reviews(recipe.id, in_memory_repo)
+    reviews = recipe_details_services.get_reviews(recipe, in_memory_repo)
     assert isinstance(reviews, list)
     assert len(reviews) == 1
     review_details = reviews[0]
