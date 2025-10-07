@@ -16,15 +16,22 @@ def create_app(test_config=None):
     # Create the Flask app object.
     app = Flask(__name__)
 
+    # Configure the app from configuration-file settings.
     app.config.from_object('config.Config')
     data_path = Path('recipe') / 'adapters' / 'data'
 
     if test_config is not None:
+        # Load test configuration, and override any configuration settings.
         app.config.from_mapping(test_config)
         data_path = app.config['TEST_DATA_PATH']
 
-    repo.repo_instance = MemoryRepository()
-    populate(data_path, repo.repo_instance)
+    if app.config['REPOSITORY'] == 'memory':
+        # Create the MemoryRepository implementation for a memory-based repository.
+        repo.repo_instance = MemoryRepository()
+        # fill the content of the repository from the provided csv files (has to be done every time we start app!)
+        database_mode = False
+        populate(data_path, repo.repo_instance)
+
 
     with app.app_context():
         from .home import home
