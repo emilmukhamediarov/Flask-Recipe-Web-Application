@@ -11,6 +11,7 @@ from recipe.domainmodel.recipe import Recipe
 from recipe.domainmodel.review import Review
 from recipe.domainmodel.user import User
 from recipe.domainmodel.favourite import Favourite
+from recipe.domainmodel.recipe_image import RecipeImage
 from recipe.adapters.repository import AbstractRepository
 from datetime import datetime
 
@@ -181,8 +182,8 @@ def populate(data_path, repo):
         fiber_content = float(row["FiberContent"])
         sugar_content = float(row["SugarContent"])
         protein_content = float(row["ProteinContent"])
-
         recipe_images = ast.literal_eval(row["Images"])
+
         ingredient_quantities = ast.literal_eval(row["RecipeIngredientQuantities"])
         ingredient_parts = ast.literal_eval(row["RecipeIngredientParts"])
         recipe_instructions = ast.literal_eval(row["RecipeInstructions"])
@@ -213,7 +214,8 @@ def populate(data_path, repo):
         recipe.total_time = recipe_total_time
         recipe.date = recipe_date
         recipe.description = recipe_description
-        recipe.images = recipe_images
+        images = [RecipeImage(recipe.id, url) for url in recipe_images]
+        recipe.images = images
         recipe.ingredients = ingredient_parts
         recipe.ingredient_quantities = ingredient_quantities
         recipe.instructions = recipe_instructions

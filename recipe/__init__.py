@@ -6,6 +6,7 @@ from flask import Flask, render_template
 
 import recipe.adapters.repository as repo
 from recipe.adapters.memory_repository import MemoryRepository, populate
+from recipe.adapters import memory_repository, populate_repository, repository
 
 from recipe.domainmodel.recipe import Recipe
 from recipe.domainmodel.author import Author
@@ -29,7 +30,7 @@ def create_app(test_config=None):
         # Create the MemoryRepository implementation for a memory-based repository.
         repo.repo_instance = MemoryRepository()
         # fill the content of the repository from the provided csv files (has to be done every time we start app!)
-        database_mode = False
+        # database_mode = False
         populate(data_path, repo.repo_instance)
 
 

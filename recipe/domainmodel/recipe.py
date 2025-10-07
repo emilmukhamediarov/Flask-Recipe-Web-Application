@@ -6,6 +6,7 @@ from recipe.domainmodel.author import Author
 from recipe.domainmodel.category import Category
 from recipe.domainmodel.nutrition import Nutrition
 from recipe.domainmodel.review import Review
+from recipe.domainmodel.recipe_image import RecipeImage
 
 class Recipe:
     def __init__(self, recipe_id: int, name: str, author: Author, category: Category,
@@ -136,9 +137,9 @@ class Recipe:
         return self.__images
 
     @images.setter
-    def images(self, value: list[str]):
-        if not isinstance(value, list) or not all(isinstance(x, str) for x in value):
-            raise TypeError("images must be a list of strings.")
+    def images(self, value: list["RecipeImage"]):
+        if not isinstance(value, list) or not all(isinstance(x, RecipeImage) for x in value):
+            raise TypeError("images must be a list of RecipeImage instances.")
         self.__images = value
 
     @property
