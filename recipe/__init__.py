@@ -6,6 +6,7 @@ from flask import Flask, render_template
 
 import recipe.adapters.repository as repo
 from recipe.adapters.memory_repository import MemoryRepository, populate
+from recipe.adapters import memory_repository, repository
 
 from recipe.adapters import memory_repository, repository
 
