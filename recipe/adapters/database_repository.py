@@ -113,9 +113,8 @@ class SqlAlchemyRepository(AbstractRepository, ABC):
         """Returns a list of Recipes by category"""
         pass
 
-    def recipe_get_by_id(self, recipe_id) -> Recipe:
-        """Returns a Recipe by its id"""
-        pass
+    def recipe_get_by_id(self, recipe_id: int) -> Recipe | None:
+        return self._session_cm.session.query(Recipe).filter_by(_Recipe__id=recipe_id).first()
 
     def recipe_get_quantity(self) -> int:
         return self._session_cm.session.query(Recipe).count()
@@ -137,7 +136,7 @@ class SqlAlchemyRepository(AbstractRepository, ABC):
 
     def user_get_by_id(self, user_id: int) -> User:
         """Returns the User by id"""
-        pass
+        return None
 
     def reviews_add(self, review) -> None:
         pass
@@ -149,7 +148,7 @@ class SqlAlchemyRepository(AbstractRepository, ABC):
         pass
 
     def reviews_get_all_by_user_id(self, user_id: int) -> List[Review]:
-        pass
+        return []
 
     def reviews_get_all_by_recipe_id(self, recipe_id: int) -> List[Review]:
         pass

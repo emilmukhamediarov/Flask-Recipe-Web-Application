@@ -9,6 +9,9 @@ from recipe.domainmodel.category import Category
 from recipe.domainmodel.recipe_image import RecipeImage
 from recipe.domainmodel.recipe_instruction import RecipeInstruction
 from recipe.domainmodel.recipe_ingredient import RecipeIngredient
+from recipe.domainmodel.user import User
+from recipe.domainmodel.review import Review
+from recipe.domainmodel.favourite import Favourite
 
 # Global variable giving access to the MetaData (schema) information of the database
 mapper_registry = registry()
@@ -28,7 +31,7 @@ nutrition_table = Table(
     Column('fiber', Float, nullable=True),
     Column('sugar', Float, nullable=True),
     Column('protein', Float, nullable=True),
-    Column('health_score', Float, nullable=True)
+    Column('health_score', String(255), nullable=True)
 )
 
 # Recipes table
@@ -37,6 +40,13 @@ recipes_table = Table(
     Column('id', Integer, primary_key=True),
     Column('name', String(255), nullable=False),
     Column('description', Text, nullable=False),
+    Column('cook_time', Integer, nullable=False),
+    Column('preparation_time', Integer, nullable=False),
+    Column('total_time', Integer, nullable=False),
+    Column('date', DateTime, nullable=True),
+    Column('rating', Float, nullable=True),
+    Column('servings', String(255), nullable=True),
+    Column('recipe_yield', String(255), nullable=True),
     Column('author_id', Integer, ForeignKey('authors.id')),
     Column('category_id', Integer, ForeignKey('categories.id')),
 )
@@ -80,6 +90,34 @@ recipe_ingredients_table = Table(
     Column('recipe_id', Integer, ForeignKey('recipes.id')),
 )
 
+# Users table
+users_table = Table(
+    'users', mapper_registry.metadata,
+    Column('id', Integer, primary_key=True, autoincrement=True),
+    Column('username', String(255), nullable=False, unique=True),
+    Column('password_hash', String(255), nullable=False),
+)
+
+# Reviews table
+reviews_table = Table(
+    'reviews', mapper_registry.metadata,
+    Column('id', Integer, primary_key=True, autoincrement=True),
+    Column('user_id', Integer, ForeignKey('users.id')),
+    Column('recipe_id', Integer, ForeignKey('recipes.id')),
+    Column('rating', Integer, nullable=False),
+    Column('text', Text, nullable=False),
+    Column('created_date', DateTime, nullable=False),
+)
+
+# Favourites table
+favourites_table = Table(
+    'favourites', mapper_registry.metadata,
+    Column('id', Integer, primary_key=True, autoincrement=True),
+    Column('user_id', Integer, ForeignKey('users.id')),
+    Column('recipe_id', Integer, ForeignKey('recipes.id')),
+    UniqueConstraint('user_id', 'recipe_id', name='uq_user_recipe_favourite')
+)
+
 
 # ORM Mappings
 def map_model_to_tables():
@@ -96,7 +134,7 @@ def map_model_to_tables():
         '_Nutrition__fiber': nutrition_table.c.fiber,
         '_Nutrition__sugar': nutrition_table.c.sugar,
         '_Nutrition__protein': nutrition_table.c.protein,
-        '_Nutrition__health_score': nutrition_table.c.health_score,
+        '_Nutrition__score': nutrition_table.c.health_score,
         '_Nutrition__recipe': relationship(Recipe, back_populates='_Recipe__nutrition',
         )
     })
@@ -106,12 +144,21 @@ def map_model_to_tables():
         '_Recipe__id': recipes_table.c.id,
         '_Recipe__name': recipes_table.c.name,
         '_Recipe__description': recipes_table.c.description,
+        '_Recipe__cook_time': recipes_table.c.cook_time,
+        '_Recipe__preparation_time': recipes_table.c.preparation_time,
+        '_Recipe__total_time': recipes_table.c.total_time,
+        '_Recipe__date': recipes_table.c.date,
+        '_Recipe__rating': recipes_table.c.rating,
+        '_Recipe__servings': recipes_table.c.servings,
+        '_Recipe__recipe_yield': recipes_table.c.recipe_yield,
         '_Recipe__author': relationship(Author, back_populates='_Author__recipes',),
         '_Recipe__category': relationship(Category, back_populates='_Category__recipes',),
         '_Recipe__nutrition': relationship(Nutrition, back_populates='_Nutrition__recipe', uselist=False),
         '_Recipe__images': relationship(RecipeImage, back_populates='_RecipeImage__recipe'),
         '_Recipe__instructions': relationship(RecipeInstruction, back_populates='_RecipeInstruction__recipe'),
         '_Recipe__ingredients': relationship(RecipeIngredient, back_populates='_RecipeIngredient__recipe'),
+        '_Recipe__reviews': relationship(Review, back_populates='_Review__recipe'),
+        '_Recipe__favourites': relationship(Favourite, back_populates='_Favourite__recipe'),
     })
 
     # Author mapping
@@ -151,6 +198,36 @@ def map_model_to_tables():
         '_RecipeIngredient__ingredient': recipe_ingredients_table.c.ingredient,
         '_RecipeIngredient__recipe_id': recipe_ingredients_table.c.recipe_id,
         '_RecipeIngredient__recipe': relationship(Recipe, back_populates='_Recipe__ingredients'),
+    })
+
+    # User mapping
+    mapper_registry.map_imperatively(User, users_table, properties={
+        '_User__id': users_table.c.id,
+        '_User__username': users_table.c.username,
+        '_User__password_hash': users_table.c.password_hash,
+        '_User__favourite_recipes': relationship('Favourite', back_populates='_Favourite__user'),
+        '_User__reviews': relationship('Review', back_populates='_Review__user'),
+    })
+
+    # Review mapping
+    mapper_registry.map_imperatively(Review, reviews_table, properties={
+        '_Review__id': reviews_table.c.id,
+        '_Review__user_id': reviews_table.c.user_id,
+        '_Review__recipe_id': reviews_table.c.recipe_id,
+        '_Review__rating': reviews_table.c.rating,
+        '_Review__text': reviews_table.c.text,
+        '_Review__date': reviews_table.c.created_date,
+        '_Review__user': relationship(User, back_populates='_User__reviews'),
+        '_Review__recipe': relationship(Recipe, back_populates='_Recipe__reviews'),
+    })
+
+    # Favourite mapping
+    mapper_registry.map_imperatively(Favourite, favourites_table, properties={
+        '_Favourite__id': favourites_table.c.id,
+        '_Favourite__user_id': favourites_table.c.user_id,
+        '_Favourite__recipe_id': favourites_table.c.recipe_id,
+        '_Favourite__user': relationship(User, back_populates='_User__favourite_recipes'),
+        '_Favourite__recipe': relationship(Recipe, back_populates='_Recipe__favourites'),
     })
 
 
