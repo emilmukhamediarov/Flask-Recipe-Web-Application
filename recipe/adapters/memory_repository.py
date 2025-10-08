@@ -230,10 +230,10 @@ def populate(data_path, repo):
 
         recipe.ingredients = ingredients
 
-        # recipe.ingredient_quantities = ingredient_quantities
-        recipe.instructions = recipe_instructions
-        recipe.ingredients = ingredient_parts
+
+        recipe.ingredients = ingredients
         recipe.ingredient_quantities = ingredient_quantities
+
         instructions = [RecipeInstruction(recipe.id, step) for step in recipe_instructions]
         recipe.instructions = instructions
 
