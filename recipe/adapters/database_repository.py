@@ -118,16 +118,14 @@ class SqlAlchemyRepository(AbstractRepository, ABC):
         pass
 
     def recipe_get_quantity(self) -> int:
-        """Returns the quantity the recipes"""
-        pass
+        return self._session_cm.session.query(Recipe).count()
 
     def recipe_get_random(self) -> Recipe:
         """Returns a random Recipe"""
         pass
 
-    def recipe_get_latest(self, num: int) -> List[Recipe]:
-        """Returns the latest Recipe"""
-        pass
+    def recipe_get_latest(self, num: int):
+        return self._session_cm.session.query(Recipe).order_by(Recipe._Recipe__id.desc()).limit(num).all()
 
     def user_add(self, user: User):
         """Adds User to the dictionary"""
