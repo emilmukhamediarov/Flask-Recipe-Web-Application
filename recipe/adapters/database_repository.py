@@ -1,21 +1,16 @@
 from abc import ABC
 from typing import List, Type
 
+
 from sqlalchemy import func
 from sqlalchemy.orm import scoped_session
-from sqlalchemy.orm.exc import NoResultFound
-
 from recipe.adapters.repository import AbstractRepository
 from recipe.domainmodel.recipe import Recipe
 from recipe.domainmodel.author import Author
 from recipe.domainmodel.category import Category
 from recipe.domainmodel.user import User
 from recipe.domainmodel.review import Review
-from recipe.domainmodel.nutrition import Nutrition
 from recipe.domainmodel.favourite import Favourite
-from recipe.domainmodel.recipe_image import RecipeImage
-from recipe.domainmodel.recipe_ingredient import RecipeIngredient
-from recipe.domainmodel.recipe_instruction import RecipeInstruction
 
 # feature 1 test
 class SessionContextManager:
@@ -119,9 +114,8 @@ class SqlAlchemyRepository(AbstractRepository, ABC):
     def recipe_get_quantity(self) -> int:
         return self._session_cm.session.query(Recipe).count()
 
-    def recipe_get_random(self) -> Recipe:
-        """Returns a random Recipe"""
-        pass
+    def recipe_get_random(self) -> Type[Recipe]:
+        return self._session_cm.session.query(Recipe).order_by(func.random()).first()
 
     def recipe_get_latest(self, num: int):
         return self._session_cm.session.query(Recipe).order_by(Recipe._Recipe__id.desc()).limit(num).all()
