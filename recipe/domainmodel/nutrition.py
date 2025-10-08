@@ -4,26 +4,115 @@ DATA_THRESHOLD = 0.01
 
 class Nutrition:
     id_count = 1
-    def __init__(self, data: dict):
-        self.__data = data
-        self.__id = Nutrition.id_count
-        Nutrition.id_count += 1
+    def __init__(self,
+                 recipe_id: int,
+                 calories : int, fat : int, saturated_fat : int, cholesterol : int,
+                 sodium : int, carbohydrate : int, fiber : int, sugar : int, protein : int,
+                 id: int | None = None):
+        if id is None:
+            self.__id = Nutrition.id_count
+            Nutrition.id_count += 1
+        else:
+            self.__id = id
+        self.recipe_id = recipe_id
+        self.__calories = calories
+        self.__fat = fat
+        self.__saturated_fat = saturated_fat
+        self.__cholesterol = cholesterol
+        self.__sodium = sodium
+        self.__carbohydrate = carbohydrate
+        self.__fiber = fiber
+        self.__sugar = sugar
+        self.__protein = protein
         self.__score = self.health_score()
+
 
     @property
     def id(self):
         return self.__id
 
-    @property
-    def data(self):
-        return self.__data
 
     @property
     def score(self):
         return self.__score
 
+    @property
+    def calories(self) -> float:
+        return self.__calories
+
+    @property
+    def fat(self) -> float:
+        return self.__fat
+
+    @property
+    def saturated_fat(self) -> float:
+        return self.__saturated_fat
+
+    @property
+    def cholesterol(self) -> float:
+        return self.__cholesterol
+
+    @property
+    def sodium(self) -> float:
+        return self.__sodium
+
+    @property
+    def carbohydrates(self) -> float:
+        return self.__carbohydrates
+
+    @property
+    def fiber(self) -> float:
+        return self.__fiber
+
+    @property
+    def sugar(self) -> float:
+        return self.__sugar
+
+    @property
+    def protein(self) -> float:
+        return self.__protein
+
     def __repr__(self):
-        return f"Nutrition(id={self.id}, data={self.data})"
+        nutrition_data = {
+            "Calories": self.__calories,
+            "Fat": self.__fat,
+            "Saturated Fat": self.__saturated_fat,
+            "Cholesterol": self.__cholesterol,
+            "Sodium": self.__sodium,
+            "Carbohydrate": self.__carbohydrate,
+            "Fiber": self.__fiber,
+            "Sugar": self.__sugar,
+            "Protein": self.__protein,
+        }
+        return nutrition_data
+
+    def __str__(self):
+        nutrition_data = {
+            "Calories": self.__calories,
+            "Fat": self.__fat,
+            "Saturated Fat": self.__saturated_fat,
+            "Cholesterol": self.__cholesterol,
+            "Sodium": self.__sodium,
+            "Carbohydrate": self.__carbohydrate,
+            "Fiber": self.__fiber,
+            "Sugar": self.__sugar,
+            "Protein": self.__protein,
+        }
+        return nutrition_data
+
+    def get_data(self):
+        nutrition_data = {
+            "Calories": self.__calories,
+            "Fat": self.__fat,
+            "Saturated Fat": self.__saturated_fat,
+            "Cholesterol": self.__cholesterol,
+            "Sodium": self.__sodium,
+            "Carbohydrate": self.__carbohydrate,
+            "Fiber": self.__fiber,
+            "Sugar": self.__sugar,
+            "Protein": self.__protein,
+        }
+        return nutrition_data
 
     def __eq__(self, other):
         if not isinstance(other, Nutrition):
@@ -49,10 +138,10 @@ class Nutrition:
         }
         missing_data_count = 0
         proportional_data = {}
-        for key in self.__data:
-            daily_proportion = self.data[key] / daily_limit[key] or 0
+        for key in self.get_data():
+            daily_proportion = self.get_data()[key] / daily_limit[key] or 0
             if daily_proportion > DATA_THRESHOLD: #Only calculate with nutrition contributing more than 1% of DI
-                proportional_data[key] = self.__data[key] / daily_limit[key]
+                proportional_data[key] = self.get_data()[key] / daily_limit[key]
             else:
                 missing_data_count += 1
         if missing_data_count > 3: #If more than 50% of values are missing or insignificant

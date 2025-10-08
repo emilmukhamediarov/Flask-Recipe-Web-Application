@@ -190,26 +190,12 @@ def populate(data_path, repo):
         ingredient_parts = ast.literal_eval(row["RecipeIngredientParts"])
         recipe_instructions = ast.literal_eval(row["RecipeInstructions"])
 
-        nutrition_data = {
-            "Calories": calories,
-            "Fat": fat_content,
-            "Saturated Fat": saturated_fat_content,
-            "Cholesterol": cholesterol_content,
-            "Sodium": sodium_content,
-            "Carbohydrate": carbohydrate_content,
-            "Fiber": fiber_content,
-            "Sugar": sugar_content,
-            "Protein": protein_content,
-        }
 
         author = repo.author_add_by_id_and_name(author_id, author_name)
         category = repo.category_add_by_name(category_name)
 
-        nutrition = Nutrition(nutrition_data)
-
         recipe = Recipe(recipe_id = recipe_id, name = recipe_name, author = author, category = category)
 
-        recipe.nutrition = nutrition
 
         recipe.cook_time = recipe_cook_time
         recipe.preparation_time = recipe_prep_time
@@ -220,6 +206,12 @@ def populate(data_path, repo):
 
         images = [RecipeImage(recipe.id, url) for url in recipe_images]
         recipe.images = images
+
+        nutrition = Nutrition (recipe.id, calories, fat_content, saturated_fat_content,
+                     cholesterol_content, sodium_content,
+                     carbohydrate_content, fiber_content, sugar_content, protein_content)
+
+        recipe.nutrition = nutrition
 
         ingredients = []
 
