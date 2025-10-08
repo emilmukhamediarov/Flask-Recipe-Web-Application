@@ -12,6 +12,7 @@ from recipe.domainmodel.review import Review
 from recipe.domainmodel.user import User
 from recipe.domainmodel.favourite import Favourite
 from recipe.domainmodel.recipe_image import RecipeImage
+from recipe.domainmodel.recipe_instruction import RecipeInstruction
 from recipe.adapters.repository import AbstractRepository
 from datetime import datetime
 
@@ -218,7 +219,8 @@ def populate(data_path, repo):
         recipe.images = images
         recipe.ingredients = ingredient_parts
         recipe.ingredient_quantities = ingredient_quantities
-        recipe.instructions = recipe_instructions
+        instructions = [RecipeInstruction(recipe.id, step) for step in recipe_instructions]
+        recipe.instructions = instructions
 
         recipe.rating = None
 
