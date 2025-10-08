@@ -152,6 +152,9 @@ class MemoryRepository(AbstractRepository):
     def favourite_get_all_by_user_id(self, user_id: int) -> List[Favourite]:
         return [favourite for favourite in self.__favourites if user_id == favourite.user_id]
 
+    def add_multiple_recipes(self, recipes: List[Recipe]):
+        pass
+
 def populate(data_path, repo):
     reader = CSVDataReader(data_path)
     data = reader.read()

@@ -40,3 +40,4 @@ class RecipeImage:
     @property
     def url(self) -> str:
         return self.__url
+
