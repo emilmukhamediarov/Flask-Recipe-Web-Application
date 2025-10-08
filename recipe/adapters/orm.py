@@ -38,6 +38,7 @@ recipes_table = Table(
 
 
 
+
 # ORM Mappings
 def map_model_to_tables():
 
@@ -70,6 +71,8 @@ def map_model_to_tables():
             uselist=False,
         ),
     })
+
+
 
 
 

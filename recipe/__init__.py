@@ -11,7 +11,8 @@ from flask import Flask, render_template
 
 import recipe.adapters.repository as repo
 
-from recipe.adapters.memory_repository import MemoryRepository, populate
+from recipe.adapters.memory_repository import MemoryRepository
+from recipe.adapters.populate_repository import populate
 from recipe.adapters import memory_repository, repository
 
 from recipe.adapters import memory_repository, repository
@@ -76,12 +77,8 @@ def create_app(test_config=None):
             # Generate mappings that map domain model classes to the database tables.
             map_model_to_tables()
 
-            repo.repo_instance = MemoryRepository()
-
+            repo.repo_instance = SqlAlchemyRepository(session_factory)
             populate(data_path, repo.repo_instance)
-
-            repo.repo_instance2 = SqlAlchemyRepository(session_factory)
-            repo.repo_instance2.add_multiple_recipes(repo.repo_instance.recipe_get_all())
 
             print("REPOPULATING DATABASE... FINISHED")
 

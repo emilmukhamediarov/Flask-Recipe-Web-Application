@@ -238,12 +238,29 @@ class SqlAlchemyRepository(AbstractRepository, ABC):
     # def add_recipe(self, recipe: Recipe):
     #     pass
     #
+
+
     def add_multiple_recipes(self, recipes: List[Recipe]):
         with self._session_cm as scm:
             with scm.session.no_autoflush:
                 for recipe in recipes:
                     scm.session.add(recipe)
             scm.commit()
+
+    def add_multiple_authors(self, authors: List[Author]):
+        with self._session_cm as scm:
+            with scm.session.no_autoflush:
+                for author in authors:
+                    scm.session.add(author)
+            scm.commit()
+
+    def add_multiple_categories(self, categories: List[Category]):
+        with self._session_cm as scm:
+            with scm.session.no_autoflush:
+                for category in categories:
+                    scm.session.add(category)
+            scm.commit()
+
 
     # def get_recipe(self, recipe_id: int) -> Recipe:
     #     recipe = None

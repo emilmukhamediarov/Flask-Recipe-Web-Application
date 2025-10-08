@@ -153,112 +153,119 @@ class MemoryRepository(AbstractRepository):
         return [favourite for favourite in self.__favourites if user_id == favourite.user_id]
 
     def add_multiple_recipes(self, recipes: List[Recipe]):
-        pass
+        self.__recipes = recipes
 
-def populate(data_path, repo):
-    reader = CSVDataReader(data_path)
-    data = reader.read()
+    def add_multiple_categories(self, categories: List[Category]):
+        self.__categories = categories
 
-    for row in data:
-
-        #reading and storing data of each column from the csv file
-        author_id = int(row["AuthorId"])
-        author_name = row["AuthorName"]
-
-        category_name = row["RecipeCategory"]
-
-        recipe_id = int(row["RecipeId"])
-        recipe_name = row["Name"]
-        recipe_cook_time = int(row["CookTime"])
-        recipe_prep_time = int(row["PrepTime"])
-        recipe_total_time = int(row["TotalTime"])
-        recipe_date = datetime.strptime(re.sub(r'(\d+)(st|nd|rd|th)', r'\1', row["DatePublished"]), "%d %b %Y")
-        recipe_description = row["Description"]
-        recipe_servings = row["RecipeServings"]
-        recipe_yield = row["RecipeYield"]
-
-        # Nutrition Information
-        calories = float(row["Calories"])
-        fat_content = float(row["FatContent"])
-        saturated_fat_content = float(row["SaturatedFatContent"])
-        cholesterol_content = float(row["CholesterolContent"])
-        sodium_content = float(row["SodiumContent"])
-        carbohydrate_content = float(row["CarbohydrateContent"])
-        fiber_content = float(row["FiberContent"])
-        sugar_content = float(row["SugarContent"])
-        protein_content = float(row["ProteinContent"])
-        recipe_images = ast.literal_eval(row["Images"])
-
-        ingredient_quantities = ast.literal_eval(row["RecipeIngredientQuantities"])
-        ingredient_parts = ast.literal_eval(row["RecipeIngredientParts"])
-        recipe_instructions = ast.literal_eval(row["RecipeInstructions"])
+    def add_multiple_authors(self, authors: List[Author]):
+        self.__authors = authors
 
 
-        author = repo.author_add_by_id_and_name(author_id, author_name)
-        category = repo.category_add_by_name(category_name)
-
-        recipe = Recipe(recipe_id = recipe_id, name = recipe_name, author = author, category = category)
-
-
-        recipe.cook_time = recipe_cook_time
-        recipe.preparation_time = recipe_prep_time
-        recipe.total_time = recipe_total_time
-        recipe.date = recipe_date
-        recipe.description = recipe_description
-
-
-        images = [RecipeImage(recipe.id, url) for url in recipe_images]
-        recipe.images = images
-
-        nutrition = Nutrition (recipe.id, calories, fat_content, saturated_fat_content,
-                     cholesterol_content, sodium_content,
-                     carbohydrate_content, fiber_content, sugar_content, protein_content)
-
-        recipe.nutrition = nutrition
-
-        ingredients = []
-
-        for i in range(0, min(len(ingredient_quantities), len(ingredient_parts))):
-            new_ingredient = RecipeIngredient(recipe.id, ingredient_quantities[i], ingredient_parts[i])
-            ingredients.append(new_ingredient)
-
-
-        recipe.ingredients = ingredients
-
-
-        recipe.ingredients = ingredients
-        recipe.ingredient_quantities = ingredient_quantities
-
-        instructions = [RecipeInstruction(recipe.id, step) for step in recipe_instructions]
-        recipe.instructions = instructions
-
-        recipe.rating = None
-
-        if recipe_servings != "NA":
-            recipe.servings = int(recipe_servings)  # if "NA" then we revert to the default value -> "Not Specified"
-
-        if recipe_yield != "NA":
-            recipe.recipe_yield = recipe_yield  # if "NA" then we revert to the default value -> "Not Specified"
-
-        category.add_recipe(recipe)
-        author.add_recipe(recipe)
-
-        repo.recipe_add(recipe)
-
-    #Enforce minimum 1 recipe to simplify other functions
-    """
-    if repo.recipe_get_quantity() < 1:
-        repo.recipe_add(Recipe(
-            0,
-            "NO RECIPES FOUND",
-            Author(0, ""),
-            Category("")
-        ))
-
-    #Test user for testing
-    test_user = User("TestUser", "test")
-    repo.user_add(test_user)
-    """
+# def populate(data_path, repo):
+#     reader = CSVDataReader(data_path)
+#     data = reader.read()
+#
+#     for row in data:
+#
+#         #reading and storing data of each column from the csv file
+#         author_id = int(row["AuthorId"])
+#         author_name = row["AuthorName"]
+#
+#         category_name = row["RecipeCategory"]
+#
+#         recipe_id = int(row["RecipeId"])
+#         recipe_name = row["Name"]
+#         recipe_cook_time = int(row["CookTime"])
+#         recipe_prep_time = int(row["PrepTime"])
+#         recipe_total_time = int(row["TotalTime"])
+#         recipe_date = datetime.strptime(re.sub(r'(\d+)(st|nd|rd|th)', r'\1', row["DatePublished"]), "%d %b %Y")
+#         recipe_description = row["Description"]
+#         recipe_servings = row["RecipeServings"]
+#         recipe_yield = row["RecipeYield"]
+#
+#         # Nutrition Information
+#         calories = float(row["Calories"])
+#         fat_content = float(row["FatContent"])
+#         saturated_fat_content = float(row["SaturatedFatContent"])
+#         cholesterol_content = float(row["CholesterolContent"])
+#         sodium_content = float(row["SodiumContent"])
+#         carbohydrate_content = float(row["CarbohydrateContent"])
+#         fiber_content = float(row["FiberContent"])
+#         sugar_content = float(row["SugarContent"])
+#         protein_content = float(row["ProteinContent"])
+#         recipe_images = ast.literal_eval(row["Images"])
+#
+#         ingredient_quantities = ast.literal_eval(row["RecipeIngredientQuantities"])
+#         ingredient_parts = ast.literal_eval(row["RecipeIngredientParts"])
+#         recipe_instructions = ast.literal_eval(row["RecipeInstructions"])
+#
+#
+#         author = repo.author_add_by_id_and_name(author_id, author_name)
+#         category = repo.category_add_by_name(category_name)
+#
+#         recipe = Recipe(recipe_id = recipe_id, name = recipe_name, author = author, category = category)
+#
+#
+#         recipe.cook_time = recipe_cook_time
+#         recipe.preparation_time = recipe_prep_time
+#         recipe.total_time = recipe_total_time
+#         recipe.date = recipe_date
+#         recipe.description = recipe_description
+#
+#
+#         images = [RecipeImage(recipe.id, url) for url in recipe_images]
+#         recipe.images = images
+#
+#         nutrition = Nutrition (recipe.id, calories, fat_content, saturated_fat_content,
+#                      cholesterol_content, sodium_content,
+#                      carbohydrate_content, fiber_content, sugar_content, protein_content)
+#
+#         recipe.nutrition = nutrition
+#
+#         ingredients = []
+#
+#         for i in range(0, min(len(ingredient_quantities), len(ingredient_parts))):
+#             new_ingredient = RecipeIngredient(recipe.id, ingredient_quantities[i], ingredient_parts[i])
+#             ingredients.append(new_ingredient)
+#
+#
+#         recipe.ingredients = ingredients
+#
+#
+#         recipe.ingredients = ingredients
+#         recipe.ingredient_quantities = ingredient_quantities
+#
+#         instructions = [RecipeInstruction(recipe.id, step) for step in recipe_instructions]
+#         recipe.instructions = instructions
+#
+#         recipe.rating = None
+#
+#         if recipe_servings != "NA":
+#             recipe.servings = int(recipe_servings)  # if "NA" then we revert to the default value -> "Not Specified"
+#
+#         if recipe_yield != "NA":
+#             recipe.recipe_yield = recipe_yield  # if "NA" then we revert to the default value -> "Not Specified"
+#
+#         category.add_recipe(recipe)
+#         author.add_recipe(recipe)
+#
+#         repo.recipe_add(recipe)
+#
+#     #Enforce minimum 1 recipe to simplify other functions
+#     """
+#     if repo.recipe_get_quantity() < 1:
+#         repo.recipe_add(Recipe(
+#             0,
+#             "NO RECIPES FOUND",
+#             Author(0, ""),
+#             Category("")
+#         ))
+#
+#     #Test user for testing
+#     test_user = User("TestUser", "test")
+#     repo.user_add(test_user)
+#     """
 
 
 

@@ -158,3 +158,13 @@ class AbstractRepository(abc.ABC):
     def add_multiple_recipes(self, recipes: List[Recipe]):
         """Adds multiple recipes to the repository"""
         raise NotImplementedError
+
+    @abc.abstractmethod
+    def add_multiple_authors(self, recipes: List[Author]):
+        """Adds multiple authors to the repository"""
+        raise NotImplementedError
+
+    @abc.abstractmethod
+    def add_multiple_categories(self, recipes: List[Category]):
+        """Adds multiple categories to the repository"""
+        raise NotImplementedError
