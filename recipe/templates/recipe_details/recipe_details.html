@@ -100,8 +100,8 @@
                         <ul class="ingredients">
                             {% for i in range(recipe.ingredients|length) %}
                                 <li>
-                                    {{ recipe.ingredient_quantities[i] | capitalize if recipe.ingredient_quantities[i] != "NA" else "" }}
-                                    {{ recipe.ingredients[i] | capitalize}}
+                                    {{ recipe.ingredients[i].quantity | capitalize if recipe.ingredients[i].quantity != "NA" else "" }}
+                                    {{ recipe.ingredients[i].ingredient | capitalize}}
                                 </li>
                             {% endfor %}
                         </ul>

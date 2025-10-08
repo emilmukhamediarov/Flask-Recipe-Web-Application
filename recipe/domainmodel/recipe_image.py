@@ -1,7 +1,11 @@
 class RecipeImage:
     id_count = 1
-    def __init__(self, recipe_id: int, url: str):
-        self.__id = RecipeImage.id_count
+    def __init__(self, recipe_id: int, url: str, id: int | None = None):
+        if id is None:
+            self.__id = RecipeImage.id_count
+            RecipeImage.id_count += 1
+        else:
+            self.__id = id
         self.__recipe_id = recipe_id
         self.__url = url
         RecipeImage.id_count += 1

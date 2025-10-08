@@ -12,6 +12,7 @@ from recipe.domainmodel.review import Review
 from recipe.domainmodel.user import User
 from recipe.domainmodel.favourite import Favourite
 from recipe.domainmodel.recipe_image import RecipeImage
+from recipe.domainmodel.recipe_ingredient import RecipeIngredient
 from recipe.domainmodel.recipe_instruction import RecipeInstruction
 from recipe.adapters.repository import AbstractRepository
 from datetime import datetime
@@ -215,8 +216,22 @@ def populate(data_path, repo):
         recipe.total_time = recipe_total_time
         recipe.date = recipe_date
         recipe.description = recipe_description
+
+
         images = [RecipeImage(recipe.id, url) for url in recipe_images]
         recipe.images = images
+
+        ingredients = []
+
+        for i in range(0, min(len(ingredient_quantities), len(ingredient_parts))):
+            new_ingredient = RecipeIngredient(recipe.id, ingredient_quantities[i], ingredient_parts[i])
+            ingredients.append(new_ingredient)
+
+
+        recipe.ingredients = ingredients
+
+        # recipe.ingredient_quantities = ingredient_quantities
+        recipe.instructions = recipe_instructions
         recipe.ingredients = ingredient_parts
         recipe.ingredient_quantities = ingredient_quantities
         instructions = [RecipeInstruction(recipe.id, step) for step in recipe_instructions]
@@ -236,6 +251,7 @@ def populate(data_path, repo):
         repo.recipe_add(recipe)
 
     #Enforce minimum 1 recipe to simplify other functions
+    """
     if repo.recipe_get_quantity() < 1:
         repo.recipe_add(Recipe(
             0,
@@ -247,6 +263,7 @@ def populate(data_path, repo):
     #Test user for testing
     test_user = User("TestUser", "test")
     repo.user_add(test_user)
+    """
 
 
 
