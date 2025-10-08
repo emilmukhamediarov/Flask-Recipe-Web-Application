@@ -13,6 +13,7 @@ from recipe.domainmodel.user import User
 from recipe.domainmodel.favourite import Favourite
 from recipe.domainmodel.recipe_image import RecipeImage
 from recipe.domainmodel.recipe_ingredient import RecipeIngredient
+from recipe.domainmodel.recipe_instruction import RecipeInstruction
 from recipe.adapters.repository import AbstractRepository
 from datetime import datetime
 
