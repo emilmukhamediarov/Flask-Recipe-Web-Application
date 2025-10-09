@@ -1,18 +1,13 @@
 import random
 from typing import List
-import re
-import ast
 
-from recipe.adapters.datareader.csv_data_reader import CSVDataReader
 from recipe.domainmodel.author import Author
 from recipe.domainmodel.category import Category
-from recipe.domainmodel.nutrition import Nutrition
 from recipe.domainmodel.recipe import Recipe
 from recipe.domainmodel.review import Review
 from recipe.domainmodel.user import User
 from recipe.domainmodel.favourite import Favourite
 from recipe.adapters.repository import AbstractRepository
-from datetime import datetime
 
 class MemoryRepository(AbstractRepository):
 
@@ -149,100 +144,14 @@ class MemoryRepository(AbstractRepository):
     def favourite_get_all_by_user_id(self, user_id: int) -> List[Favourite]:
         return [favourite for favourite in self.__favourites if user_id == favourite.user_id]
 
-def populate(data_path, repo):
-    reader = CSVDataReader(data_path)
-    data = reader.read()
+    def add_multiple_recipes(self, recipes: List[Recipe]):
+        self.__recipes = recipes
 
-    for row in data:
+    def add_multiple_categories(self, categories: List[Category]):
+        self.__categories = categories
 
-        #reading and storing data of each column from the csv file
-        author_id = int(row["AuthorId"])
-        author_name = row["AuthorName"]
-
-        category_name = row["RecipeCategory"]
-
-        recipe_id = int(row["RecipeId"])
-        recipe_name = row["Name"]
-        recipe_cook_time = int(row["CookTime"])
-        recipe_prep_time = int(row["PrepTime"])
-        recipe_total_time = int(row["TotalTime"])
-        recipe_date = datetime.strptime(re.sub(r'(\d+)(st|nd|rd|th)', r'\1', row["DatePublished"]), "%d %b %Y")
-        recipe_description = row["Description"]
-        recipe_servings = row["RecipeServings"]
-        recipe_yield = row["RecipeYield"]
-
-        # Nutrition Information
-        calories = float(row["Calories"])
-        fat_content = float(row["FatContent"])
-        saturated_fat_content = float(row["SaturatedFatContent"])
-        cholesterol_content = float(row["CholesterolContent"])
-        sodium_content = float(row["SodiumContent"])
-        carbohydrate_content = float(row["CarbohydrateContent"])
-        fiber_content = float(row["FiberContent"])
-        sugar_content = float(row["SugarContent"])
-        protein_content = float(row["ProteinContent"])
-
-        recipe_images = ast.literal_eval(row["Images"])
-        ingredient_quantities = ast.literal_eval(row["RecipeIngredientQuantities"])
-        ingredient_parts = ast.literal_eval(row["RecipeIngredientParts"])
-        recipe_instructions = ast.literal_eval(row["RecipeInstructions"])
-
-        nutrition_data = {
-            "Calories": calories,
-            "Fat": fat_content,
-            "Saturated Fat": saturated_fat_content,
-            "Cholesterol": cholesterol_content,
-            "Sodium": sodium_content,
-            "Carbohydrate": carbohydrate_content,
-            "Fiber": fiber_content,
-            "Sugar": sugar_content,
-            "Protein": protein_content,
-        }
-
-        author = repo.author_add_by_id_and_name(author_id, author_name)
-        category = repo.category_add_by_name(category_name)
-
-        nutrition = Nutrition(nutrition_data)
-
-        recipe = Recipe(recipe_id = recipe_id, name = recipe_name, author = author, category = category)
-
-        recipe.nutrition = nutrition
-
-        recipe.cook_time = recipe_cook_time
-        recipe.preparation_time = recipe_prep_time
-        recipe.total_time = recipe_total_time
-        recipe.date = recipe_date
-        recipe.description = recipe_description
-        recipe.images = recipe_images
-        recipe.ingredients = ingredient_parts
-        recipe.ingredient_quantities = ingredient_quantities
-        recipe.instructions = recipe_instructions
-
-        recipe.rating = None
-
-        if recipe_servings != "NA":
-            recipe.servings = int(recipe_servings)  # if "NA" then we revert to the default value -> "Not Specified"
-
-        if recipe_yield != "NA":
-            recipe.recipe_yield = recipe_yield  # if "NA" then we revert to the default value -> "Not Specified"
-
-        category.add_recipe(recipe)
-        author.add_recipe(recipe)
-
-        repo.recipe_add(recipe)
-
-    #Enforce minimum 1 recipe to simplify other functions
-    if repo.recipe_get_quantity() < 1:
-        repo.recipe_add(Recipe(
-            0,
-            "NO RECIPES FOUND",
-            Author(0, ""),
-            Category("")
-        ))
-
-    #Test user for testing
-    test_user = User("TestUser", "test")
-    repo.user_add(test_user)
+    def add_multiple_authors(self, authors: List[Author]):
+        self.__authors = authors
 
 
 

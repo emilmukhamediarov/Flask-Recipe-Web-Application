@@ -70,7 +70,7 @@
                 </div>
                 <div class="meta-card">
                     <div class="meta-title">Calories</div>
-                    <div class="meta-value">{{ recipe.nutrition.data["Calories"] }} kcal</div>
+                    <div class="meta-value">{{ recipe.nutrition.calories }} kcal</div>
                 </div>
             </section>
 
@@ -100,17 +100,23 @@
                         <ul class="ingredients">
                             {% for i in range(recipe.ingredients|length) %}
                                 <li>
-                                    {{ recipe.ingredient_quantities[i] | capitalize if recipe.ingredient_quantities[i] != "NA" else "" }}
-                                    {{ recipe.ingredients[i] | capitalize}}
+                                    {{ recipe.ingredients[i].quantity | capitalize if recipe.ingredients[i].quantity != "NA" else "" }}
+                                    {{ recipe.ingredients[i].ingredient | capitalize}}
                                 </li>
                             {% endfor %}
                         </ul>
                         <h4>Nutritional Values</h4>
-                        <ul class="ingredients">
-                            {% for key, value in recipe.nutrition.data.items() %}
-                                <li>{{ key }} : {{ value }}</li>
-                            {% endfor %}
-                        </ul>
+                            <ul class="ingredients">
+                                <li>Calories: {{ recipe.nutrition.calories }}</li>
+                                <li>Fat: {{ recipe.nutrition.fat }}</li>
+                                <li>Saturated Fat: {{ recipe.nutrition.saturated_fat }}</li>
+                                <li>Cholesterol: {{ recipe.nutrition.cholesterol }}</li>
+                                <li>Sodium: {{ recipe.nutrition.sodium }}</li>
+                                <li>Carbohydrate: {{ recipe.nutrition.carbohydrate }}</li>
+                                <li>Fiber: {{ recipe.nutrition.fiber }}</li>
+                                <li>Sugar: {{ recipe.nutrition.sugar }}</li>
+                                <li>Protein: {{ recipe.nutrition.protein }}</li>
+                            </ul>
                     </div>
                 </aside>
 

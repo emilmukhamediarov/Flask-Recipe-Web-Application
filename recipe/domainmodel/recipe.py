@@ -6,6 +6,8 @@ from recipe.domainmodel.author import Author
 from recipe.domainmodel.category import Category
 from recipe.domainmodel.nutrition import Nutrition
 from recipe.domainmodel.review import Review
+from recipe.domainmodel.recipe_image import RecipeImage
+from recipe.domainmodel.recipe_ingredient import RecipeIngredient
 
 class Recipe:
     def __init__(self, recipe_id: int, name: str, author: Author, category: Category,
@@ -15,7 +17,6 @@ class Recipe:
                  created_date: datetime = None,
                  description: str = "",
                  images: list[str] = None,
-                 ingredient_quantities: list[str] = None,
                  ingredients: list[str] = None,
                  rating: float | None = None,
                  nutrition: "Nutrition" = None,
@@ -41,7 +42,6 @@ class Recipe:
         self.__date = created_date if created_date else datetime.now()
         self.__description = description
         self.__images = images if images else []
-        self.__ingredient_quantities = ingredient_quantities if ingredient_quantities else []
         self.__ingredients = ingredients if ingredients else []
         self.__rating = rating
         self.__nutrition = nutrition
@@ -132,13 +132,13 @@ class Recipe:
         self.__description = text.strip()
 
     @property
-    def images(self) -> list[str]:
+    def images(self) -> list["RecipeImage"]:
         return self.__images
 
     @images.setter
-    def images(self, value: list[str]):
-        if not isinstance(value, list) or not all(isinstance(x, str) for x in value):
-            raise TypeError("images must be a list of strings.")
+    def images(self, value: list["RecipeImage"]):
+        if not isinstance(value, list) or not all(isinstance(x, RecipeImage) for x in value):
+            raise TypeError("images must be a list of RecipeImage instances.")
         self.__images = value
 
     @property
@@ -150,19 +150,13 @@ class Recipe:
         self.__category = value
 
     @property
-    def ingredient_quantities(self) -> list[str]:
-        return self.__ingredient_quantities
-
-    @ingredient_quantities.setter
-    def ingredient_quantities(self, value: list[str]):
-        self.__ingredient_quantities = value
-
-    @property
-    def ingredients(self) -> list[str]:
+    def ingredients(self) -> list["RecipeIngredient"]:
         return self.__ingredients
 
     @ingredients.setter
-    def ingredients(self, value: list[str]):
+    def ingredients(self, value: list["RecipeIngredient"]):
+        if not isinstance(value, list) or not all(isinstance(x, RecipeIngredient) for x in value):
+            raise TypeError("Ingredients must be a list of RecipeIngredient instances.")
         self.__ingredients = value
 
     @property

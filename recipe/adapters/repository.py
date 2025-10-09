@@ -10,6 +10,7 @@ from recipe.domainmodel.review import Review
 from recipe.domainmodel.user import User
 
 repo_instance = None
+repo_instance2 = None
 
 class AbstractRepository(abc.ABC):
 
@@ -151,4 +152,19 @@ class AbstractRepository(abc.ABC):
     @abc.abstractmethod
     def favourite_get_all_by_user_id(self, user_id) -> List[Favourite]:
         """Returns a list of favourites by user_id"""
+        raise NotImplementedError
+
+    @abc.abstractmethod
+    def add_multiple_recipes(self, recipes: List[Recipe]):
+        """Adds multiple recipes to the repository"""
+        raise NotImplementedError
+
+    @abc.abstractmethod
+    def add_multiple_authors(self, recipes: List[Author]):
+        """Adds multiple authors to the repository"""
+        raise NotImplementedError
+
+    @abc.abstractmethod
+    def add_multiple_categories(self, recipes: List[Category]):
+        """Adds multiple categories to the repository"""
         raise NotImplementedError
