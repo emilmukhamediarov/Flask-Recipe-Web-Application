@@ -8,7 +8,7 @@ from recipe.adapters import database_repository, populate_repository
 from recipe.adapters.orm import mapper_registry, map_model_to_tables
 
 def get_project_root() -> Path:
-    return Path(__file__).parent
+    return Path(__file__).parent.parent
 
 
 TEST_DATA_PATH_DATABASE_FULL = get_project_root() / "recipe" / "adapters" / "data"
@@ -35,7 +35,7 @@ def database_engine():
     # Create the SQLAlchemy DatabaseRepository instance for an sqlite3-based repository.
     repo_instance = database_repository.SqlAlchemyRepository(session_factory)
     populate_repository.populate(
-        TEST_DATA_PATH_DATABASE_LIMITED, repo_instance, database_mode=True, testing=True)
+        TEST_DATA_PATH_DATABASE_LIMITED, repo_instance)
     yield engine
     mapper_registry.metadata.drop_all(engine)
 
@@ -56,7 +56,7 @@ def session_factory():
     # Create the SQLAlchemy DatabaseRepository instance for an sqlite3-based repository.
     repo_instance = database_repository.SqlAlchemyRepository(session_factory)
     populate_repository.populate(
-        TEST_DATA_PATH_DATABASE_LIMITED, repo_instance, database_mode=True, testing=True)
+        TEST_DATA_PATH_DATABASE_LIMITED, repo_instance)
     yield session_factory
     mapper_registry.metadata.drop_all(engine)
 
