@@ -41,8 +41,8 @@ def test_database_populate_all_authors(database_engine):
         id, name = authors[0]
         assert isinstance(id, int)
         assert isinstance(name, str)
-        assert name == 'Troy A. Hakala'
-        assert id == 27
+        assert name == 'Carole Reu'
+        assert id == 1530
 
 
 def test_database_populate_all_categories(database_engine):
@@ -75,17 +75,13 @@ def test_database_populate_all_recipes(database_engine):
         rows = list(result)
 
     assert 1533 in rows[0]
-    assert rows[0] == (38, 'Low-Fat Berry Blue Frozen Dessert',
-                       'Make and share this Low-Fat Berry Blue Frozen Dessert recipe from Food.com.',
-                       1440, 45, 1485, datetime(2009, 8, 9, 0, 0), None, '4', 'Not specified', 1533, 557)
-    assert 'Pumpkin and Tomato Bake' in rows[2454]
-    assert rows[2454] == (13120, 'Pumpkin and Tomato Bake',
-                          'Tasty fall dish for supper or a buffet. Add as much heat as you like or change the garlic and herbs to your taste. Make ahead and pop in oven when ready. Recipe has evolved to our tastes from &quot;French Country Kitchen&quot; by Ann Hughes-Gilbey',
-                          30, 30, 60, datetime(2017, 10, 23, 0, 0), None, 'Not specified', 'Not specified', 5060, 560)
+    assert rows[0] == (38, 'Low-Fat Berry Blue Frozen Dessert', 'Make and share this Low-Fat Berry Blue Frozen Dessert recipe from Food.com.', 1440, 45, 1485, datetime(2009, 8, 9, 0, 0), None, '4', 'Not specified', 1533, 568)
+    assert 'Chocolate Cream Meringue Pie' in rows[49]
+    assert rows[49] == (232, 'Chocolate Cream Meringue Pie', 'Make and share this Chocolate Cream Meringue Pie recipe from Food.com.', 19, 35, 54, datetime(2012, 8, 21, 0, 0), None, '8', 'Not specified', 1530, 573)
 
     recipes = [(r[0], r[1]) for r in rows]
 
-    assert len(recipes) == 2455
+    assert len(recipes) == 50
 
     assert recipes[0] == (38, 'Low-Fat Berry Blue Frozen Dessert')
     assert recipes[1] == (40, 'Best Lemonade')
@@ -110,10 +106,10 @@ def test_database_populate_all_nutrition(database_engine):
         nutrients = [(row[0], row[1], row[2], row[3], row[4], row[5]) for row in result]
 
 
-    assert len(nutrients) == 2455
+    assert len(nutrients) == 50
     assert isinstance(nutrients[0][0], int)
     assert isinstance(nutrients[0][1], float)
-    assert nutrients[0][0] == 12276
+    assert nutrients[0][0] == 1101
     assert nutrients[0][1] == 170.9
     assert nutrients[0][2] == 2.5
     assert nutrients[0][3] == 1.3
