@@ -6,8 +6,8 @@ class Nutrition:
     id_count = 1
     def __init__(self,
                  recipe_id: int,
-                 calories : int, fat : int, saturated_fat : int, cholesterol : int,
-                 sodium : int, carbohydrate : int, fiber : int, sugar : int, protein : int,
+                 calories : float, fat : float, saturated_fat : float, cholesterol : float,
+                 sodium : float, carbohydrate : float, fiber : float, sugar : float, protein : float,
                  id: int | None = None):
         if id is None:
             self.__id = Nutrition.id_count

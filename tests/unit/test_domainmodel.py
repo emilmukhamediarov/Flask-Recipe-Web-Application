@@ -9,6 +9,7 @@ from recipe.domainmodel.recipe import Recipe
 from recipe.domainmodel.nutrition import Nutrition
 from recipe.domainmodel.review import Review
 from recipe.domainmodel.favourite import Favourite
+from recipe.domainmodel.recipe_ingredient import RecipeIngredient
 
 # Fixtures
 @pytest.fixture
@@ -38,8 +39,8 @@ def my_recipe(my_author, my_category):
         description="Classic Italian pasta dish",
         images=["image1.jpg"],
         category=my_category,
-        ingredient_quantities=["200g pasta", "100g bacon"],
-        ingredients=["pasta", "bacon", "eggs", "cheese"],
+        ingredients= [RecipeIngredient(recipe_id=1, quantity="200g", ingredient="pasta"),
+                      RecipeIngredient(recipe_id=1, quantity="100g", ingredient="bacon")],
         rating=4.5,
         nutrition=None,
         servings="4",
@@ -49,17 +50,9 @@ def my_recipe(my_author, my_category):
 
 @pytest.fixture
 def my_nutrition():
-    return Nutrition({
-        'calories':170.9,
-        'fat_content':2.5,
-        'saturated_fat':1.3,
-        'cholestrol':8,
-        'carbohydrates':37.1,
-        'fiber_content':3.6,
-        'sugar_content':30.2,
-        'protein_content':3.2,
-        'recipe_servings':4
-    })
+    return Nutrition(recipe_id=1,
+                 calories=170.9, fat=2.5, saturated_fat=1.3, cholesterol=8,
+                 sodium=0.0, carbohydrate=37.1, fiber=3.6, sugar=30.2, protein=3.2)
 
 @pytest.fixture
 def my_favourite(my_user, my_recipe):
@@ -211,8 +204,7 @@ def test_recipe_construction(my_author, my_category):
         description="Test description",
         images=["test.jpg"],
         category=my_category,
-        ingredient_quantities=["1 cup flour"],
-        ingredients=["flour"],
+        ingredients= [RecipeIngredient(recipe_id=1, quantity="1 cup", ingredient="flour")],
         rating=4.0,
         nutrition=None,
         servings="2",
