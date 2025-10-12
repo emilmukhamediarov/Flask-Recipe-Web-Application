@@ -1,7 +1,8 @@
 import pytest
 
 from recipe import create_app
-from recipe.adapters.memory_repository import MemoryRepository, populate
+from recipe.adapters.memory_repository import MemoryRepository
+from recipe.adapters.populate_repository import populate
 from recipe.domainmodel.review import Review
 from recipe.domainmodel.favourite import Favourite
 
