@@ -138,8 +138,7 @@ class SqlAlchemyRepository(AbstractRepository, ABC):
                 raise ValueError(f"Username '{user.username}' already exists")
             scm.session.add(user)
             scm.session.commit()
-        # self._session_cm.session.add(user)
-        # self._session_cm.session.commit()
+
 
 
     def user_get_by_username(self, username: str) -> User:
