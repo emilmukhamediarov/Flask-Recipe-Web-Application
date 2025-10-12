@@ -13,10 +13,10 @@ def test_db_repository_author_get_all_names(session_factory):
     repo = SqlAlchemyRepository(session_factory)
 
     authors = repo.author_get_all_names()
-    assert authors[0] == 'Troy A. Hakala'
-    assert authors[1] == 'Carole Reu'
-    assert authors[568] == 'Robbyn Snider'
-    assert len(authors) == 569
+    assert authors[0] == 'Carole Reu'
+    assert authors[1] == 'Mimi Hiller'
+    assert authors[35] == 'bugsbunnyfan'
+    assert len(authors) == 36
 
 def test_db_repository_category_get_all_names(session_factory):
     repo = SqlAlchemyRepository(session_factory)
@@ -24,13 +24,13 @@ def test_db_repository_category_get_all_names(session_factory):
     categories = repo.category_get_all_names()
     assert categories[0] == 'Frozen Desserts'
     assert categories[1] == 'Beverages'
-    assert len(categories) == 139
+    assert len(categories) == 27
 
 def test_db_repository_recipe_get_all(session_factory):
     repo = SqlAlchemyRepository(session_factory)
     recipes = repo.recipe_get_all()
     assert isinstance(recipes[0], Recipe)
-    assert isinstance(recipes[2454], Recipe)
+    assert isinstance(recipes[49], Recipe)
     assert recipes[0].name == 'Low-Fat Berry Blue Frozen Dessert'
 
 def test_db_repository_recipe_get_by_id(session_factory):
@@ -43,7 +43,7 @@ def test_db_repository_recipe_get_by_id(session_factory):
 def test_db_repository_recipe_get_quantity(session_factory):
     repo = SqlAlchemyRepository(session_factory)
     quantity = repo.recipe_get_quantity()
-    assert quantity == 2455
+    assert quantity == 50
 
 def test_db_repository_recipe_get_random(session_factory):
     repo = SqlAlchemyRepository(session_factory)
@@ -61,10 +61,10 @@ def test_db_repository_recipe_get_latest(session_factory):
     latest = repo.recipe_get_latest(4)
     assert isinstance(latest, list)
     assert len(latest) == 4
-    assert latest[0].name == 'Pumpkin and Tomato Bake'
-    assert latest[1].name == 'Tostones, or Fried Banana. (Venezuela)'
-    assert latest[2].name == 'Pumpkin Eggnog Pie'
-    assert latest[3].name == 'Sauteed Scallops with Mustard'
+    assert latest[0].name == 'Chocolate Cream Meringue Pie'
+    assert latest[1].name == 'Chocolate Pudding II'
+    assert latest[2].name == 'Chocolate Coffee'
+    assert latest[3].name == 'Chocolate Pudding'
 
 
 def test_db_repository_user_add(session_factory):
