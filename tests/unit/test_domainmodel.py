@@ -9,6 +9,7 @@ from recipe.domainmodel.recipe import Recipe
 from recipe.domainmodel.nutrition import Nutrition
 from recipe.domainmodel.review import Review
 from recipe.domainmodel.favourite import Favourite
+from recipe.domainmodel.recipe_ingredient import RecipeIngredient
 
 # Fixtures
 @pytest.fixture
@@ -38,8 +39,8 @@ def my_recipe(my_author, my_category):
         description="Classic Italian pasta dish",
         images=["image1.jpg"],
         category=my_category,
-        ingredient_quantities=["200g pasta", "100g bacon"],
-        ingredients=["pasta", "bacon", "eggs", "cheese"],
+        ingredients= [RecipeIngredient(recipe_id=1, quantity="200g", ingredient="pasta"),
+                      RecipeIngredient(recipe_id=1, quantity="100g", ingredient="bacon")],
         rating=4.5,
         nutrition=None,
         servings="4",
@@ -49,17 +50,9 @@ def my_recipe(my_author, my_category):
 
 @pytest.fixture
 def my_nutrition():
-    return Nutrition({
-        'calories':170.9,
-        'fat_content':2.5,
-        'saturated_fat':1.3,
-        'cholestrol':8,
-        'carbohydrates':37.1,
-        'fiber_content':3.6,
-        'sugar_content':30.2,
-        'protein_content':3.2,
-        'recipe_servings':4
-    })
+    return Nutrition(recipe_id=1,
+                 calories=170.9, fat=2.5, saturated_fat=1.3, cholesterol=8,
+                 sodium=0.0, carbohydrate=37.1, fiber=3.6, sugar=30.2, protein=3.2)
 
 @pytest.fixture
 def my_favourite(my_user, my_recipe):
@@ -211,8 +204,7 @@ def test_recipe_construction(my_author, my_category):
         description="Test description",
         images=["test.jpg"],
         category=my_category,
-        ingredient_quantities=["1 cup flour"],
-        ingredients=["flour"],
+        ingredients= [RecipeIngredient(recipe_id=1, quantity="1 cup", ingredient="flour")],
         rating=4.0,
         nutrition=None,
         servings="2",
@@ -263,42 +255,55 @@ def test_author_set_recipe_invalid_type(my_author):
 
 #Nutrition Tests
 def test_nutrition_construction():
-    nutrition = Nutrition({'Saturated Fat' : 60})
+    nutrition = Nutrition(recipe_id=1,
+                 calories=170.9, fat=60, saturated_fat=1.3, cholesterol=8,
+                 sodium=0.0, carbohydrate=37.1, fiber=3.6, sugar=30.2, protein=3.2)
     id = nutrition.id
-    assert 'Saturated Fat' in nutrition.data
+    assert 'Saturated Fat' in nutrition.get_data()
     assert isinstance(id, int)
     assert id > 0
-    assert nutrition.data.get('Saturated Fat') == 60
+    assert nutrition.get_data()['Saturated Fat'] == 1.3
 
 def test_nutrition_equality():
-    nutrition_data = {"Calories" : 1}
-    n1 = Nutrition(nutrition_data)
-    n2 = Nutrition(nutrition_data)
+    n1 = Nutrition(recipe_id=1,
+                 calories=170.9, fat=60, saturated_fat=1.3, cholesterol=8,
+                 sodium=0.0, carbohydrate=37.1, fiber=3.6, sugar=30.2, protein=3.2)
+    n2 = Nutrition(recipe_id=1,
+                 calories=170.9, fat=60, saturated_fat=1.3, cholesterol=8,
+                 sodium=0.0, carbohydrate=37.1, fiber=3.6, sugar=30.2, protein=3.2)
     n3 = n1
     assert n1 == n3
     assert n1 != n2
 
 def test_nutrition_less_than():
-    nutrition_data = {"Calories": 1}
-    n1 = Nutrition(nutrition_data)
-    n2 = Nutrition(nutrition_data)
+    n1 = Nutrition(recipe_id=1,
+                 calories=170.9, fat=60, saturated_fat=1.3, cholesterol=8,
+                 sodium=0.0, carbohydrate=37.1, fiber=3.6, sugar=30.2, protein=3.2)
+    n2 = Nutrition(recipe_id=1,
+                 calories=170.9, fat=60, saturated_fat=1.3, cholesterol=8,
+                 sodium=0.0, carbohydrate=37.1, fiber=3.6, sugar=30.2, protein=3.2)
     assert n1 < n2
 
 def test_nutrition_health_score_insufficient_data():
-    data = {"Calories": 0, "Fat": 0, "Saturated Fat": 0, "Cholesterol": 0}
-    n = Nutrition(data)
+    n = Nutrition(recipe_id=1,
+                 calories=0, fat=0, saturated_fat=0, cholesterol=0,
+                 sodium=0.0, carbohydrate=0, fiber=0, sugar=0, protein=0)
     assert n.score == "Insufficient data for Health Score"
 
 def test_nutrition_health_score_negative_impact_example():
     # saturated fat = low health score
-    n = Nutrition({"Saturated Fat": 60})
+    n = Nutrition(recipe_id=1,
+                 calories=1012.3, fat=44.7, saturated_fat=8.8, cholesterol=47.1,
+                 sodium=1006.8, carbohydrate=0, fiber=2.8, sugar=116.3, protein=9.2)
 
     assert isinstance(n.score, str)
     assert n.score == "★⯨"
 
 def test_nutrition_health_score_positive_impacts_example():
     # fiber + protein present = high score
-    n = Nutrition({"Fiber": 14, "Protein": 25})
+    n = Nutrition(recipe_id=1,
+                 calories=1194.6, fat=74.8, saturated_fat=33.0, cholesterol=312.1,
+                 sodium=348.1, carbohydrate=0, fiber=8.0, sugar=7.7, protein=75.9)
     assert isinstance(n.score, str)
     assert n.score == "★★★⯨"
 
