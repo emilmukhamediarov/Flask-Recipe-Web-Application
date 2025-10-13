@@ -102,7 +102,7 @@ def test_recipe_details(client):
     assert b'Nutritional Values' in response.data
 
 def test_health_star_rating(client):
-    response = client.get('/recipe/13115')
+    response = client.get('/recipe/129')
     assert response.status_code == 200
     assert b'Insufficient data for Health Score' in response.data
 
@@ -208,7 +208,7 @@ def test_view_favourite_recipe(client, auth):
 
         response = client.post(
             "/favourites/",
-            data={"recipe_id": 13107},
+            data={"recipe_id": 38},
             follow_redirects=True
         )
         assert response.status_code == 200
@@ -217,7 +217,7 @@ def test_view_favourite_recipe(client, auth):
         response = client.get("/favourites/")
         assert response.status_code == 200
 
-        assert b"Sauteed Scallops" in response.data
+        assert b"Low-Fat Berry Blue Frozen Dessert" in response.data
 
 def test_empty_favourites_page(client, auth):
     client.post(

@@ -75,9 +75,9 @@ def test_database_populate_all_recipes(database_engine):
         rows = list(result)
 
     assert 1533 in rows[0]
-    assert rows[0] == (38, 'Low-Fat Berry Blue Frozen Dessert', 'Make and share this Low-Fat Berry Blue Frozen Dessert recipe from Food.com.', 1440, 45, 1485, datetime(2009, 8, 9, 0, 0), None, '4', 'Not specified', 1533, 568)
+    assert rows[0] == (38, 'Low-Fat Berry Blue Frozen Dessert', 'Make and share this Low-Fat Berry Blue Frozen Dessert recipe from Food.com.', 1440, 45, 1485, datetime(2009, 8, 9, 0, 0), None, '4', 'Not specified', 1533, 2385)
     assert 'Chocolate Cream Meringue Pie' in rows[49]
-    assert rows[49] == (232, 'Chocolate Cream Meringue Pie', 'Make and share this Chocolate Cream Meringue Pie recipe from Food.com.', 19, 35, 54, datetime(2012, 8, 21, 0, 0), None, '8', 'Not specified', 1530, 573)
+    assert rows[49] == (232, 'Chocolate Cream Meringue Pie', 'Make and share this Chocolate Cream Meringue Pie recipe from Food.com.', 19, 35, 54, datetime(2012, 8, 21, 0, 0), None, '8', 'Not specified', 1530, 2390)
 
     recipes = [(r[0], r[1]) for r in rows]
 
@@ -109,7 +109,7 @@ def test_database_populate_all_nutrition(database_engine):
     assert len(nutrients) == 50
     assert isinstance(nutrients[0][0], int)
     assert isinstance(nutrients[0][1], float)
-    assert nutrients[0][0] == 1101
+    assert nutrients[0][0] == 4409
     assert nutrients[0][1] == 170.9
     assert nutrients[0][2] == 2.5
     assert nutrients[0][3] == 1.3

@@ -255,42 +255,55 @@ def test_author_set_recipe_invalid_type(my_author):
 
 #Nutrition Tests
 def test_nutrition_construction():
-    nutrition = Nutrition({'Saturated Fat' : 60})
+    nutrition = Nutrition(recipe_id=1,
+                 calories=170.9, fat=60, saturated_fat=1.3, cholesterol=8,
+                 sodium=0.0, carbohydrate=37.1, fiber=3.6, sugar=30.2, protein=3.2)
     id = nutrition.id
-    assert 'Saturated Fat' in nutrition.data
+    assert 'Saturated Fat' in nutrition.get_data()
     assert isinstance(id, int)
     assert id > 0
-    assert nutrition.data.get('Saturated Fat') == 60
+    assert nutrition.get_data()['Saturated Fat'] == 1.3
 
 def test_nutrition_equality():
-    nutrition_data = {"Calories" : 1}
-    n1 = Nutrition(nutrition_data)
-    n2 = Nutrition(nutrition_data)
+    n1 = Nutrition(recipe_id=1,
+                 calories=170.9, fat=60, saturated_fat=1.3, cholesterol=8,
+                 sodium=0.0, carbohydrate=37.1, fiber=3.6, sugar=30.2, protein=3.2)
+    n2 = Nutrition(recipe_id=1,
+                 calories=170.9, fat=60, saturated_fat=1.3, cholesterol=8,
+                 sodium=0.0, carbohydrate=37.1, fiber=3.6, sugar=30.2, protein=3.2)
     n3 = n1
     assert n1 == n3
     assert n1 != n2
 
 def test_nutrition_less_than():
-    nutrition_data = {"Calories": 1}
-    n1 = Nutrition(nutrition_data)
-    n2 = Nutrition(nutrition_data)
+    n1 = Nutrition(recipe_id=1,
+                 calories=170.9, fat=60, saturated_fat=1.3, cholesterol=8,
+                 sodium=0.0, carbohydrate=37.1, fiber=3.6, sugar=30.2, protein=3.2)
+    n2 = Nutrition(recipe_id=1,
+                 calories=170.9, fat=60, saturated_fat=1.3, cholesterol=8,
+                 sodium=0.0, carbohydrate=37.1, fiber=3.6, sugar=30.2, protein=3.2)
     assert n1 < n2
 
 def test_nutrition_health_score_insufficient_data():
-    data = {"Calories": 0, "Fat": 0, "Saturated Fat": 0, "Cholesterol": 0}
-    n = Nutrition(data)
+    n = Nutrition(recipe_id=1,
+                 calories=0, fat=0, saturated_fat=0, cholesterol=0,
+                 sodium=0.0, carbohydrate=0, fiber=0, sugar=0, protein=0)
     assert n.score == "Insufficient data for Health Score"
 
 def test_nutrition_health_score_negative_impact_example():
     # saturated fat = low health score
-    n = Nutrition({"Saturated Fat": 60})
+    n = Nutrition(recipe_id=1,
+                 calories=1012.3, fat=44.7, saturated_fat=8.8, cholesterol=47.1,
+                 sodium=1006.8, carbohydrate=0, fiber=2.8, sugar=116.3, protein=9.2)
 
     assert isinstance(n.score, str)
     assert n.score == "★⯨"
 
 def test_nutrition_health_score_positive_impacts_example():
     # fiber + protein present = high score
-    n = Nutrition({"Fiber": 14, "Protein": 25})
+    n = Nutrition(recipe_id=1,
+                 calories=1194.6, fat=74.8, saturated_fat=33.0, cholesterol=312.1,
+                 sodium=348.1, carbohydrate=0, fiber=8.0, sugar=7.7, protein=75.9)
     assert isinstance(n.score, str)
     assert n.score == "★★★⯨"
 
