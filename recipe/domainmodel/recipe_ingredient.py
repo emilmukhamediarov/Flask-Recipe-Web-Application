@@ -27,6 +27,10 @@ class RecipeIngredient:
         return hash((self.__recipe_id, self.__id))
 
     @property
+    def id(self) -> int:
+        return self.__id
+
+    @property
     def recipe_id(self) -> int:
         return self.__recipe_id
 

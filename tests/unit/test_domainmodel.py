@@ -10,6 +10,8 @@ from recipe.domainmodel.nutrition import Nutrition
 from recipe.domainmodel.review import Review
 from recipe.domainmodel.favourite import Favourite
 from recipe.domainmodel.recipe_ingredient import RecipeIngredient
+from recipe.domainmodel.recipe_instruction import RecipeInstruction
+from recipe.domainmodel.recipe_image import RecipeImage
 
 # Fixtures
 @pytest.fixture
@@ -355,6 +357,64 @@ def test_review_rating_greater_than_5(my_user, my_recipe):
 def test_review_rating_less_than_0(my_user, my_recipe):
     with pytest.raises(ValueError):
         review = Review(my_user.id, my_recipe.id, -1, "test", datetime.today())
+
+#RecipeImage Tests
+def test_recipe_image_construction():
+    image = RecipeImage(recipe_id=1, url="test_url", id=1)
+    assert image.id == 1
+    assert image.recipe_id == 1
+    assert image.url == "test_url"
+    assert isinstance(image, RecipeImage)
+
+def test_recipe_image_less_than():
+    image1 = RecipeImage(recipe_id=1, url="test_url", id=1)
+    image2 = RecipeImage(recipe_id=1, url="test_url", id=2)
+    assert image1 < image2
+
+def test_recipe_image_equality():
+    image1 = RecipeImage(recipe_id=1, url="test_url", id=1)
+    image2 = RecipeImage(recipe_id=1, url="different_url", id=1)
+    assert image1 == image2
+
+
+#RecipeIngredient Tests
+def test_recipe_ingredient_construction():
+    ingredient = RecipeIngredient(recipe_id=1, quantity="1 Cup", ingredient="Milk", id=1)
+    assert ingredient.id == 1
+    assert ingredient.recipe_id == 1
+    assert ingredient.quantity == "1 Cup"
+    assert ingredient.ingredient == "Milk"
+    assert isinstance(ingredient, RecipeIngredient)
+
+def test_recipe_ingredient_less_than():
+    ingredient1 = RecipeIngredient(recipe_id=1, quantity="1 Cup", ingredient="Milk", id=1)
+    ingredient2 = RecipeIngredient(recipe_id=1, quantity="1 Cup", ingredient="Milk", id=2)
+    assert ingredient1 < ingredient2
+
+def test_recipe_ingredient_equality():
+    ingredient1 = RecipeIngredient(recipe_id=1, quantity="1 Cup", ingredient="Milk", id=1)
+    ingredient2 = RecipeIngredient(recipe_id=1, quantity="1 Cup", ingredient="Milk", id=1)
+    assert ingredient1 == ingredient2
+
+
+#RecipeInstruction Tests
+def test_recipe_instruction_construction():
+    instruction = RecipeInstruction(1, step="pass the assignment")
+    assert instruction.recipe_id == 1
+    assert instruction.step == "pass the assignment"
+    assert isinstance(instruction, RecipeInstruction)
+
+def test_recipe_instruction_less_than():
+    instruction = RecipeInstruction(1, step="pass the assignment")
+    instruction2 = RecipeInstruction(2, step="do well")
+    assert instruction < instruction2
+
+def test_recipe_instruction_equality():
+    instruction1 = RecipeInstruction(1, step="pass the assignment")
+    instruction2 = RecipeInstruction(1, step="do well")
+    assert instruction1 == instruction2
+
+
 
 
 
