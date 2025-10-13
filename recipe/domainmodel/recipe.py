@@ -16,7 +16,7 @@ class Recipe:
                  total_time: int = 0,
                  created_date: datetime = None,
                  description: str = "",
-                 images: list[str] = None,
+                 images: list[RecipeImage] = None,
                  ingredients: list[RecipeIngredient] = None,
                  rating: float | None = None,
                  nutrition: "Nutrition" = None,
