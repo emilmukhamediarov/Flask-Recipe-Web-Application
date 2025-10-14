@@ -61,7 +61,6 @@ def test_database_populate_all_categories(database_engine):
 
 
     assert rows[0][1] == 'Frozen Desserts'
-    # assert rows[1][0] == 515
     assert rows[1][1] == 'Beverages'
 
 
