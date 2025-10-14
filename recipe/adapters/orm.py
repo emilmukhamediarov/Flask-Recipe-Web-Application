@@ -130,7 +130,7 @@ def map_model_to_tables():
         '_Nutrition__saturated_fat': nutrition_table.c.saturated_fat,
         '_Nutrition__cholesterol': nutrition_table.c.cholesterol,
         '_Nutrition__sodium': nutrition_table.c.sodium,
-        '_Nutrition__carbohydrates': nutrition_table.c.carbohydrates,
+        '_Nutrition__carbohydrate': nutrition_table.c.carbohydrates,
         '_Nutrition__fiber': nutrition_table.c.fiber,
         '_Nutrition__sugar': nutrition_table.c.sugar,
         '_Nutrition__protein': nutrition_table.c.protein,

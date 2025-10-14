@@ -57,8 +57,8 @@ class Nutrition:
         return self.__sodium
 
     @property
-    def carbohydrates(self) -> float:
-        return self.__carbohydrates
+    def carbohydrate(self) -> float:
+        return self.__carbohydrate
 
     @property
     def fiber(self) -> float:
