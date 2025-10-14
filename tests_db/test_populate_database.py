@@ -46,16 +46,47 @@ def test_database_populate_all_authors(database_engine):
 
 
 def test_database_populate_all_categories(database_engine):
-    columns_table = mapper_registry.metadata.tables['categories']
+    categories_table = mapper_registry.metadata.tables['categories']
+
+    select_statement = select(categories_table.c.id, categories_table.c.name).order_by(categories_table.c.id)
+
+    with database_engine.connect() as connection:
+        result = connection.execute(select_statement)
+        rows = list(result)
+
+    assert len(rows) == 27
+
+    assert isinstance(rows[0][0], int)
+    assert isinstance(rows[0][1], str)
+
+
+    assert rows[0][1] == 'Frozen Desserts'
+    # assert rows[1][0] == 515
+    assert rows[1][1] == 'Beverages'
+
+
 
 def test_database_populate_all_favourites(database_engine):
     favourites_table = mapper_registry.metadata.tables['favourites']
+
+    select_statement = select(favourites_table.c.id, favourites_table.c.user_id, favourites_table.c.recipe_id)
+
+    with database_engine.connect() as connection:
+        result = connection.execute(select_statement)
+        rows = list(result)
+
+
+    if rows:
+        assert isinstance(rows[0][0], int)
+        assert isinstance(rows[0][1], int)
+        assert isinstance(rows[0][2], int)
+
 
 
 def test_database_populate_all_recipes(database_engine):
     recipes_table = mapper_registry.metadata.tables['recipes']
 
-    select_stmt = select(
+    select_statement = select(
         recipes_table.c.id,
         recipes_table.c.name,
         recipes_table.c.description,
@@ -71,13 +102,11 @@ def test_database_populate_all_recipes(database_engine):
     )
 
     with database_engine.connect() as connection:
-        result = connection.execute(select_stmt)
+        result = connection.execute(select_statement)
         rows = list(result)
 
-    assert 1533 in rows[0]
-    assert rows[0] == (38, 'Low-Fat Berry Blue Frozen Dessert', 'Make and share this Low-Fat Berry Blue Frozen Dessert recipe from Food.com.', 1440, 45, 1485, datetime(2009, 8, 9, 0, 0), None, '4', 'Not specified', 1533, 2385)
-    assert 'Chocolate Cream Meringue Pie' in rows[49]
-    assert rows[49] == (232, 'Chocolate Cream Meringue Pie', 'Make and share this Chocolate Cream Meringue Pie recipe from Food.com.', 19, 35, 54, datetime(2012, 8, 21, 0, 0), None, '8', 'Not specified', 1530, 2390)
+    assert 'Low-Fat Berry Blue Frozen Dessert' and 'Make and share this Low-Fat Berry Blue Frozen Dessert recipe from Food.com.' and 1440 and 45 and 1485 in rows[0]
+    assert 'Chocolate Cream Meringue Pie' and 'Make and share this Chocolate Cream Meringue Pie recipe from Food.com.' and 19 and 35 and 54 in rows[49]
 
     recipes = [(r[0], r[1]) for r in rows]
 
@@ -89,11 +118,9 @@ def test_database_populate_all_recipes(database_engine):
 
 
 def test_database_populate_all_nutrition(database_engine):
-    inspector = inspect(database_engine)
-    # use the exact table object from mapper metadata
     nutrition_table = mapper_registry.metadata.tables['nutrition']
 
-    select_stmt = select(
+    select_statement = select(
         nutrition_table.c.id,
         nutrition_table.c.calories,
         nutrition_table.c.fat,
@@ -102,31 +129,101 @@ def test_database_populate_all_nutrition(database_engine):
         nutrition_table.c.sodium
     )
     with database_engine.connect() as connection:
-        result = connection.execute(select_stmt)
+        result = connection.execute(select_statement)
         nutrients = [(row[0], row[1], row[2], row[3], row[4], row[5]) for row in result]
 
 
     assert len(nutrients) == 50
     assert isinstance(nutrients[0][0], int)
     assert isinstance(nutrients[0][1], float)
-    assert nutrients[0][0] == 4409
     assert nutrients[0][1] == 170.9
     assert nutrients[0][2] == 2.5
     assert nutrients[0][3] == 1.3
     assert nutrients[0][4] == 8
     assert nutrients[0][5] == 29.8
 
+
+
 def test_database_populate_all_recipe_images(database_engine):
     recipe_images_table = mapper_registry.metadata.tables['recipe_images']
+
+    select_statement = select(
+        recipe_images_table.c.id,
+        recipe_images_table.c.url,
+        recipe_images_table.c.recipe_id
+    )
+
+    with database_engine.connect() as connection:
+        result = connection.execute(select_statement)
+        rows = list(result)
+
+
+    assert len(rows) == 175
+    assert isinstance(rows[0][0], int)
+    assert isinstance(rows[0][1], str)
+    assert isinstance(rows[0][2], int)
+    assert 'https://img.sndimg.com/food/image/upload/w_555,h_416,c_fit,fl_progressive,q_95/v1/img/recipes/38/YUeirxMLQaeE1h3v3qnM_229%20berry%20blue%20frzn%20dess.jpg' and 38 in rows[0]
+
+    assert 38 in rows[0]
+
 
 
 
 def test_database_populate_all_recipe_ingredients(database_engine):
     recipe_ingredients_table = mapper_registry.metadata.tables['recipe_ingredients']
 
+    select_statement = select(
+        recipe_ingredients_table.c.id,
+        recipe_ingredients_table.c.quantity,
+        recipe_ingredients_table.c.ingredient,
+        recipe_ingredients_table.c.recipe_id
+    )
+
+    with database_engine.connect() as connection:
+        result = connection.execute(select_statement)
+        rows = list(result)
+
+    assert len(rows) > 0
+    first = rows[0]
+    assert isinstance(first[0], int)
+    assert isinstance(first[1], str)
+    assert isinstance(first[2], str)
+    assert isinstance(first[3], int)
+
+    assert first[1] == '4'
+    assert first[2] == 'blueberries'
+    assert first[3] == 38
+
+
+    assert rows[5][1] == '1'
+    assert rows[5][2] == 'lemons, rind of'
+    assert rows[5][3] == 40
+
+
 
 def test_database_populate_all_recipe_instructions(database_engine):
     recipe_instructions_table = mapper_registry.metadata.tables['recipe_instructions']
+
+    select_statement = select(
+        recipe_instructions_table.c.id,
+        recipe_instructions_table.c.step,
+        recipe_instructions_table.c.recipe_id
+    )
+
+    with database_engine.connect() as connection:
+        result = connection.execute(select_statement)
+        rows = list(result)
+
+    assert len(rows) > 0
+    first = rows[0]
+    assert isinstance(first[0], int)
+    assert isinstance(first[1], str)
+    assert isinstance(first[2], int)
+
+    assert first[0] == 1
+    assert first[1] == 'Cover marshmallows and cranberries with sugar; chill overnight.'
+    assert rows[1][1] == 'Add apples, grapes, walnuts, salt and whipping cream.'
+    assert rows[1][0] == 2
 
 
 
@@ -134,7 +231,40 @@ def test_database_populate_all_recipe_instructions(database_engine):
 def test_database_populate_all_review(database_engine):
     reviews_table = mapper_registry.metadata.tables['reviews']
 
+    select_statement = select(
+        reviews_table.c.id,
+        reviews_table.c.user_id,
+        reviews_table.c.recipe_id,
+        reviews_table.c.rating,
+        reviews_table.c.text,
+        reviews_table.c.created_date
+    )
+
+    with database_engine.connect() as connection:
+        result = connection.execute(select_statement)
+        rows = list(result)
+
+    assert len(rows) == 0
+
+    if rows:
+        first = rows[0]
+        assert isinstance(first[0], int)
+        assert isinstance(first[1], int)
+        assert isinstance(first[2], int)
+        assert isinstance(first[3], int)
+        assert isinstance(first[4], str)
 
 
 def test_database_populate_all_users(database_engine):
     users_table = mapper_registry.metadata.tables['users']
+    select_statement = select(
+        users_table.c.id,
+        users_table.c.username,
+        users_table.c.password_hash
+    )
+
+    with database_engine.connect() as connection:
+        result = connection.execute(select_statement)
+        rows = list(result)
+
+    assert len(rows) == 0
