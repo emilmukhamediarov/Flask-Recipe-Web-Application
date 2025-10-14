@@ -13,7 +13,6 @@ from recipe.domainmodel.category import Category
 from recipe.domainmodel.user import User
 from recipe.domainmodel.review import Review
 from recipe.domainmodel.favourite import Favourite
-from recipe.favourites.favourites import favourites
 
 
 # feature 1 test
@@ -216,26 +215,6 @@ class SqlAlchemyRepository(AbstractRepository, ABC):
             return query.all()
 
 
-    # TODO redundant methods? do we need
-    # region Author_data Methods to manage Authors
-    # def add_author(self, author: Author):
-    #     with self._session_cm as scm:
-    #         with scm.session.no_autoflush:
-    #             # Check if author already exists
-    #             existing_author = scm.session.query(Author).filter(Author.id == author.id).first()
-    #             if not existing_author:
-    #                 scm.session.add(author)
-    #         scm.commit()
-    #
-    # def get_authors(self) -> List[Author]:
-    #     authors = self._session_cm.session.query(Author).all()
-    #     return authors
-    #
-    # def get_number_of_authors(self) -> int:
-    #     num_authors = self._session_cm.session.query(Author).count()
-    #     return num_authors
-
-    # endregion
 
     def add_multiple_recipes(self, recipes: List[Recipe]):
         with self._session_cm as scm:
