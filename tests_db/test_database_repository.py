@@ -7,7 +7,13 @@ from recipe.domainmodel.review import Review
 from recipe.domainmodel.user import User
 from recipe.domainmodel.favourite import Favourite
 
+def test_db_repository_author_get_by_id(session_factory):
+    repo = SqlAlchemyRepository(session_factory)
 
+    author = repo.author_get_by_id(1530)
+    author2 = repo.author_get_by_id(0)
+    assert author.name == 'Carole Reu'
+    assert author2 is None
 
 def test_db_repository_author_get_all_names(session_factory):
     repo = SqlAlchemyRepository(session_factory)
@@ -190,6 +196,9 @@ def test_db_repository_favourite_add(session_factory):
     assert len(all_favourites) == 1
     assert all_favourites[0] == favourite
 
+def test_db_repository_favourite_remove(session_factory):
+    pass
+
 def test_db_repository_favourite_get_all_by_user_id(session_factory):
     repo = SqlAlchemyRepository(session_factory)
     favourite = Favourite(1, 38)
@@ -210,3 +219,12 @@ def test_db_repository_favourite_get_all_by_user_id(session_factory):
     assert len(all_favourites_user_2) == 2
     assert all_favourites_user_2[0].recipe_id == 38
     assert all_favourites_user_2[1].recipe_id == 40
+
+def db_repository_test_add_multiple_recipes(session_factory):
+    pass
+
+def db_repository_test_add_multiple_authors(session_factory):
+    pass
+
+def db_repository_test_add_multiple_categories(session_factory):
+    pass

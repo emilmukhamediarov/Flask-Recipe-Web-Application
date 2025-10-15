@@ -60,50 +60,72 @@ class SqlAlchemyRepository(AbstractRepository, ABC):
         self._session_cm.reset_session()
 
     def author_add(self, author) -> None:
-        """Adds an Author to the repository"""
+        """Adds an Author to the repository
+            Replaced by add_multiple
+        """
         pass
 
     def author_get_by_name(self, author_name) -> Author:
-        """Returns an Author by their name"""
+        """Returns an Author by their name
+            Replaced by get_by_id
+        """
         pass
+
+    def author_get_by_id(self, author_id: int) -> Author:
+        """Returns the User by id"""
+        with self._session_cm as scm:
+            return scm.session.query(Author).filter(Author._Author__id == author_id).first()
 
     def author_get_all(self) -> List[Author]:
-        """Returns a list of Authors"""
+        """Returns a list of Authors
+            Not used in implementation
+        """
         pass
 
-    def author_get_all_names(self) -> List[Author]:
+    def author_get_all_names(self) -> List[property]:
         """Returns a list of Author names"""
         authors = self._session_cm.session.query(Author).all()
         return [a.name for a in authors]
 
 
     def category_add(self, category) -> None:
-        """Adds a Category to the repository"""
+        """Adds a Category to the repository
+            Replaced by add_multiple
+        """
         pass
 
     def category_get_by_name(self, category_name) -> Category:
-        """Returns a Category by its name"""
+        """Returns a Category by its name
+            Replaced by get_by_id
+        """
         pass
 
     def category_add_by_name(self, category_name) -> Category:
-        """Creates a new Category with the given name and returns the new object"""
+        """Creates a new Category with the given name and returns the new object
+            Replaced by add_multiple
+        """
         pass
 
     def category_get_all(self) -> List[Category]:
-        """Returns a list of Categories"""
+        """Returns a list of Categories
+            Not used in implementation
+        """
         pass
 
-    def category_get_all_names(self) -> List[str]:
+    def category_get_all_names(self) -> List[property]:
         """Returns a list of Category Names"""
         categories = self._session_cm.session.query(Category).all()
         return [c.name for c in categories]
 
     def recipe_add(self, recipe) -> None:
-        """Adds a Recipe to the repository"""
+        """Adds a Recipe to the repository
+        Replaced by add_multiple
+        """
         pass
 
     def recipe_get_by_name(self, recipe_name) -> Recipe:
-        """Returns a Recipe by its name"""
+        """Returns a Recipe by its name
+        Not used in implementation"""
         pass
 
     def recipe_get_all(self) -> List[Recipe]:
@@ -112,13 +134,14 @@ class SqlAlchemyRepository(AbstractRepository, ABC):
 
 
     def recipes_get_all_by_category(self, category_name) -> List[Recipe]:
-        """Returns a list of Recipes by category"""
+        """Returns a list of Recipes by category
+        Not used in implementation
+        """
         pass
 
     def recipe_get_by_id(self, recipe_id: int) -> Recipe | None:
         with self._session_cm as scm:
             return scm.session.query(Recipe).filter(Recipe._Recipe__id == recipe_id).first()
-
 
     def recipe_get_quantity(self) -> int:
         return self._session_cm.session.query(Recipe).count()
@@ -138,8 +161,6 @@ class SqlAlchemyRepository(AbstractRepository, ABC):
             scm.session.add(user)
             scm.session.commit()
 
-
-
     def user_get_by_username(self, username: str) -> User:
         """Returns the User by username"""
         with self._session_cm as scm:
@@ -158,7 +179,6 @@ class SqlAlchemyRepository(AbstractRepository, ABC):
             scm.session.add(review)
 
             scm.commit()
-
 
     def reviews_remove(self, review) -> None:
         if not isinstance(review, Review):
@@ -192,7 +212,6 @@ class SqlAlchemyRepository(AbstractRepository, ABC):
                 scm.session.add(favourite)
                 scm.commit()
 
-
     def favourite_remove(self, user_id, recipe_id) -> None:
         """Removes a favourite by id match"""
         with self._session_cm as scm:
@@ -213,8 +232,6 @@ class SqlAlchemyRepository(AbstractRepository, ABC):
             query = scm.session.query(Favourite).filter(Favourite._Favourite__user_id == user_id)
 
             return query.all()
-
-
 
     def add_multiple_recipes(self, recipes: List[Recipe]):
         with self._session_cm as scm:
