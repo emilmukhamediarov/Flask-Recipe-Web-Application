@@ -13,7 +13,7 @@ def get_reviews(recipe : Recipe, repository:AbstractRepository) -> List[object]:
         'name': repository.user_get_by_id(review.user_id).username,
         'rating': review.rating,
         'text': review.text,
-        'created_date': review.created_date,
+        'created_date': review.created_date.strftime("%Y-%m-%d %H:%M:%S"),
         'id' : review.id
     } for review in recipe.reviews], key=lambda review: review['created_date'], reverse=True) #Displays reviews with newest first
 

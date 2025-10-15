@@ -14,10 +14,6 @@ def test_repository_can_add_an_author(in_memory_repo):
     in_memory_repo.author_add(author)
     assert in_memory_repo.author_get_by_name('John') is author
 
-def test_repository_can_add_an_author_by_id_and_name(in_memory_repo):
-    in_memory_repo.author_add_by_id_and_name(9999, 'Scientist')
-    assert in_memory_repo.author_get_by_name('Scientist').name == 'Scientist'
-
 def test_repository_can_get_an_author_by_name(in_memory_repo):
     author = Author (1, 'John')
     in_memory_repo.author_add(author)

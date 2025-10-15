@@ -25,6 +25,11 @@ class AbstractRepository(abc.ABC):
         raise NotImplementedError
 
     @abc.abstractmethod
+    def author_get_by_id(self, author_id) -> Author:
+        """Returns an Author by their id"""
+        raise NotImplementedError
+
+    @abc.abstractmethod
     def author_get_all(self) -> List[Author]:
         """Returns a list of Authors"""
         raise NotImplementedError

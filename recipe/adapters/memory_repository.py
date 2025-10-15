@@ -25,15 +25,6 @@ class MemoryRepository(AbstractRepository):
         if new_author not in self.__authors:
             self.__authors.append(new_author)
 
-    def author_add_by_id_and_name(self, id : int, name : str) -> Author:
-        if not isinstance(name, str) or not isinstance(id, int):
-            raise ValueError("Id/Name must be provided as an instance of int/str.")
-        author = next((author for author in self.__authors if author.id == id), None)
-        if author is None:
-            author = Author(id, name)
-            self.__authors.append(author)
-        return author
-
     def author_get_by_name(self, author_name) -> Author:
         return next((author for author in self.__authors if author.name == author_name), None)
 
