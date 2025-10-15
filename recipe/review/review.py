@@ -5,7 +5,7 @@ import recipe.adapters.repository as repo
 from recipe.review import services
 from recipe.auth.auth import login_required
 from recipe.review.services import UserNotFound, InvalidUser
-from datetime import date
+from datetime import datetime
 
 review_bp = Blueprint('review_bp', __name__)
 
@@ -16,7 +16,7 @@ def review():
     recipe_id = int(request.form['recipe_id'])
     rating = int(request.form['rating'])
     text = request.form['text']
-    created_date = date.today()
+    created_date = datetime.now()
 
     if services.review_already_exists(user_id, recipe_id, repo.repo_instance):
         flash("You have already reviewed this recipe", "warning")
