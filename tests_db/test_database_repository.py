@@ -1,6 +1,7 @@
 from datetime import datetime
 
 from recipe.adapters.database_repository import SqlAlchemyRepository
+from recipe.domainmodel.category import Category
 from recipe.domainmodel.recipe import Recipe
 from recipe.domainmodel.author import Author
 from recipe.domainmodel.review import Review
@@ -197,7 +198,24 @@ def test_db_repository_favourite_add(session_factory):
     assert all_favourites[0] == favourite
 
 def test_db_repository_favourite_remove(session_factory):
-    pass
+    repo = SqlAlchemyRepository(session_factory)
+
+    favourites = [
+        Favourite(1, 38),
+        Favourite(1, 40),
+        Favourite(1, 42),
+    ]
+
+    for favourite in favourites:
+        repo.favourite_add(favourite)
+
+    assert len(repo.favourite_get_all_by_user_id(1)) == 3
+    repo.favourite_remove(1, 38)
+    assert len(repo.favourite_get_all_by_user_id(1)) == 2
+    repo.favourite_remove(1, 40)
+    assert len(repo.favourite_get_all_by_user_id(1)) == 1
+    repo.favourite_remove(1, 42)
+    assert len(repo.favourite_get_all_by_user_id(1)) == 0
 
 def test_db_repository_favourite_get_all_by_user_id(session_factory):
     repo = SqlAlchemyRepository(session_factory)
@@ -220,11 +238,31 @@ def test_db_repository_favourite_get_all_by_user_id(session_factory):
     assert all_favourites_user_2[0].recipe_id == 38
     assert all_favourites_user_2[1].recipe_id == 40
 
-def db_repository_test_add_multiple_recipes(session_factory):
-    pass
+def test_db_repository_add_multiple_recipes(session_factory):
+    repo = SqlAlchemyRepository(session_factory)
+    author = Author(1, "")
+    category = Category("")
+    recipes = [Recipe(x, f'Recipe {x}', author, category) for x in range(1, 5)]
 
-def db_repository_test_add_multiple_authors(session_factory):
-    pass
+    assert len(repo.recipe_get_all()) == 50
+    repo.add_multiple_recipes(recipes)
+    assert len(repo.recipe_get_all()) == 54
+    assert repo.recipe_get_by_id(1).name == "Recipe 1"
 
-def db_repository_test_add_multiple_categories(session_factory):
-    pass
+def test_db_repository_add_multiple_authors(session_factory):
+    repo = SqlAlchemyRepository(session_factory)
+    authors = [Author(x, f'Author {x}') for x in range(1, 5)]
+
+    assert len(repo.author_get_all_names()) == 36
+    repo.add_multiple_authors(authors)
+    assert len(repo.author_get_all_names()) == 40
+    assert repo.author_get_by_id(1).name == 'Author 1'
+
+def test_db_repository_add_multiple_categories(session_factory):
+    repo = SqlAlchemyRepository(session_factory)
+    categories = [Category(f'Category {x}') for x in range(1, 5)]
+
+    assert len(repo.category_get_all_names()) == 27
+    repo.add_multiple_categories(categories)
+    assert len(repo.category_get_all_names()) == 31
+    assert 'Category 1' in repo.category_get_all_names()
