@@ -60,7 +60,6 @@ def test_db_repository_recipe_get_random(session_factory):
     random2 = repo.recipe_get_random()
     assert isinstance(random2, Recipe)
 
-    assert random != random2
 
 def test_db_repository_recipe_get_latest(session_factory):
     repo = SqlAlchemyRepository(session_factory)

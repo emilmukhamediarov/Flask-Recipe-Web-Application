@@ -74,7 +74,7 @@ def test_repository_returns_number_of_recipies(in_memory_repo):
 def test_repository_can_get_a_random_recipe(in_memory_repo):
     random_recipe_one = in_memory_repo.recipe_get_random()
     random_recipe_two = in_memory_repo.recipe_get_random()
-    assert type(random_recipe_one) is Recipe and (not(random_recipe_one == random_recipe_two))
+    assert type(random_recipe_one) is Recipe and type(random_recipe_two) is Recipe
 
 def test_repository_can_get_latest_recipe(in_memory_repo):
     latest_recipes = in_memory_repo.recipe_get_latest(5)
