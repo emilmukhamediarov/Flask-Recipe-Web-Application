@@ -148,7 +148,4 @@ class CSVDataReader:
                 if recipe_yield != "NA":
                     recipe.recipe_yield = recipe_yield  # if "NA" then we revert to the default value -> "Not Specified"
 
-                # category.add_recipe(recipe)
-                # author.add_recipe(recipe)
-                #
                 self.recipe_add(recipe)
