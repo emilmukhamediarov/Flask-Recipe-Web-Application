@@ -59,6 +59,57 @@ class SqlAlchemyRepository(AbstractRepository, ABC):
     def reset_session(self):
         self._session_cm.reset_session()
 
+    def recipe_get_by_id(self, recipe_id: int) -> Recipe | None:
+        with self._session_cm as scm:
+            return scm.session.query(Recipe).filter(Recipe._Recipe__id == recipe_id).first()
+
+    def recipe_get_quantity(self) -> int:
+        return self._session_cm.session.query(Recipe).count()
+
+    def recipe_get_random(self) -> Type[Recipe]:
+        return self._session_cm.session.query(Recipe).order_by(func.random()).first()
+
+    def recipe_get_latest(self, num: int):
+        return self._session_cm.session.query(Recipe).order_by(Recipe._Recipe__id.desc()).limit(num).all()
+
+    def user_add(self, user: User) -> None:
+        """Adds User to the dictionary"""
+        with self._session_cm as scm:
+            existing = scm.session.query(User).filter(User._User__username == user.username).first()
+            if existing is not None:
+                raise ValueError(f"Username '{user.username}' already exists")
+            scm.session.add(user)
+            scm.session.commit()
+
+    def user_get_by_username(self, username: str) -> User:
+        """Returns the User by username"""
+        with self._session_cm as scm:
+            return scm.session.query(User).filter(User._User__username == username).first()
+
+    def user_get_by_id(self, user_id: int) -> User:
+        """Returns the User by id"""
+        with self._session_cm as scm:
+            return scm.session.query(User).filter(User._User__id == user_id).first()
+
+    def reviews_add(self, review) -> None:
+        if not isinstance(review, Review):
+            raise TypeError("Expected a Review instance.")
+
+        with self._session_cm as scm:
+            scm.session.add(review)
+
+            scm.commit()
+
+    def reviews_remove(self, review) -> None:
+        if not isinstance(review, Review):
+            raise TypeError("Expected a Review instance.")
+
+        with self._session_cm as scm:
+            to_delete = scm.session.query(Review).filter(Review._Review__id == review.id).first()
+            if to_delete is not None:
+                scm.session.delete(to_delete)
+                scm.commit()
+
     def author_add(self, author) -> None:
         """Adds an Author to the repository
             Replaced by add_multiple
@@ -139,56 +190,56 @@ class SqlAlchemyRepository(AbstractRepository, ABC):
         """
         pass
 
-    def recipe_get_by_id(self, recipe_id: int) -> Recipe | None:
-        with self._session_cm as scm:
-            return scm.session.query(Recipe).filter(Recipe._Recipe__id == recipe_id).first()
-
-    def recipe_get_quantity(self) -> int:
-        return self._session_cm.session.query(Recipe).count()
-
-    def recipe_get_random(self) -> Type[Recipe]:
-        return self._session_cm.session.query(Recipe).order_by(func.random()).first()
-
-    def recipe_get_latest(self, num: int):
-        return self._session_cm.session.query(Recipe).order_by(Recipe._Recipe__id.desc()).limit(num).all()
-
-    def user_add(self, user: User) -> None:
-        """Adds User to the dictionary"""
-        with self._session_cm as scm:
-            existing = scm.session.query(User).filter(User._User__username == user.username).first()
-            if existing is not None:
-                raise ValueError(f"Username '{user.username}' already exists")
-            scm.session.add(user)
-            scm.session.commit()
-
-    def user_get_by_username(self, username: str) -> User:
-        """Returns the User by username"""
-        with self._session_cm as scm:
-            return scm.session.query(User).filter(User._User__username == username).first()
-
-    def user_get_by_id(self, user_id: int) -> User:
-        """Returns the User by id"""
-        with self._session_cm as scm:
-            return scm.session.query(User).filter(User._User__id == user_id).first()
-
-    def reviews_add(self, review) -> None:
-        if not isinstance(review, Review):
-            raise TypeError("Expected a Review instance.")
-
-        with self._session_cm as scm:
-            scm.session.add(review)
-
-            scm.commit()
-
-    def reviews_remove(self, review) -> None:
-        if not isinstance(review, Review):
-            raise TypeError("Expected a Review instance.")
-
-        with self._session_cm as scm:
-            to_delete = scm.session.query(Review).filter(Review._Review__id == review.id).first()
-            if to_delete is not None:
-                scm.session.delete(to_delete)
-                scm.commit()
+    # def recipe_get_by_id(self, recipe_id: int) -> Recipe | None:
+    #     with self._session_cm as scm:
+    #         return scm.session.query(Recipe).filter(Recipe._Recipe__id == recipe_id).first()
+    #
+    # def recipe_get_quantity(self) -> int:
+    #     return self._session_cm.session.query(Recipe).count()
+    #
+    # def recipe_get_random(self) -> Type[Recipe]:
+    #     return self._session_cm.session.query(Recipe).order_by(func.random()).first()
+    #
+    # def recipe_get_latest(self, num: int):
+    #     return self._session_cm.session.query(Recipe).order_by(Recipe._Recipe__id.desc()).limit(num).all()
+    #
+    # def user_add(self, user: User) -> None:
+    #     """Adds User to the dictionary"""
+    #     with self._session_cm as scm:
+    #         existing = scm.session.query(User).filter(User._User__username == user.username).first()
+    #         if existing is not None:
+    #             raise ValueError(f"Username '{user.username}' already exists")
+    #         scm.session.add(user)
+    #         scm.session.commit()
+    #
+    # def user_get_by_username(self, username: str) -> User:
+    #     """Returns the User by username"""
+    #     with self._session_cm as scm:
+    #         return scm.session.query(User).filter(User._User__username == username).first()
+    #
+    # def user_get_by_id(self, user_id: int) -> User:
+    #     """Returns the User by id"""
+    #     with self._session_cm as scm:
+    #         return scm.session.query(User).filter(User._User__id == user_id).first()
+    #
+    # def reviews_add(self, review) -> None:
+    #     if not isinstance(review, Review):
+    #         raise TypeError("Expected a Review instance.")
+    #
+    #     with self._session_cm as scm:
+    #         scm.session.add(review)
+    #
+    #         scm.commit()
+    #
+    # def reviews_remove(self, review) -> None:
+    #     if not isinstance(review, Review):
+    #         raise TypeError("Expected a Review instance.")
+    #
+    #     with self._session_cm as scm:
+    #         to_delete = scm.session.query(Review).filter(Review._Review__id == review.id).first()
+    #         if to_delete is not None:
+    #             scm.session.delete(to_delete)
+    #             scm.commit()
 
     def reviews_get_by_id(self, review_id: int) -> Review:
         with self._session_cm as scm:
